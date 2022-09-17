@@ -1,0 +1,773 @@
+sourceID	source	source_desc	change_date	changer	link_note	links
+AZ001	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy located at the New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ002	Hegarty. Addendum to 'Starbuck' and 'Whaling Masters'	Hegarty, Reginald B. Addendum to 'Starbuck' and 'Whaling Masters': New Bedford Customs District. New Bedford, MA: New Bedford Free Public Library, 1964.	2019-01-05			
+AZ003	Private Collections	Private Collections. Private communications with the owners of logbooks and journals.	2019-01-05			
+AZ004	Starbuck. History of the American Whale Fishery	Starbuck, Alexander. History of the American Whale Fishery from its Earliest Inception to the Year 1876. 1876. Reprinted Secaucus, NJ: Castle Books, 1989.	2019-01-05			https://archive.org/details/historyofamerica00star
+AZ005	Batchelder. Whaleship Index	Batchelder, Charles F. Whaleship Index. New Bedford Whaling Museum Research Library, New Bedford, MA, 1960. Card file.	2019-01-05			
+AZ006	Sherman. Whaling Logbooks and Journals	Sherman, Stuart C., comp. Judith M. Downey and Virginia Adams, eds. with Howard Pasternak. Whaling Logbooks and Journals, 1613-1927: An Inventory of Manuscript Records in Public Collections. Garland Reference Library of the Humanities, vol. 682. New York and London: Garland Publishing, Inc., 1986.	2019-01-05			
+AZ007	Wood. Abstracts of Whaling Voyages	Wood, Dennis. 'Abstracts of Whaling Voyages, 1831-1873.' Microfilm copy from the original manuscript held by the New Bedford Free Public Library, New Bedford, MA, 1981.	2019-01-05			
+AZ008	Frank. Dictionary of Scrimshaw Artists	Frank, Stuart M. Dictionary of Scrimshaw Artists. Mystic, CT: Mystic Seaport Museum, Inc., 1991.	2019-01-05			
+AZ009	Martin, Kenneth R.	Martin, Kenneth R. Personal communication.	2019-01-05			
+AZ010	Leavitt. The Charles W. Morgan	Leavitt, John F. The Charles W. Morgan. Mystic, CT: The Marine Historical Association, Inc., 1973.	2019-01-05			
+AZ011	Colby. For Oil and Buggy Whips	Colby, Barnard L. For Oil and Buggy Whips. Mystic, CT: Mystic Seaport Museum, Inc., 1990.	2019-01-05			
+AZ012	Register for Seamen’s Names and Descriptions, 1837-1935	Register for Seamen’s Names and Descriptions, 1837-1935. 40 vols., New Bedford Port Society. On deposit at the New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ013	Hegarty. Returns of Whaling Vessels	Hegarty, Reginald B. Returns of Whaling Vessels Sailing from American Ports: A Continuation of Alexander Starbuck’s 'History of the American Whale Fishery' 1876-1928. New Bedford, MA: Old Dartmouth Historical Society, and Whaling Museum, 1959.	2019-01-05			
+AZ014	Nebiker, Walter	Nebiker, Walter. Personal communication.	2019-01-05			
+AZ015	New Bedford Whaling Museum. Scrapbook 17	'Fall River in the Whale Fishery.' 'Falmouth in the Whale Fishery.' 'Providence in the Whale Fishery of the Past.' 'Somerset in the Whale Fishery.' 'Record of Newport Whaling Ships.' 'Bristol in the Whale Fishery.' New Bedford Whaling Museum Research Library, New Bedford, MA, Scrapbook 17. Undated clippings from unidentified newspapers.	2021-08-31			
+AZ016	Malloy. Whaling Brides and Whaling Brothers	Malloy, Mary. Whaling Brides and Whaling Brothers: The Lawrences of Falmouth. Falmouth, MA: Falmouth Historical Society, 1997.	2019-01-05			
+AZ017	Amaral. They Ploughed the Seas	Amaral, Pat. They Ploughed the Seas: Profiles of Azorean Master Mariners. St. Petersburg, FL: Valkyrie Press, Inc., 1978.	2019-01-05			
+AZ018	Ship Registers and Enrollments of Newport, Rhode Island	Work Projects Administration. Ship Registers and Enrollments of Newport, Rhode Island 1790-1939. Providence, RI: National Archives Project, 1938-1941.	2019-01-05		v. 1; v. 2	https://hdl.handle.net/2027/mdp.39015073752266; https://hdl.handle.net/2027/mdp.39015073752118
+AZ019	Ship Licenses on enrollments issued out of the Port of Providence, RI	Ship Registers and Enrollments, Ship Licenses issued to vessels under 20 tons, Ship Licenses on enrollments issued out of the Port of Providence, RI 1773-1939. Providence, RI: National Archives Project, 1941.	2019-01-05		v.1, pt.1; v.1, pt.2; v.2	https://hdl.handle.net/2027/mdp.39015051003625; https://hdl.handle.net/2027/mdp.39015039775757; https://hdl.handle.net/2027/mdp.39015051003617
+AZ020	Ship Licenses on enrollments issued out of the Port of Bristol-Warren, RI	Works Progress Administration. Ship Registers and Enrollments, Ship Licenses issued to vessels under 20 tons, Ship Licenses on enrollments issued out of the Port of Bristol-Warren, RI 1773-1939. Providence, RI: National Archives Project, 1941.	2019-01-05		v.1, pt.1; v.1, pt.2; v.2	https://hdl.handle.net/2027/mdp.39015051003625; https://hdl.handle.net/2027/mdp.39015039775757; https://hdl.handle.net/2027/mdp.39015051003617
+AZ021	Ship Registers of Dighton-Fall River, Massachusetts	Works Progress Administration. Ship Registers of Dighton-Fall River, Massachusetts 1789-1938. Boston: National Archives Project, 1939.	2019-01-05			https://archive.org/details/shipregistersofply00surv
+AZ022	Ship Registers of the District of Plymouth, Massachusetts	Works Progress Administration. Ship Registers of the District of Plymouth, Massachusetts 1789-1908. Boston: National Archives Project, 1939.	2019-01-05			https://archive.org/details/shipregistersofply00surv
+AZ023	Ship Registers, District of Barnstable, Massachusetts	Works Progress Administration. Alphabetical List of Ship Registers, District of Barnstable, Massachusetts 1814-1913. Boston: National Archives Project, 1938.	2019-01-05			https://archive.org/details/alphabeticallist00nati
+AZ024	Scott, Samuel	Scott, Samuel. Curator, The Whaling Museum Society, Inc., Cold Spring Harbor, NY. Personal communication.	2019-01-05			
+AZ025	Carmer. The Hudson	Carmer, Carl. The Hudson. New York and Toronto: Farrar & Rinehardt, 1939.	2019-01-05			
+AZ026	Eldridge, Mary	Eldridge, Mary. Typed list attached to letter from Edwin Jacob to Mrs. Rattnoy, Feb. 27, 1965.	2019-01-05			
+AZ027	Adams. History of the Town of Southampton	Adams, James Truslow. History of the Town of Southampton (East End of Canoe Place). Bridgehampton, NY: Hampton Press, 1918.	2019-01-05			https://archive.org/details/historyoftownofs00jame
+AZ028	Robotti. Whaling and Old Salem	Robotti, Frances Diane. Whaling and Old Salem (A Chronicle of the Sea). New York: Bonanza Books, 1962.	2019-01-05			
+AZ029	Tompkins. Black Ahab	Tompkins, E. Berkeley. 'Black Ahab.' California Historical Quarterly, 51:2 (1972).	2019-01-05			
+AZ030	Worth. Voyages of Ship Bartholomew Gosnold	Worth, Henry B. 'Voyages of Ship 'Bartholomew Gosnold.’' Old Dartmouth Historical Sketches, 44 (1916).	2019-01-05			https://www.whalingmuseum.org/explore/library/publications/old-dartmouth-historical-sketches/odhs-no-44
+AZ031	Cabral and Theriault. Wooden Ships and Iron Men	Cabral, Reginald W. and James Theriault. Wooden Ships and Iron Men. Provincetown, MA: Trustees of The Heritage Museum, 1994.	2019-01-05			http://www.provincetownhistoryproject.com/PDF/mun_001_852-wooden-ships-and-iron-men.pdf
+AZ032	Ship's paper	'Ship's paper in Collection of Society.' Dukes County Intelligencer, 19:1 (August, 1977).	2021-08-31			
+AZ033	Chilmark Whaling Masters	'Chilmark Whaling Masters.' Dukes County Intelligencer, 21:2 (November 1979).	2021-08-31			
+AZ034	Antone Fortes, Whaleman	'Antone Fortes, Whaleman.' Dukes County Intelligencer, 11:4 (May, 1970).	2021-08-31			
+AZ035	A Captain who knew the Pacific	'A Captain who knew the Pacific.' Works Progress Administration. 	2021-08-31			
+AZ036	Whaling Masters	Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy located at Gale Huntington Research Library, Martha's Vineyard Historical Society, Edgartown, MA.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ037	Martha's Vineyard Historical Society. Archival boxes 59B and 60B	Miscellaneous newspaper clippings, mostly undated and sources unidentified. Archival boxes 59B and 60B. Gale Huntington Research Library, Martha's Vineyard Historical Society, Edgartown, MA.	2019-01-05			
+AZ038	Martha's Vineyard Historical Society. Documents	Permanent Registers . . . Register Bonds . . . Register Oaths . . . Permanent Enrollments . . . Enrollment Bonds . . . Enrollment Oaths . . . for Edgartown, MA. Gale Huntington Research Library, Martha’s Vineyard Historical Society, Edgartown, MA. Archival Box 140.2B, Typewritten list.	2019-01-05			
+AZ039	Martha's Vineyard Historical Society. Miscellaneous newspaper clippings	Miscellaneous newspaper clippings, mostly undated and sources unidentified. Archival Box 116B. Gale Huntington Research Library, Martha's Vineyard Historical Society, Edgartown, MA.	2019-01-05			
+AZ040	Martha's Vineyard Historical Society. Miscellaneous newspaper clippings	Miscellaneous newspaper clippings, mostly undated and sources unidentified. Archival Box 4S. Gale Huntington Research Library, Martha's Vineyard Historical Society, Edgartown, MA.	2019-01-05			
+AZ041	Martha's Vineyard Historical Society. Miscellaneous newspaper clippings	Miscellaneous newspaper clippings, mostly undated and sources unidentified. Archival Box 62B. Gale Huntington Research Library, Martha's Vineyard Historical Society, Edgartown, MA.	2019-01-05			
+AZ042	Whiting and Hough. Whaling Wives	Whiting, Emma Mayhew and Henry Beetle Hough. Whaling Wives. Boston: Houghton, Mifflin, 1953.	2019-01-05			
+AZ043	Ambrose. Logbooks, Journals and Abstracts of Whaling Voyages	Ambrose, Edwin R. 'Logbooks, Journals and Abstracts of Whaling Voyages in the Gale Huntington Research Library of the Martha's Vineyard Historical Society.' April 1998. Typewritten list.	2019-01-05			
+AZ044	Zaykowski. Sag Harbor: The Story of an American Beauty	Zaykowski, Dorothy Ingersoll. Sag Harbor: The Story of an American Beauty. Third Edition. Sag Harbor, NY: Sag Harbor Historical Society, 1991.	2019-01-05			
+AZ045	West. Captain's Papers: A Log of Whaling and Other Sea Experiences	West, Ellsworth Luce as told to Eleanor Ransom Mayhew. Captain's Papers: A Log of Whaling and Other Sea Experiences. Barre, MA: Barre Publishers, 1965.	2019-01-05			
+AZ046	Juneau. Women Journal Keepers	Juneau, Carol. 'Women Journal Keepers.' August 15, 1983. New Bedford Whaling Museum Research Library, New Bedford, MA. Typewritten list.	2019-01-05			
+AZ047	Druett. Women who went A-Whaling	Druett, Joan. 'Women who went A-Whaling: an annotated list.' New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ048	Stackpole. The Sea-Hunters	Stackpole, Edouard A. The Sea-Hunters: The Great Age of Whaling. Philadelphia and New York: J. B. Lippincott Company, 1953.	2019-01-05			
+AZ049	Sotheby Parke Bernet Inc. Auction Catalog	Auction Catalog. New York: Sotheby Parke Bernet Inc., The Barbara Johnson Whaling Collection: Part IV, December 16 and 17, 1983.	2019-01-05			
+AZ050	Ship Registers and Enrollments of New Bedford, Massachusetts	Work Projects Administration. Ship Registers and Enrollments of New Bedford, Massachusetts. 4 vol. New Bedford, MA, 1940. Annotated copy located at the New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05		v. 1; v. 2; v. 3	https://hdl.handle.net/2027/mdp.39015073751979; https://hdl.handle.net/2027/mdp.39015073752126; https://hdl.handle.net/2027/mdp.39015073752274
+AZ051	New Bedford Whaling Museum Research Library. Arctic Scrapbook 2	'In the Arctic.' New Bedford Whaling Museum Research Library, New Bedford, MA, Arctic Scrapbook 2, unidentified newspaper article, hand dated 4/23/91.	2021-08-31			
+AZ052	Masters of the Deep	'Masters of the Deep.' The [New Bedford, MA] Evening Standard, April 20, 1906.	2021-08-31			
+AZ053	The Whaling Fleets	'The Whaling Fleets.' The [New Bedford, MA] Evening Standard, hand dated 5/6/90, New Bedford Whaling Museum Research Library, New Bedford, MA. Arctic Scrapbook 2.	2021-08-31			
+AZ054	Descendants of Whaling Masters. Membership booklet	Descendants of Whaling Masters. Tenth Anniversary, 1974-1984, [New Bedford, MA: Descendants of Whaling Masters, 1984]. Membership booklet.	2019-01-05			
+AZ055	Reilly. Slavers in Disguise: American Whaling and the African Slave Trade	Reilly, Kevin S. 'Slavers in Disguise: American Whaling and the African Slave Trade.' American Neptune 53:4 (Summer, 1993).	2019-01-05			
+AZ056	Descendants of Whaling Masters. My Dear Husband	Descendants of Whaling Masters. My Dear Husband. Taunton, MA: William L. Sullwold, Inc., 1980.	2019-01-05			
+AZ057	Martin. Delaware Goes Whaling	Martin, Kenneth R. Delaware Goes Whaling: 1833-1845. Delaware: The Hagley Museum, 1974.	2019-01-05			
+AZ058	Martin. Heavy Weather and Hard Luck	Martin, Kenneth R. 'Heavy Weather and Hard Luck': Portsmouth Goes Whaling. Pub. 24, Portsmouth, NH: Portsmouth Marine Society, 1998.	2019-01-05			
+AZ059	Carmer. The Hudson	Carmer, Carl. The Hudson. New York and Toronto: Farrar & Rinehardt, 1939.	2019-01-05			
+AZ060	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July 30, 1998.	2019-01-05			
+AZ061	Bockstoce. Steam Whaling in the Western Arctic	Bockstoce, John R. Steam Whaling in the Western Arctic. New Bedford, MA: Old Dartmouth Historical Society, 1977.	2019-01-05			
+AZ062	Bockstoce. Whales, Ice, and Men	Bockstoce, John R. Whales, Ice, and Men: The History of Whaling in the Western Arctic. First Edition. Seattle: University of Washington Press, 1986.	2019-01-05			
+AZ063	Martin. Whalemen and Whaleships of Maine	Martin, Kenneth R. Whalemen and Whaleships of Maine. First Edition. Brunswick, ME: Harpswell Press, 1975.	2019-01-05			
+AZ064	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy owned by Dr. Stuart M. Frank.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ065	Decker. Whaling Industry of New London	Decker, Robert Owen. Whaling Industry of New London. York, PA: Liberty Cap Books, 1973.	2019-01-05			
+AZ066	Customs House Records, Connecticut	Customs House Records for the Districts of New London, New Haven, Hartford-Middletown, and Bridgeport-Fairfield, Connecticut. G. W. Blunt White Library, Mystic Seaport Museum, Inc. Card file.	2019-01-05			
+AZ067	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., November 20 and 21, 1998.	2019-01-05			
+AZ068	Barthelmess. Additions to Sherman	Barthelmess, Klaus. 'Additions to Sherman.' 1994. The Kendall Whaling Museum, Sharon, MA. Typewritten list.	2019-01-05			
+AZ069	Barthelmess. Additions to Sherman	Barthelmess, Klaus. 'Additions to Sherman.' 1994. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA. Typewritten list.	2019-01-05			
+AZ070	Richards. Into the South Seas	Richards, Rhys. Into the South Seas: The Southern Whale Fishery Comes of Age on the Brazil Banks 1765-1812. Parameta, New Zealand: 1993.	2019-01-05			
+AZ071	Wiggin. 'Maritime History of the North Fork of Eastern Long Island, NY	Wiggin, Merlon E. 'Maritime History of the North Fork of Eastern Long Island, NY.' The Peconic Bay [NY] Shopper, November 1998.	2019-01-05			
+AZ072	Maritime Books. Catalogue 93	Maritime Books. Catalogue 93. Madison, WI: J. Tuttle, 1998.	2019-01-05			
+AZ073	Lipton. Whaling Days in New Jersey	Lipton, Barbara. 'Whaling Days in New Jersey.' The Newark Museum Quarterly, 26:2, 3, (Spring/Summer 1975).	2019-01-05			
+AZ074	Ricketson. The History of New Bedford	Ricketson, Daniel. The History of New Bedford. New Bedford, MA: by the author, 1858.	2019-01-05			https://archive.org/details/historyofnewbedf00rick
+AZ075	Glennon, Beverly Morrison	Glennon, Beverly Morrison. Personal communication.	2019-01-05			
+AZ076	Druett. She Was a Sister Sailor	Druett, Joan, ed. 'She Was a Sister Sailor' The Whaling Journals of Mary Brewster 1845-1851. Mystic, CT: Mystic Seaport Museum, Inc., 1992.	2019-01-05			
+AZ077	Hellman, Robert	Hellman, Robert. Personal communication.	2019-01-05			
+AZ078	Welt. Whaling in Poughkeepsie 1832-1843	Welt, Josephine. 'Whaling in Poughkeepsie 1832-1843.' Thesis, Vassar College, 1940.	2019-01-05			
+AZ079	Coffin. The Coffin Family	Coffin, Louis, ed. The Coffin Family. Nantucket, MA: Nantucket Historical Association, 1962.	2019-01-05			
+AZ080	Pease. Account Book	Pease, Noah. Account Book, Gale Huntington Research Library, Martha’s Vineyard Historical Society, 974.42 R-P 2. Information per Andrew Pierce.	2019-01-05			
+AZ081	Osana Auctions. Auction Catalog	Auction Catalog. Nantucket, MA: Rafael Osona Auctions, Inc., August 13, 1994.	2021-08-31			
+AZ082	Mitchell, Frederick	Mitchell, Frederick. Personal communication: privately owned logbooks and journals appraised by him.	2019-01-05			
+AZ083	Lowenstein, Betsy	Lowenstein, Betsy. Library Director, Nantucket Historical Association. Personal communication.	2019-01-05			
+AZ084	Martinez, Jennifer L.	Martinez, Jennifer L. Curator, Western Historical Manuscripts, The Huntington Library, Art Collections, and Botanical Gardens, San Marino, California. Personal communication.	2019-01-05			
+AZ085	Tripp, Lincoln	Tripp, Lincoln. Curator, Westport Historical Society, Westport, MA. Personal communication.	2019-01-05			
+AZ086	Hedges. A History of the Town of East-Hampton, New York	Hedges, Henry P. A History of the Town of East-Hampton, New York. Sag Harbor, NY: J. H. Hunt, 1897.	2019-01-05			https://hdl.handle.net/2027/njp.32101032432534
+AZ087	Smart, Martha H.	Smart, Martha H. Reference Assistant, Connecticut Historical Society, Hartford, CT. Personal communication.	2019-01-05			
+AZ088	Sherry, Margaret M.	Sherry, Margaret M. Reference Librarian/Archivist, Rare Books and Special Collections, Princeton University Library. Personal communication.	2019-01-05			
+AZ089	Bradbury. History of the City of Hudson, New York	Bradbury, Anna R. History of the City of Hudson, New York. Hudson, NY: Record Printing and Publishing Co., 1908.	2019-01-05			https://archive.org/details/historyofcityofh00brad
+AZ090	Ellis. History of Columbia County, New York	Ellis, Franklin. History of Columbia County, New York. Philadelphia: Everts & Ensign, 1878.	2019-01-05			https://archive.org/details/historyofcolumbi00ever
+AZ091	Tolpa, Jennifer	Tolpa, Jennifer. Reference Librarian, Massachusetts Historical Society, Boston, MA. Personal communication.	2019-01-05			
+AZ092	Kooiman, William	Kooiman, William. Library Technician, J. Porter Shaw Library, San Francisco Maritime National Historical Park, San Francisco, CA. Personal communication.	2019-01-05			
+AZ093	Motes, Marge	Motes, Marge. Board Member, Historical Society of Old Newbury, Cushing House Museum, Newburyport, MA. Personal communication.	2019-01-05			
+AZ094	Flannery, Jeffrey M.	Flannery, Jeffrey M. Manuscript Reference Librarian, The Library of Congress, Washington, DC. Personal communication.	2019-01-05			
+AZ095	Phillips. Ship Registers of the District of Newburyport, Massachusetts	Phillips, Stephen Willard, ed. Ship Registers of the District of Newburyport, Massachusetts, 1789-1870. Salem, MA: The Essex Institute, 1937.	2019-01-05			
+AZ096	Forster. The South Sea Whaler	Forster, Honore. The South Sea Whaler. First Edition. Sharon, MA: The Kendall Whaling Museum, 1985.	2019-01-05			
+AZ097	Weimerskirch, Philip J.	Weimerskirch, Philip J. Special Collections Librarian, Providence Public Library, Providence, RI. Personal communication.	2019-01-05			
+AZ098	The Whaling Company of East Greenwich [RI]. Manuscripts Collection	The Whaling Company of East Greenwich [RI]. Manuscripts Collection, Rhode Island Historical Society Library, Providence, RI. Mss 155.	2019-01-05			
+AZ099	Finckenor. Whales and Whaling, Port of Sag Harbor, New York	Finckenor, George A. Whales and Whaling, Port of Sag Harbor, New York. Sag Harbor, NY: William Ewers, Printers, 1975.	2019-01-05			
+AZ100	Weiss. Whaling in New Jersey	Weiss, Harry B. with Howard R. Kemble and Millicent T. Clarke. Whaling in New Jersey. Trenton, NJ: New Jersey Agricultural Society, 1974.	2019-01-05			
+AZ101	Ship Registers and Enrollments of Boston and Charlestown	Works Progress Administration. Ship Registers and Enrollments of Boston and Charlestown. vol. 1 1789-1795, Boston: National Archives Project, 1942.	2019-01-05			https://hdl.handle.net/2027/mdp.39015012360403
+AZ102	Hitchings. Ship Registers of the District of Salem and Beverly, Massachusetts	Hitchings, Frank E. with annotations by Stephen Willard Phillips. Ship Registers of the District of Salem and Beverly, Massachusetts 1789-1900. Salem, MA: The Essex Institute, 1906.	2019-01-05			https://hdl.handle.net/2027/hvd.hn67yi
+AZ103	Ship Registers of the District of Gloucester, Massachusetts	Ship Registers of the District of Gloucester, Massachusetts 1789-1875. With an introduction by Stephen Willard Phillips. Salem, MA: The Essex Institute, 1944.	2021-08-31		1937 edition	https://hdl.handle.net/2027/mdp.39015020914993
+AZ104	Owens, James	Owens, James. Archivist, National Archives and Records Administration, Northeast Region, Waltham, MA. Personal communication.	2019-01-05			
+AZ105	Connolly. Whale Industry in New Jersey	Connolly, Hon. James C. 'Whale Industry in New Jersey.' Proceedings of the New Jersey Historical Society, 3 (1928).	2019-01-05			
+AZ106	Neafie. Captain Peter Nafey and his Whaleboat Crew in the Revolution	Neafie, John. 'Captain Peter Nafey and his Whaleboat Crew in the Revolution.' Proceedings of the New Jersey Historical Society, 3 (1928).	2019-01-05			
+AZ107	Catalogue of Nantucket Whalers and their Voyages from 1815 to 1870	Catalogue of Nantucket Whalers and their Voyages from 1815 to 1870. Nantucket, MA: Hussey & Robinson, 1879.	2019-01-05			https://hdl.handle.net/2027/hvd.hwxjik
+AZ108	Boyer. Vital Records of Southeastern Massachusetts	Boyer, Dorothy Marvelle, ed. Vital Records of Southeastern Massachusetts, vol. 4, Fairhaven to 1865. Clearwater, FL: Owl Books, 1986.	2019-01-05			
+AZ109	Baer. Descendants of Captain James Shaw West	Baer, Chris. 'Descendants of Captain James Shaw West.' www.vineyard.net/vineyard/history/jeruel3x.htm. Internet.	2019-01-05			
+AZ110	Andrew and Thompson. Index to Laflin Lists	Andrew, Lillian and Elizabeth Thompson. Index to Laflin Lists at the Old Dartmouth Historical Society 1885-1908. New Bedford Whaling Museum Research Library, New Bedford, MA, 1999. Card file.	2019-01-05			
+AZ111	Downey, Judith M.	Downey, Judith M. Librarian, New Bedford Whaling Museum Research Library, New Bedford, MA. Personal communication.	2019-01-05			
+AZ112	Logbooks and Journals privately owned	Logbooks and Journals privately owned, on loan. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ113	Logbooks and Journals owned by the Mattapoisett Historical Society	Logbooks and Journals owned by the Mattapoisett Historical Society, currently located at the New Bedford Whaling Museum Research Library, New Bedford, MA. These logbooks have been returned to Mattapoisett as of 2009.	2019-01-05			
+AZ114	Carver, Joan L.	Carver, Joan L. Personal communication.	2019-01-05			
+AZ115	Frank. More Scrimshaw Artists	Frank, Stuart M. More Scrimshaw Artists: A Sequel and Supplement to the Dictionary of Scrimshaw Artists. Mystic, CT: Mystic Seaport Museum, Inc., 1998.	2019-01-05			
+AZ116	Adams. Whaling Vessels... A Concordance	Adams, Thomas R. 'Whaling Vessels Their Voyages and their Log Books, Journals and Abstracts &c. A Concordance.' Providence, RI, 1994. Draft copy.	2019-01-05			
+AZ117	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy located at Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ118	Certificates of Registry issued at Nantucket, Massachusetts	Bureau of Customs. Certificates of Registry issued at Nantucket, Massachusetts. Edward A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA. Microfilm prints.	2019-01-05			
+AZ119	Hellman, Robert	Hellman, Robert. Personal communication.	2019-01-05			
+AZ120	Transfer of Lays, Ship Favorite, voyage of 1804-1807	Transfer of Lays, Ship Favorite, voyage of 1804-1807. Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA. Collection 177, Folder 5.	2019-01-05			
+AZ121	Shipping paper. Ship Harlequin, voyage of 1807-1809	Shipping paper. Ship Harlequin, voyage of 1807-1809. Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA. Collection 177, Folder 14.	2019-01-05			
+AZ122	Nantucket Historical Association. Manuscripts Collections Computer File	Manuscripts Collections Computer File. Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA.	2019-01-05			
+AZ123	Whaling Captains from Nantucket	'Whaling Captains from Nantucket.' Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA Collection 335, folder 976. Manuscript book.	2021-08-31			
+AZ124	Worth. Ancient Masters of Whaleships	Worth, George F. 'Ancient Masters of Whaleships, copied from the Nantucket Inquirer and Mirror.' Volume 18, Worth Family Papers, Edouard A. Stackpole Research Center, Nantucket Historical Association, Nantucket, MA.	2019-01-05			
+AZ125	Fonda. Eighteenth Century Nantucket Whaling	Fonda, Douglass C., Jr. Eighteenth Century Nantucket Whaling. Nantucket, MA: by the author, 1969.	2019-01-05			
+AZ126	Philbrick. Abram's Eyes	Philbrick, Nathaniel. Abram's Eyes: The Native American Legacy of Nantucket Island. Nantucket, MA: Mill Hill Press, 1998.	2019-01-05			
+AZ127	Peterson, William N.	Peterson, William N. Senior Curator, Mystic Seaport, Mystic, CT. Personal communication.	2019-01-05			
+AZ128	Palmer. The Whaling Port of Sag Harbor	Palmer, William R. 'The Whaling Port of Sag Harbor.' Ph.D. diss., Columbia University, University Microfilms, 1959.	2019-01-05			
+AZ129	Banks. The History of Martha's Vineyard	Banks, Charles Edward, M.D. The History of Martha's Vineyard. Edgartown, MA: Dukes County Historical Society, 1966.	2019-01-05			https://hdl.handle.net/2027/yale.39002001112078
+AZ130	Theriault. Provincetown Whaling Vessels	Theriault, James. 'Provincetown Whaling Vessels.' 1993 Provincetown File, New Bedford Whaling Museum Research Library, New Bedford, MA. Typewritten list.	2019-01-05			
+AZ131	Hohman. The American Whaleman	Hohman, Elmo Paul. The American Whaleman. London: Macdonald and Jane's, reprinted 1974.	2021-08-31		Original publication	https://archive.org/details/americanwhaleman00hohm
+AZ132	Ferguson. And God Created Great Whales	Ferguson, Georgia Knowles Cook. And God Created Great Whales. n.p. 1976.	2019-01-05			
+AZ133	Vorse. Time and the Town	Vorse, Mary Heaton. Time and the Town: A Provincetown Chronicle. New York: The Dial Press, 1942.	2019-01-05			
+AZ134	Smith. The Provincetown Book	Smith, Nancy W. Paine. The Provincetown Book. Brockton, MA: Tolman Print, Inc., 1922.	2019-01-05			https://archive.org/details/provincetownbook00smit
+AZ135	Jennings. Provincetown or Odds and Ends from the Tip End	Jennings, Herman A. Provincetown or Odds and Ends from the Tip End. Yarmouthport, MA: Fred Hallett, Job Printer, 1890.	2019-01-05			https://archive.org/details/provincetownorod00jennrich
+AZ136	Maritime Books. Catalogue 96	Maritime Books. Catalogue 96. Madison, WI: J. Tuttle, 1999.	2019-01-05			
+AZ137	Sleight. The Whale Fishery on Long Island	Sleight, Harry D. The Whale Fishery on Long Island. Bridgehampton, NY: The Hampton Press, 1931.	2019-01-05			
+AZ138	Sherman. The Voice of the Whaleman	Sherman, Stuart C. The Voice of the Whaleman. Providence, RI: Providence Public Library, 1965.	2019-01-05			
+AZ139	Sylvia. Turning 2000	Sylvia, Michael J. 'Turning 2000: Countdown to the Millennium.' The [New Bedford, MA] Standard-Times. New Bedford, MA, June 2, 1999.	2019-01-05			
+AZ140	Ten Pound Island Book Company. Catalog 121	Catalog 121. Gloucester, MA: Ten Pound Island Book Company, 1999.	2019-01-05			
+AZ141	Cook. Pursuing the Whale	Cook, John Atkins. Pursuing the Whale. Boston: Houghton Mifflin Co., 1926.	2019-01-05			https://hdl.handle.net/2027/mdp.39015048991601
+AZ142	Deyo. History of Barnstable County, Massachusetts	Deyo, Simeon L. History of Barnstable County, Massachusetts. New York: H. W. Blake & Co., 1890.	2019-01-05			https://archive.org/details/historyofbarnsta1890deyo
+AZ143	Peabody Essex Museum Library. Manuscripts Index	Manuscripts Index. Library Reading Room, Peabody Essex Museum Library, Salem, MA. Card File.	2019-01-05			
+AZ144	Shephard, Diane	Shephard, Diane. Archivist/Librarian, Lynn Museum, Lynn, MA. Personal communication.	2019-01-05			
+AZ145	Abstract of American Vessels cleared from the District of Plymouth	Bureau of Customs. Abstract of American Vessels cleared from the District of Plymouth. RG 36. National Archives and Records Administration, Northeast Region, Waltham, MA.	2019-01-05			
+AZ146	Barnstable, MA, Licenses of vessels above 20 tons, 1841	Bureau of Customs. Barnstable, MA, Licenses of vessels above 20 tons, 1841. RG 36. National Archives and Records Administration, Northeast Region, Waltham, MA.	2019-01-05			
+AZ147	Abstract of American Vessels entering in the District of Gloucester	Bureau of Customs. Abstract of American Vessels entering in the District of Gloucester from Foreign Countries. RG 36. National Archives and Records Administration, Northeast Region, Waltham, MA.	2019-01-05			
+AZ148	Bodfish. Logbook of the Steam Barkentine Newport	Bodfish, Hartson Hartlett. Logbook of the Steam Barkentine Newport, 1893-1896. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ149	Bodfish. Logbook of Steam Barkentine Newport	Bodfish, Hartson Hartlett. 'List of vessels spoke by Steam Barkentine Newport, 1893-96.' Logbook of Steam Barkentine Newport, 1893-1896, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ150	Manifests of Whaling Voyages	Manifests of Whaling Voyages. Genealogy Room, New Bedford Free Public Library, New Bedford, MA. Card File.	2019-01-05			
+AZ151	Hegarty. Captains	[Hegarty, Reginald B.] Captains. Genealogy Room, New Bedford Free Public Library, New Bedford, MA. Card file.	2019-01-05			
+AZ152	Hegarty. Mates	[Hegarty, Reginald B.] Mates. Genealogy Room, New Bedford Free Public Library, New Bedford, MA. Card file.	2019-01-05			
+AZ153	Certificates of Registry, Enrollment and License Issued at Edgartown, Mass.	Bureau of Customs. Certificates of Registry, Enrollment and License Issued at Edgartown, Mass. 1815-1913. New Bedford Free Public Library, New Bedford, MA. Microfilm.	2019-01-05			
+AZ154	Northeast Auctions. Auction Catalog	Auction Catalog. Portsmouth, NH: Northeast Auctions, August 21 and 22, 1999.	2019-01-05			
+AZ155	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July 30, 1999.	2019-01-05			
+AZ156	Rafael Osona Auctions. Auction Catalog	Auction Catalog. Nantucket, MA: Rafael Osona Auctions, Inc., August 7, 1999.	2021-08-31			
+AZ157	Simpson and Simpson. Whaling on the North Carolina Coast	Simpson, Marcus B., Jr. and Sallie W. Simpson. Whaling on the North Carolina Coast. Raleigh, NC: Division of Archives and History, North Carolina Department of Cultural Resources, 1990.	2019-01-05			
+AZ158	Bullard. Captain Edmund Gardner of Nantucket and New Bedford	Bullard, John M. Captain Edmund Gardner of Nantucket and New Bedford: His Journal and His Family. New Bedford, MA: by the author, 1958.	2019-01-05			
+AZ159	Ship Registers, District of Boston, vol. 1 1831-40	Works Progress Administration. Alphabetical list of Ship Registers, District of Boston, vol. 1 1831-40. Boston: National Archives Project, 1939.	2019-01-05			
+AZ160	Ship Registers, District of Boston, vol. 2 1841-50	Works Progress Administration. Alphabetical list of Ship Registers, District of Boston, vol. 2 1841-50. Boston: National Archives Project, 1939.	2019-01-05			
+AZ161	Bowers, Jane	Bowers, Jane. Registrar, The Kendall Whaling Museum, Sharon, MA. Personal communication.	2019-01-05			
+AZ162	Stackpole, Renny A.	Stackpole, Renny A. Director, Penobscot Marine Museum, Searsport, ME. Personal communication.	2019-01-05			
+AZ163	Logbook, Schooner Crown Point	Logbook, Schooner Crown Point, 1880-1881, 1882-1883. Pilgrim Monument & Provincetown Museum, Provincetown, MA.	2019-01-05			
+AZ164	Account Book, Schooner D. C. Smith 	Account Book, Schooner D. C. Smith and owners with John Atwood, Jr. & Co., March 2, 1867 to November 25, 1868. Pilgrim Monument & Provincetown Museum, Provincetown, MA.	2019-01-05			
+AZ165	Dunham. Account book. Schooner William A. Grozier	Dunham, John A. Account book. Schooner William A. Grozier, voyages of 1898 and 1899. Pilgrim Monument & Provincetown Museum, Provincetown, MA.	2019-01-05			
+AZ166	Pilgrim Monument & Provincetown Museum. Scrapbook 5	Newspaper clippings, unidentified newspapers. N.d., Pilgrim Monument & Provincetown Museum, Provincetown, MA. Scrapbook 5.	2019-01-05			
+AZ167	Shoemaker. Ships Logs and Captains’ Diaries of Old Cape Cod	Shoemaker, Elizabeth ed. Ships Logs and Captains’ Diaries of Old Cape Cod. N.p.: Cape Cod Chamber of Commerce, 1937.	2019-01-05			
+AZ168	Jones. Ships of Kingston	Jones, Henry M. Ships of Kingston. Plymouth, MA: The Memorial Press, 1926.	2019-01-05			
+AZ169	List of Shipping owned in Sag Harbor 1839	'List of Shipping owned in Sag Harbor 1839.' Sag Harbor Whaling and Historical Museum, Sag Harbor, NY. Manuscript list on exhibit.	2021-08-31			
+AZ170	Looking them over	'Looking them over.' East Hampton, [NY] Star, November 11, 1954.	2021-08-31			
+AZ171	Crew lists of vessels owned by Charles T. Dering of Sag Harbor	'Crew lists of vessels owned by Charles T. Dering of Sag Harbor, 1828-1855.' East Hampton Library, East Hampton, NY. Manuscript.	2021-08-31			
+AZ172	Whaling Days in Poughkeepsie	'Whaling Days in Poughkeepsie.' [Poughkeepsie, NY.] Thrift Messenger, XIV (October 3, 1935).	2021-08-31			
+AZ173	Recollections of By-Gone Days	'Recollections of By-Gone Days.' Sag Harbor [NY] Express, hand dated April 24, 1884.	2021-08-31			
+AZ174	Notes on Long Island Whaling Vessels Printed in The Friend 1848 and 1849	'Notes on Long Island Whaling Vessels Printed in The Friend 1848 and 1849.' Typewritten list inside the bound volume of The Friend, Honolulu, 1854-55, East Hampton Library, East Hampton, NY.	2021-08-31			
+AZ175	Whaleship Arrivals, Sag Harbor and Greenport	'Whaleship Arrivals, Sag Harbor and Greenport.' East Hampton Library, East Hampton, NY. Manuscript notebook, (x) BG 24.	2021-08-31			
+AZ176	List of Whaleships belonging to the U. S. January 1, 1838	List of Whaleships belonging to the U. S. January 1, 1838. East Hampton Library, East Hampton, NY.	2019-01-05			
+AZ177	Dayton, Diana and Dorothy King	Dayton, Diana and Dorothy King. East Hampton Library, East Hampton, NY. Personal communication.	2019-01-05			
+AZ178	List of Whalers Sailing from Sag-Harbor in 1846	'List of Whalers Sailing from Sag-Harbor in 1846.' Sea Side Times, hand dated February 28, 1889. East Hampton Library, East Hampton, NY.	2021-08-31			
+AZ179	Ships' Passports on exhibit	Ships' Passports on exhibit. Sag Harbor Whaling and Historical Museum, Sag Harbor, NY.	2019-01-05			
+AZ180	Hazard. Whaling Notes: Captains from Sag Harbor and Surrounding Eastern Long Island	Hazard, Russella J. Whaling Notes: Captains from Sag Harbor and Surrounding Eastern Long Island registered at the Custom House Office 1790-1871. July 25, 1958. John Jermain Library, Sag Harbor, NY. Manuscript.	2019-01-05			
+AZ181	Druet. Long Island Whaling Captains	Druett, Joan. 'Long Island Whaling Captains.' John Jermain Library, Sag Harbor, NY. n.d. Typewritten list.	2019-01-05			
+AZ182	Jonas Winters Whaling Captain	'Jonas Winters Whaling Captain.' Sag Harbor, New York Express, February 7, 1952.	2021-08-31			
+AZ183	Captain White Recalls Old Whaling Days	'Captain White Recalls Old Whaling Days.' John Jermain Library, Sag Harbor, NY. Scrapbook A. Undated clipping from unidentified newspaper.	2021-08-31			
+AZ184	Hazard. Whaling Notes: Crew lists from various voyages	Hazard, Russella J. Whaling Notes: Crew lists from various voyages as copied from period newspaper articles. n.d. John Jermain Library, Sag Harbor, NY. Typewritten notes.	2019-01-05			
+AZ185	Hazard. Ships and Shipping from the Port of Sag Harbor 1797-1864	Hazard, Russella J. [probably]. Ships and Shipping from the Port of Sag Harbor 1797-1864 gathered from newspapers published in Sag Harbor. n.d. John Jermain Library, Sag Harbor, NY. Typewritten list.	2019-01-05			
+AZ186	Captains who sailed out of Sag Harbor but who lived elsewhere	'Captains who sailed out of Sag Harbor but who lived elsewhere.' John Jermain Library, Sag Harbor, NY, n.d. Typewritten list.	2021-08-31			
+AZ187	Hain. Woods Hole Whaling	Hain, James. 'Woods Hole Whaling.' Woods Hole Reflections, M. L. Smith, ed. Woods Hole Historical Collection, 1983.	2019-01-05			
+AZ188	Ships' Papers, Agent Joseph T. Edwards, Bills and Receipts.	Ships' Papers, Agent Joseph T. Edwards, Bills and Receipts. New Bedford Whaling Museum Research Library, MSS 83.	2019-01-05			https://www.whalingmuseum.org/explore/library/finding-aids/mss83
+AZ189	Winsor. History of the Town of Duxbury	Winsor, Justin. History of the Town of Duxbury with Genealogical Registers. Boston: Crosby & Nichols, Washington Street; Samuel G. Drake, Cornhill, John Putnam, Printer, 1849. Reprinted Boston: Goodspeed's Book Shop, Inc., 1985.	2019-01-05			
+AZ190	Register of Seamen shipped Fall of 1869 in vessels bound for New Bedford	Register of Seamen shipped Fall of 1869 in vessels bound for New Bedford. n.d. Misc volume 019, Nicholson Collection, Providence Public Library, Providence, RI. Manuscript.	2019-01-05			
+AZ191	A Newport Whaling Master	'A Newport Whaling Master.' Newport [RI] Mercury, weeks ending April 19, April 26, May 3, May 10, 1884 bound together, Nicholson Collection, Providence Public Library, Providence, RI.	2021-08-31			
+AZ192	Balch. Stonington Antarctic Explorers	Balch, Edwin Swift. 'Stonington Antarctic Explorers.' Bulletin of the American Geographical Society XLI (August, 1909).	2019-01-05			https://www.jstor.org/stable/200554
+AZ193	Balch. Antarctica Addenda	Balch, Edwin Swift. Antarctica Addenda. Philadelphia: Franklin Institute of the State of Pennsylvania, 1904.	2019-01-05			
+AZ194	Whalers out of Mystic	Whalers out of Mystic. Information Bulletin 69-3. G. W. Blunt White Library, Mystic, CT: Marine Historical Association, n.d.	2019-01-05			
+AZ195	Dyer, Michael	Dyer, Michael. Librarian, New Bedford Whaling Museum Research Library. Personal communication.	2019-01-05			
+AZ196	Wall. A Brief History of the Whaling Industry in New London	Wall, Richard B. A Brief History of the Whaling Industry in New London. New London, CT: The Mariners Savings Bank, n.d.	2019-01-05			
+AZ197	Crew Lists for Schooner Alcyone	Crew Lists for Schooner Alcyone. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ198	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Copy formerly owned and annotated by Charles Sayle, currently owned by George D. Bryant.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ199	The San Francisco Fleet this Year	'The San Francisco Fleet this Year.' New Bedford [MA] Daily Mercury, April 17, 1888.	2021-08-31			
+AZ200	Provincetown, MA, Records relating to Engagement and Discharge of Seamen 1872-1905	Bureau of Marine Inspection and Navigation. Provincetown, MA, Records relating to Engagement and Discharge of Seamen, Shipping Articles, 1872-1905. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ201	Sag Harbor, NY, Register of Bonds and Oaths, 1849-1868	Bureau of Marine Inspection and Navigation, Sag Harbor, NY, Register of Bonds and Oaths, 1849-1868. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ202	Sag Harbor, NY, Register of Bonds and Oaths, 1838-1849	Bureau of Marine Inspection and Navigation. Sag Harbor, NY, Register of Bonds and Oaths, 1838-1849. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ203	Sag Harbor, NY, Register Bonds over 20 Tons, 1869-71, 1910	Bureau of Marine Inspection and Navigation. Sag Harbor, NY, Register Bonds over 20 Tons, 1869-71, 1910. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ204	Greenport, NY, Register of Bonds and Oaths, 1855-April 8, 1875	Bureau of Marine Inspection and Navigation. Greenport, NY, Register of Bonds and Oaths, 1855-April 8, 1875. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ205	Sag Harbor, NY, Register Certificates, 1815-1844	Bureau of Marine Inspection and Navigation. Sag Harbor, NY, Register Certificates, 1815-1844 with some later notes added. RG 41. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ206	Druett, Joan	Druett, Joan. Personal communication.	2019-01-05			
+AZ207	Ships’ Papers. Brig Eunice H. Adams	Ships’ Papers. Brig Eunice H. Adams. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ208	Rafael Osona Auctions. Auction Catalog	Auction Catalog. Nantucket, MA: Rafael Osona Auctions, Inc., August 16, 1997.	2021-08-31			
+AZ209	Webb. On the Northwest Coast	Webb, Robert Lloyd. On the Northwest Coast: Commercial Whaling in the Pacific Northwest 1790-1967. Vancouver, BC: University of British Columbia Press, 1988.	2019-01-05			
+AZ210	Vessel departures, masters, agents, New Bedford and Westport 1862-76	'Vessel departures, masters, agents, New Bedford and Westport 1862-76.' Nicholson Collection, Providence Public Library, Providence, RI. Manuscript list.	2021-08-31			
+AZ211	Spears. The Story of New England Whalers	Spears, John R. The Story of New England Whalers. New York: The Macmillan Company, 1922.	2021-08-31		1910 edition	https://archive.org/details/storyofnewenglan00spearich
+AZ212	Ripley. Contract with Samuel Osborn & Sons, January 24, 1883	Ripley, Edward S. Contract with Samuel Osborn & Sons, January 24, 1883. Nicholson Collection, Providence Public Library, Providence, RI. Manuscript.	2019-01-05			
+AZ213	Ships' Papers. Schooner E. H. Hatfield	Ships' Papers. Schooner E. H. Hatfield. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ214	Dunbabin. New Light on the Earliest Voyages to Australia	Dunbabin, Thomas. 'New Light on the Earliest Voyages to Australia.' The American Neptune, X:1 (January, 1950).	2019-01-05			
+AZ215	Schmitt, De Jong, and Winter. Thomas Welcome Roys: America's Pioneer of Modern Whaling	Schmitt, Frederick P., Cornelis De Jong, and Frank H. Winter. Thomas Welcome Roys: America's Pioneer of Modern Whaling. Charlottesville, VA: University Press of Virginia for the Mariners Museum, Newport News, Virginia, 1980.	2019-01-05			
+AZ216	Ships' Papers. Schooner E. H. Hatfield	Ships' Papers. Schooner E. H. Hatfield. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ217	Barnstable, MA, Whalemen's Shipping Articles 1849, 1866-71	Bureau of Customs. Barnstable, MA, Whalemen's Shipping Articles 1849, 1866-71. RG 36. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ218	Barnstable, MA, Crew Lists 1889-1909	Bureau of Customs. Barnstable, MA, Crew Lists 1889-1909. RG 36. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ219	Barnstable, MA, Crew Lists 1839-1846	Bureau of Customs. Barnstable, MA, Crew Lists 1839-1846. RG 36. National Archives and Records Administration, Washington, DC.	2019-01-05			
+AZ220	Logbook of the Schooner Arthur Clifford, 1867-1867	Logbook of the Schooner Arthur Clifford, 1867-1867. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			https://archive.org/details/logbookofarthurc00arth
+AZ221	Freeman. Logbook of the Schooner E. H. Hatfield, 1878	Freeman, H. Y. Logbook of the Schooner E. H. Hatfield, 1878. Nicholson Collection. Providence Public Library, Providence, RI.	2019-01-05			https://archive.org/details/logbookofehhatfi00ehha_0
+AZ222	Richards, Rhys	Richards, Rhys. Personal communication.	2019-01-05			
+AZ223	Newport's Whale Fishery	'Newport's Whale Fishery.' Newport Historical Society, Newport, RI. George H. Richardson Scrapbook 97. Unidentified newspaper, hand dated 1880.	2021-08-31			
+AZ224	Newport Historical Society. Library Collection Card File	Library Collection Card File. Newport Historical Society, Newport, RI.	2021-08-31			
+AZ225	Marine Reports. Newport [RI] Mercury, February 19, 1820.	'Marine Reports.' Newport [RI] Mercury, February 19, 1820.	2021-08-31			
+AZ226	Marine Reports. Newport [RI] Mercury, November 1, 1817.	'Marine Reports.' Newport [RI] Mercury, November 1, 1817.	2021-08-31			
+AZ227	Marine Reports. Newport [RI] Mercury, March 30, 1822.	'Marine Reports.' Newport [RI] Mercury, March 30, 1822.	2021-08-31			
+AZ228	Cook, Cook, McIntyre, and McIntyre. Provincetown Massachusetts Cemetery Inscriptions	Cook, Lurana Higgins, Hugh Francis Cook, Anne Gleason McIntyre, and John Steward McIntyre. Provincetown Massachusetts Cemetery Inscriptions. Bowie, MD: Heritage Books, Inc., 1980.	2019-01-05			
+AZ229	TiltonA. Logbook of the Schooner Arthur V. S. Woodruff, 1910-1917	Tilton, James A. Logbook of the Schooner Arthur V. S. Woodruff, 1910-1917. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ230	Fleming, Jeff	Fleming, Jeff. Personal communication.	2019-01-05			
+AZ231	Williams. One Whaling Family	Williams, Harold ed. One Whaling Family. Boston, MA: Houghton Mifflin Company, 1964.	2019-01-05			
+AZ232	Ships' Papers, Schooner Hattie E. Smith	Ships' Papers, Schooner Hattie E. Smith. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ233	Butler. Arrivals and Departures of Vessels from New Bedford, 1792 -1805	Butler, Martin J. Arrivals and Departures of Vessels from New Bedford copied from the Columbian Courier [New Bedford, MA] 1792 -1805.	2019-01-05			
+AZ234	Butler. Arrivals and Departures of Vessels from New Bedford, 1807 -1822	Butler, Martin J. Arrivals and Departures of Vessels from New Bedford copied from the New Bedford [MA] Weekly Mercury, 1807 -1822.	2019-01-05			
+AZ235	Providence Public Library. Wilbur Collection	Wilbur, Charles Henry Collection. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ236	Harding, Atkins, and Rich. Overseers, Town of Truro. Indenture. 29 September 1790	Harding, Ephraim, Nathaniel Atkins, and Jesse Rich. Overseers, Town of Truro. Indenture. 29 September 1790. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ237	Lovell. Sandwich A Cape Cod Town	Lovell, Russell A., Jr. Sandwich A Cape Cod Town. Sandwich, MA: Town of Sandwich, Massachusetts, 1996.	2019-01-05			
+AZ238	New London, CT, Crew lists January 7, 1818 - December 25, 1821	Bureau of Customs. New London, CT. Crew lists January 7, 1818 - December 25, 1821 includes loose papers for Julius Caesar, 1851 voyage. New London Maritime Society Custom House Museum, New London, CT.	2019-01-05			
+AZ239	Little. The Indian Contribution to Along-shore Whaling at Nantucket	Little, Elizabeth A. The Indian Contribution to Along-shore Whaling at Nantucket. Nantucket Algonquian Studies #8. Nantucket, MA: Nantucket Historical Association, 1981.	2019-01-05			
+AZ240	Philbrick. In the Heart of the Sea	Philbrick, Nathaniel. In the Heart of the Sea: The Tragedy of the Whaleship Essex. New York, NY: Viking Penguin, 2000.	2019-01-05			
+AZ241	Ships' Papers. Ship Parachute	Ships' Papers. Ship Parachute. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ242	Ships' Papers. Schooner Thomas Hunt	Ships' Papers. Schooner Thomas Hunt. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ243	Ships' Papers. Ship Charles Phelps	Ships' Papers. Ship Charles Phelps. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ244	Scrapbook Volume 3. Long Island Material, Mostly Whaling 1819-1881	Scrapbook Volume 3. 'Long Island Material, Mostly Whaling 1819-1881.' Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ245	Francis, Robert	Francis, Robert. Personal communication.	2019-01-05			
+AZ246	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July 28, 2000.	2019-01-05			
+AZ247	Providence Public Library. Wilbur Collection	Wilbur, Charles Henry Collection. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ248	New Balance Orders, 1876	'New Balance Orders, 1876.' Notebook containing crew lists clipped from newspapers for vessels departing New Bedford 1877-1880. Nicholson Collection, Providence Public Library, Providence, RI.	2021-08-31			
+AZ249	Hare. Salted Tories: The Story of the Whaling Fleets of San Francisco	Hare, Lloyd C. M. Salted Tories: The Story of the Whaling Fleets of San Francisco. Mystic, CT: The Marine Historical Association, Inc., 1960.	2019-01-05			
+AZ250	Crew Lists of Whaleships. Ships R-Z, Miscellaneous years	Crew Lists of Whaleships. Ships R-Z, Miscellaneous years. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 178.	2019-01-05			
+AZ251	Weeks. Ship Charles Phelps of Stonington	Weeks, J. [ames] H., Jr. Ship Charles Phelps of Stonington. Manuscript Notebook, c. 1899. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ252	Ships' Papers. Schooner Charles Shearer	Ships' Papers. Schooner Charles Shearer. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ253	Crew Lists of Whaleships. Various ships, 1811-1817	Crew Lists of Whaleships. Various ships, 1811-1817. New Bedford Free Public Library Publication. New Bedford Public Library microfilm reel 175A.	2019-01-05			https://www.whalingmuseum.org/explore/library/finding-aids/mss79
+AZ254	Crew Lists of Whaleships. Ships A-G, 1818-1832	Crew Lists of Whaleships. Ships A-G, 1818-1832. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 166.	2019-01-05			
+AZ255	Crew Lists of Whaleships. Ships G-N, 1818-1832	Crew Lists of Whaleships. Ships G-N, 1818-1832. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 167.	2019-01-05			
+AZ256	Crew Lists of Whaleships. Ships N-Z, 1818-1832	Crew Lists of Whaleships. Ships N-Z, 1818-1832. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 168.	2019-01-05			
+AZ257	Crew Lists of Whaleships. Ships A-Z, 1844-1890	Crew Lists of Whaleships. Ships A-Z, 1844-1890, Miscellaneous lists. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 169.	2019-01-05			
+AZ258	Crew Lists of Whaleships. Ships A-Q, Miscellaneous years	Crew Lists of Whaleships. Ships A-Q, Miscellaneous years. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 176.	2019-01-05			
+AZ259	Crew Lists of Whaleships. Ships F, J, K, L, 1840-1860, 1866	Crew Lists of Whaleships. Ships F, J, K, L, 1840-1860, 1866. New Bedford Free Public Library Publication. New Bedford Free Public Library microfilm reel 182.	2019-01-05			
+AZ260	Crew Lists of Whaleships. Ships M, O, V, W-Z, 1840-1860, 1866	Crew Lists of Whaleships. Ships M, O, V, W-Z, 1840-1860, 1866. New Bedford Free Public Library Publication. New Bedford Free Public Library microfilm reel 184.	2019-01-05			
+AZ261	Crew Lists of Whaleships. Ships P-S, 1840-1860, 1866	Crew Lists of Whaleships. Ships P-S, 1840-1860, 1866. New Bedford Free Public Library Publication. New Bedford Free Public Library microfilm reel 185.	2019-01-05			
+AZ262	Shipping Papers and Crew Lists; index of holdings of the New Bedford Free Public Library	Shipping Papers and Crew Lists; index of holdings of the New Bedford Free Public Library. Special Collections, New Bedford Free Public Library, New Bedford, MA.	2019-01-05			
+AZ263	Richards. Honolulu Shipping Arrivals and Departures 1820-1840	Richards, Rhys. Honolulu: Centre of Trans-Pacific Trade: Shipping Arrivals and Departures 1820-1840. Canberra, Australia: Pacific Manuscripts Bureau and Honolulu, HI: Hawaiian Historical Society, 2000.	2019-01-05			
+AZ264	Long. Logbooks of Ship Foster, 1822-1841	Long, Josiah C. Logbooks of Ship Foster, 1822-1841. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ265	Bristol, RI Gazette and Home Companion, May 16, 1835.	Bristol, RI Gazette and Home Companion, May 16, 1835.	2019-01-05			https://hdl.handle.net/2027/wu.89072990617
+AZ266	Bristol, RI Gazette and Home Companion, April 19, 1834.	Bristol, RI Gazette and Home Companion, April 19, 1834.	2019-01-05			
+AZ267	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy owned by Patrick J. Slattery.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ268	Whaling Masters	Works Progress Administration. Whaling Masters: Voyages 1731-1925. New Bedford, MA: Old Dartmouth Historical Society, 1938. Annotated copy owned by Patrick J. Slattery, formerly owned by Ernest F. Gates, New London.	2019-01-05			https://hdl.handle.net/2027/uc1.$b25850
+AZ269	Ships' Papers. Bark Robert Morrison	Ships' Papers. Bark Robert Morrison. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ270	Bureau of Customs. Bristol-Warren, RI, Mss 28	Bureau of Customs. Bristol-Warren, RI, Mss 28. Manuscripts Collection, Rhode Island Historical Society Library, Providence, RI.	2019-01-05			
+AZ271	Bureau of Customs. Providence, RI, Mss 28	Bureau of Customs. Providence, RI, Mss 28. Manuscripts Collection, Rhode Island Historical Society Library, Providence, RI.	2019-01-05			
+AZ272	Sotheby Parke Bernet. Auction Catalog	Auction Catalog. New York: Sotheby Parke Bernet Inc., The Barbara Johnson Whaling Collection: Part I, December 11 and 12, 1981.	2021-08-31			
+AZ273	Swan Galleries. Auction Catalog	Auction Catalog. New York: Swan Galleries, Inc., The Barbara Johnson Collection: Part II, September 25, 1997.	2019-01-05			
+AZ274	Replacement Masters	Replacement Masters. Special Collections, New Bedford Free Public Library, New Bedford, MA. Folder, Customs House Archival Box, uncataloged.	2019-01-05			
+AZ275	Master's Oath on Entering a vessel	Master's Oath on Entering a vessel. Special Collections, New Bedford Free Public Library, New Bedford, MA. Folder, Archival Box, uncataloged.	2019-01-05			
+AZ276	Oath of New Master of Vessel, 1884	Oath of New Master of Vessel, 1884. Special Collections, New Bedford Free Public Library, New Bedford, MA. Folder, Archival box, uncataloged.	2019-01-05			
+AZ277	Oath of New Masters, 1870-1884	Oath of New Masters, 1870-1884. Special Collections, New Bedford Free Public Library, New Bedford, MA. Manuscript book, Archival box, uncataloged.	2019-01-05			
+AZ278	Furtado, Tina	Furtado, Tina. Special Collections Librarian, New Bedford Free Public Library, New Bedford, MA. Personal communication.	2019-01-05			
+AZ279	Ten Pound Island Book Company. Catalog 131	Catalog 131. Gloucester, MA: Ten Pound Island Book Company, December 15, 2000.	2019-01-05			
+AZ280	Ships' Papers. Ship Europa	Ships' Papers. Ship Europa. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ281	Sherman. Correspondence with Jesse R. Ghen	Sherman, Stuart C. Correspondence with Jesse R. Ghen. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ282	Sherman. Correspondence with Walter S. Briggs and Odaline Burr Simons Daniels	Sherman, Stuart C. Correspondence with Walter S. Briggs and with Odaline Burr Simons Daniels. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ283	Sherman. Correspondence with Mrs. Laura E. Doolittle	Sherman, Stuart C. Correspondence with Mrs. Laura E. Doolittle. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ284	Sherman. Correspondence with Mrs. Monterey L Holst	Sherman, Stuart C. Correspondence with Mrs. Monterey L Holst. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ285	Sherman. Correspondence with Allen Knight	Sherman, Stuart C. Correspondence with Allen Knight. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ286	Sherman. Correspondence with Edith C. Pitman	Sherman, Stuart C. Correspondence with Edith C. Pitman. Logbook correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ287	Sherman. Correspondence with William R. Pierce	Sherman, Stuart C. Correspondence with William R. Pierce. Sherman correspondence file, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ288	Skinner. Auction Catalog	Auction Catalog. Bolton, MA: Skinner, Inc., October 28 and 29, 2000.	2019-01-05			
+AZ289	Dering Whaling Correspondence	Dering Whaling Correspondence. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ290	Edwards and Rattray. Whale Off! The Story of American Shore Whaling	Edwards, Everett J. and Jeannette Edwards Rattray. Whale Off! The Story of American Shore Whaling. 1932, reprinted New York: Coward, McCann, Inc., 1956.	2019-01-05			
+AZ291	Hodgkinson. Eber Bunker of Liverpool	Hodgkinson, R. Eber Bunker of Liverpool: The Father of Australian Whaling. Roebuck Society Publication No. 15. Fyshwick, Australia: [Roebuck Society], 1975.	2019-01-05			
+AZ292	Ships' Papers. Ship Jasper	Ships' Papers. Ship Jasper. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ293	Ships’ Papers. Bark Favorite	Ships’ Papers. Bark Favorite. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ294	List of Ships at Lahaina, Maui, from Aug. 19 to Dec. 3, 1836	List of Ships at Lahaina, Maui, from Aug. 19 to Dec. 3, 1836. Lahainaluna, Maui: Press of the High School, n.d.	2019-01-05			
+AZ295	Ships' Papers. Schooner Petrel	Ships' Papers. Schooner Petrel. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ296	American Ships visiting Sydney, 1791-1841	'American Ships visiting Sydney, 1791-1841: List compiled from the Sydney Gazette.' n.d. Nicholson Collection, Providence Public Library, Providence, RI. Typewritten list.	2021-08-31			
+AZ297	Wood and Lund. The Ports of Old Rochester	Wood, Edward F. R., Jr. comp. with Judith Navas Lund. The Ports of Old Rochester: Shipbuilding at Mattapoisett and Marion. New Bedford, MA: New Bedford Whaling Museum/Quadequina Publishers, 2004.	2019-01-05			
+AZ298	Maguinnis. Journal of the Brig Heman Smith. 1877-1878	Maguinnis, John. Journal of the Brig Heman Smith. 1877-1878. New Bedford Whaling Museum Research Library, New Bedford, MA. IMA microfilm.	2019-01-05			
+AZ299	Cummin. Journal Ship Elizabeth, Ship James Stewart	Cummin, John. Partial Journal of the Ship Elizabeth of Freetown, 28 August 1843-27 February 1844 Bound with partial journal of the Ship James Stewart of St. John. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ300	Ships' Papers. Schooner John W. Dodge	Ships' Papers. Schooner John W. Dodge. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ301	Ships' Papers. Ship Delphos	Ships' Papers. Ship Delphos. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ302	Ships' Papers. Ship Macon	Ships' Papers. Ship Macon. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ303	Ships' Papers. Bark Laetitia	Ships' Papers. Bark Laetitia. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ304	Owen. Journal of Steam Bark North Star	Owen, Leander C. Journal of Steam Bark North Star, March 3, 1882-September 16, 1882. Privately owned.	2019-01-05			
+AZ305	Ships' Papers. Bark Bolton	Ships' Papers. Bark Bolton. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ306	Dighton/Fall River, MA, Crew Lists and foreign manifests 1831-1853	Bureau of Customs. Dighton/Fall River, MA, Crew Lists and foreign manifests 1831-1853. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ307	Smith. Whaling History and the Courts	Smith, Gaddis. 'Whaling History and the Courts.' The Log of Mystic Seaport, October 1978.	2019-01-05			
+AZ308	Ships' Papers. Ship Loan	Ships' Papers. Ship Loan. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ309	Hammond Correspondence	Hammond Correspondence. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ310	Ships' Papers. Ship Franklin Adams	Ships' Papers. Ship Franklin Adams. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ311	Arctic Whalemen	'Arctic Whalemen,' unidentified New Bedford newspaper, May 17, 1894, scrapbook, Nicholson Collection, Providence Public Library, Providence, RI.	2021-08-31			
+AZ312	Ships Arrived at Lahaina, Maui, S.I. from July 1 to December 31, 1845	Ships Arrived at Lahaina, Maui, S.I. from July 1 to December 31, 1845. G. W. Punchard & Co., [1846].	2019-01-05			
+AZ313	Brutal Crime. Story of a once Famous Mutiny	'Brutal Crime. Story of a once Famous Mutiny.' The [New Bedford, MA] Evening Standard, hand dated November 27, 1896.	2021-08-31			
+AZ314	Hezel. Foreign Ships in Micronesia	Hezel, Fr. Francis X., SJ. Foreign Ships in Micronesia; A Compilation of Ship contacts with the Caroline and Marshall Islands 1521-1885. Saipan: Published in cooperation with the Trust Territory Historic Preservation Office and the U.S. Conservation and Recreation Service, 1979.	2019-01-05			
+AZ315	Jones. Ships Employed in the South Seas Trade 1775-1859	Jones, A. G. E. Ships Employed in the South Seas Trade 1775-1859. Roebuck Society Publication No. 46. Canberra: [Roebuck Society], 1986.	2019-01-05			
+AZ316	Sailors of Sullivan near Death	'Sailors of Sullivan near Death.' unidentified newspaper, n.d. New Bedford Whaling Museum Research Library, New Bedford, MA. Scrapbook T4, p.135.	2021-08-31			
+AZ317	Reeves and Barto. Whaling in the Bay of Fundy	Reeves, Randall and Martha F. Barto. 'Whaling in the Bay of Fundy.' Whalewatcher, winter, 1985.	2019-01-05			
+AZ318	Heppingstone. American Whalers in Western Australian Waters	Heppingstone, I. D. 'American Whalers in Western Australian Waters.' Journal and Proceedings of the Royal Western Australian Historical Society 7:1 1969.	2019-01-05			
+AZ319	Label text, Whalers Village Museum	Label text, Whalers Village Museum, Kaanapali, Lahaina, Maui.	2019-01-05			
+AZ320	Hammond. Notes on Ships' captains	Hammond, Harriet. Notes on Ships' captains. Mattapoisett Historical Society, Mattapoisett, MA. Typewritten list.	2019-01-05			
+AZ321	Schmidt. Plum Puddin’ Cruises	Schmidt, Frederick P. Plum Puddin’ Cruises, Whaling Museum Society, Inc., Cold Spring Harbor, 1973 originally published in Long Island Forum, April and May, 1973.	2019-01-05			
+AZ322	Sloop Trial (Tryall)	Sloop Trial (Tryall). Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ323	Ship’s papers. Bark Eben Dodge	Ship’s papers. Bark Eben Dodge. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ324	Ship’s Papers. Ship Roman	Ship’s Papers. Ship Roman. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ325	Ship’s papers. Brig Juno	Ship’s papers. Brig Juno. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ326	Railton. Diary of Jeremiah Pease	Railton, Arthur. 'Diary of Jeremiah Pease, lighthouse keeper and deputy collector of customs.' Dukes County Intelligencer.	2019-01-05			
+AZ327	Mendall. Card file belonging to Seth Mendall re Mattapoisett-built vessels	Mendall, Charles S. card file belonging to Seth Mendall re Mattapoisett-built vessels, citing the Nantucket ship registers and Nantucket Gazette.	2019-01-05			
+AZ328	Turner Papers	Turner Papers. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ329	Enrollments of New Bedford, Massachusetts, 1808-1840	Works Progress Administration. Enrollments of New Bedford, Massachusetts, 1808-1840. Boston, MA: The National Archives Project, 1940.	2019-01-05			
+AZ330	Delano. Journal of the ship Herald, voyage of 1817-1817	Delano, Thomas. Journal of the ship Herald, voyage of 1817-1817. Nicholson Collection, Providence Public Library, Providence, RI. And Ship’s papers, Ship Herald. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ331	New Bedford Whaling Museum. Annual Report, 2001	Annual Report, 2001. New Bedford, MA: New Bedford Whaling Museum, 2002.	2019-01-05			
+AZ332	Babcock. Bill of Exchange	Babcock, Daniel S. Bill of Exchange. Scrapbook of Long Island Material, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ333	Ships' Papers. Ship Lion	Ships' Papers. Ship Lion. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ334	Smith, Tim D.	Smith, Tim D. Personal communication.	2019-01-05			
+AZ335	Maury Logbook Abstracts	Maury Logbook Abstracts. National Archives and Records Administration, Washington, D. C. Index and microfilms, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ336	History of New Bedford No. XXIII	'History of New Bedford No. XXIII.' New Bedford [MA[ Daily Mercury, undated article glued into Account Book of William Rotch. New Bedford Whaling Museum Research Library, New Bedford, MA.	2021-08-31			
+AZ337	Best, Peter	Best, Peter. Personal communication	2019-01-05			
+AZ338	Register of Seamen shipped Fall of 1869 in vessels bound for New Bedford	Register of Seamen shipped Fall of 1869 in vessels bound for New Bedford. n.d. Misc volume 019, Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ339	Verner, Patricia Dorman	Verner, Patricia Dorman. Personal correspondence (e-mail) to Providence Public Library, Providence, RI.	2019-01-05			
+AZ340	Lopez, Aaron. Papers	Lopez, Aaron. Papers. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ341	Richards. Canadian Whaling in the Pacific Ocean	Richards, Rhys. 'Canadian Whaling in the Pacific Ocean.' Draft copy of article. 23 Sept 2002 citing logbook of the whaler Peruvian of St. John's, New Brunswick.	2019-01-05			
+AZ342	Ten Pound Island Book Company. Catalog 140	Catalog 140. Gloucester, MA: Ten Pound Island Book Company, September 2002.	2019-01-05			
+AZ343	Loss of Ship Panama	'Loss of Ship Panama.' New Bedford [MA] Weekly Mercury, July 11, 1845.	2021-08-31			
+AZ344	Railton, Arthur	Railton, Arthur. Editor, Dukes County Intelligencer, Martha's Vineyard, MA. Personal Communication. F. C. Smith lived to be 95 on the Vineyard.	2019-01-05			
+AZ345	Josephson, Beth	Josephson, Beth. Personal communication.	2019-01-05			
+AZ346	Farwell, Robert	Farwell, Robert. Stonington Historical Society. Personal communication.	2019-01-05			
+AZ347	Ebay notice 24 May 2003	Ebay notice 24 May 2003. www.ebay.com. Internet.	2019-01-05			
+AZ348	New Bedford Whaling Museum. Annual Report, 2002	Annual Report, 2002. New Bedford, MA: New Bedford Whaling Museum, 2003.	2019-01-05			
+AZ349	Davis., Gallman, and Gleiter. In Pursuit of Leviathan	Davis, Lance E., Robert E. Gallman, and Karin Gleiter. In Pursuit of Leviathan. Chicago: University of Chicago, 1997.	2019-01-05			
+AZ350	Railton. The Story of Martha's Vineyard	Railton, Arthur. 'The Story of Martha's Vineyard.' Dukes County Intelligencer, 45:1 (August 2003).	2019-01-05			
+AZ351	Frank. Azorean Shore Whaling in California	Frank, Stuart M. Unpublished material on Azorean Shore Whaling in California.	2019-01-05			
+AZ352	Reeves, Smith, Webb, Robbins, and Clapham. Humpback and Fin Whaling	Reeves, Randall R., Tim D. Smith, Robert L. Webb, Jooke Robbins, and Phillip J. Clapham. 'Humpback and Fin Whaling in the Gulf of Maine from 1800-1918.' Marine Fisheries Review. 64:1. 2002.	2019-01-05			
+AZ353	Webb. Menhaden Whalemen	Webb, Robert Lloyd. 'Menhaden Whalemen: nineteenth-century origins of American steam whaling.' American Neptune 60:277-287. (2000).	2019-01-05			
+AZ354	Schram, Margaret	Schram, Margaret. Personal communication	2019-01-05			
+AZ355	Library of Congress. National Union Catalog of Manuscript Collections	National Union Catalog of Manuscript Collections - Library of Congress. Internet catalog. www.loc.gov/coll/nucmc.	2019-01-05			
+AZ356	Schram. Hudson's Merchants and Whalers	Schram, Margaret B. Hudson's Merchants and Whalers: the Rise and Fall of a River Port 1783-1850. Hensonville, New York: Black-Dome Press, 2004.	2019-01-05			
+AZ357	Salem, MA. Inward foreign manifests	Bureau of Customs. Salem, MA. Inward foreign manifests. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ358	New London, CT. Manuscript ledger of port clearances and arrivals, 1820-1830	Bureau of Customs. New London, CT. Manuscript ledger of port clearances and arrivals, 1820-1830. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ359	Ward. American Activities in the Central Pacific: 1790-1870	Ward, R. Gerald. American Activities in the Central Pacific: 1790-1870. 8 vols. Ridgewood, NJ: Gregg Press, [c. 1966].	2019-01-05			
+AZ360	Newport [RI] Mercury, October 15, 1764	Newport [RI] Mercury, October 15, 1764. New Bedford Free Public Library. Microfilm.	2019-01-05			
+AZ361	The Newbedford Marine Journal. 1792-1799	The Newbedford Marine Journal. 1792-1799. New Bedford Free Public Library. Microfilm.	2019-01-05			
+AZ362	duPasquier. Les baleiniers francais de Louis XVI  a Napoleon	duPasquier, J. Thierry. Les baleiniers français de Louis XVI à Napoléon. Paris: H. Veyrier, [1990].	2021-08-31			
+AZ363	The [San Francisco, CA] Examiner, Feb 19, 1892.	The [San Francisco, CA] Examiner, Feb 19, 1892.	2019-01-05			
+AZ364	Hammett. Journal of a voyage on the Sloop Keziah, 1788-1789	Hammett, Shubel. Journal of a voyage on the Sloop Keziah, 1788-1789. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ365	Hammett. Journal of a voyage on the Sloop Keziah, 1789-1789	Hammett, Shubel. Journal of a voyage on the Sloop Keziah, 1789-1789. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ366	Hammett. Journal of a voyage on the Sloop Keziah, 1789-1790	Hammett, Shubel. Journal of a voyage on the Sloop Keziah, 1789-1790. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ367	Hammett. Journal of a voyage on the Sloop Keziah, 1790-1791	Hammett, Shubel. Journal of a voyage on the Sloop Keziah, 1790-1791. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ368	Hammett. Journal of a voyage on the Sloop Keziah, 1792-1792	Hammett, Shubel. Journal of a voyage on the Sloop Keziah, 1792-1792. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ369	Hodges. Logbook of a voyage on the Sloop Dighton, 1769-1769	Hodges, Benjamin. Logbook of a voyage on the Sloop Dighton, 1769-1769. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ370	Tilton. Logbook of a voyage on the Schooner A. M. Nicholson, 1920-1920	Tilton, James A. Logbook of a voyage on the Schooner A. M. Nicholson, 1920-1920 New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ371	Varnum. Logbook of a voyage on the Steam Bark Alexander, 1898-1898	Varnum, W. S. Logbook of a voyage on the Steam Bark Alexander, 1898-1898. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ372	Church. Logbook of a voyage on the Bark Amanda, 1831-1832	Church, Freeman T. Logbook of a voyage on the Bark Amanda, 1831-1832 New Bedford Whaling Museum Research Library, New Bedford, MA.	2021-08-31			
+AZ373	Logbook of a voyage on the Schooner Antarctic, 1890-1890	Unknown keeper. Logbook of a voyage on the Schooner Antarctic, 1890-1890. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ374	Townsend. Journal of a voyage on the Ship Atlas, 1825-1826	Townsend, James. Journal of a voyage on the Ship Atlas, 1825-1826. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ375	Logbook of a voyage on the Bark Barclay, 1855-1856	Unknown keeper. Logbook of a voyage on the Bark Barclay, 1855-1856L. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ376	Coggeshall. Logbook of a voyage on the Brig Dragon, 1820-1821	Coggeshall, John E. Logbook of a voyage on the Brig Dragon, 1820-1821. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ377	Logbook of a voyage on the Schooner Eleanor B. Conwell, 1884-1885	Unknown keeper. Logbook of a voyage on the Schooner Eleanor B. Conwell, 1884-1885. New Bedford Whaling Research Museum Library, New Bedford, MA.	2019-01-05			
+AZ378	Logbook of a voyage on the Schooner Gaspe, 1922-1922	Unknown keeper. Logbook of a voyage on the Schooner Gaspé, 1922-1922. New Bedford Whaling Museum Research Library, New Bedford, MA.	2021-08-31			
+AZ379	Logbook of a voyage on the Bark Gay Head II, 1890-1892	Unknown keeper. Logbook of a voyage on the Bark Gay Head II, 1890-1892. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ380	Kelly. Logbook of a voyage on the Bark Hope, 1861-1862	Kelly, L. Logbook of a voyage on the Bark Hope, 1861-1862. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ381	Greeny. Journal of a voyage on the Ship Phenix, 1832-1833	Green, Henry. Journal of a voyage on the Ship Phenix, 1832-1833. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ382	Logbook of a voyage on the Ship Sophia and Eliza, 1844-1844	Unknown keeper. Logbook of a voyage on the Ship Sophia and Eliza, 1844-1844. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ383	Logbook of a voyage on the Bark Andrews, 1867-1867	Unknown keeper. Logbook of a voyage on the Bark Andrews, 1867-1867L. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ384	Logbook of a voyage on the Brig Industry, 1823-1824	Unknown keeper. Logbook of a voyage on the Brig Industry, 1823-1824. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ385	Barker. Journal of a voyage on the Schooner Leo, 1878-1878	Barker, Frederick A. Journal of a voyage on the Schooner Leo, 1878-1878. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ386	Logbook of a voyage on the Schooner Thomas Hunt, 1879-1880	Unknown keeper. Logbook of a voyage on the Schooner Thomas Hunt, 1879-1880. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ387	Logbook of a voyage on the Ship Lucas, 1833-1835	Unknown keeper. Logbook of a voyage on the Ship Lucas, 1833-1835. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ388	Logbook of a voyage on the Ship Martha, 1834-1836	Unknown keeper. Logbook of a voyage on the Ship Martha, 1834-1836. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ389	Logbook of a voyage on the Bark Andrews, 1867-1867	Unknown keeper. Logbook of a voyage on the Bark Andrews, 1867-1867. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ390	Logbook of a voyage on the Schooner Bellisle, 1841-1841	Unknown keeper. Logbook of a voyage on the Schooner Bellisle, 1841-1841. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ391	Logbook of a voyage on the Bark Charleston Packet, 1853-1853	Unknown keeper. Logbook of a voyage on the Bark Charleston Packet, 1853-1853. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ392	Netcher. Logbook of a voyage on the Ship Sally Anne, 1830-1832	Netcher, George. Logbook of a voyage on the Ship Sally Anne, 1830-1832. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ393	Townsend. Journal of a voyage on the Ship Louisa, 1828-1831	Townsend, James. Journal of a voyage on the Ship Louisa, 1828-1831. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ394	Marine Reports. Columbian Courier 1798-1805	'Marine Reports.' Columbian Courier [New Bedford, MA], 1798-1805.	2021-08-31			
+AZ395	Inward Foreign Manifests for the Port of New Bedford, 1818-1906	Works Progress Administration. Survey of Federal Records. Inward Foreign Manifests for the Port of New Bedford, 1818-1906. Manuscript. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ396	Marine Reports. Nantucket [MA] Gazette. May 6, 1816-March 8, 1817	'Marine Reports.' Nantucket [MA] Gazette. May 6, 1816-March 8, 1817. microfilm. New Bedford Free Public Library, New Bedford, MA.	2021-08-31			
+AZ397	Donovan, Deborah	Donovan, Deborah. Personal communication.	2019-01-05			
+AZ398	Lost with All Her Crew: Reported Disaster to Whaling Schooner Joseph Manta	'Lost with All Her Crew: Reported Disaster to Whaling Schooner Joseph Manta.' Republican Standard, New Bedford, MA, October 16, 1903.	2021-08-31			
+AZ399	Laflin. San Francisco Crew Lists, 1906-1928	San Francisco Crew Lists, 1906-1928. notebook of typed transcriptions, from the account book of P. James Laflin, shipping agent. BIII-146. J. Porter Shaw Library, San Francisco Maritime Historical National Park. Copy at New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ400	Farwell. They Sail 400 Miles in Small Boats to Booby Island and Rescue	Farwell, Robert H. 'They Sail 400 Miles in Small Boats to Booby Island and Rescue, Then . . .' Dukes County Intelligencer, 46:4 May 2005.	2019-01-05			
+AZ401	Keeler, Jan	Keeler, Jan. Personal correspondence concerning a privately-owned logbook containing the voyages of Hibernia, 1835-1836, 1836-1837, and Adeline, 1837-1840. Keeler, Jan. New Bedford Whaling Museum Volunteer. Personal Communication.	2019-01-05			
+AZ402	Hennessey. Partial journal of a voyage of the ship Niger, 1882-1886	Hennessey, Mr. Partial journal of a voyage of the ship Niger, 1882-1886 dating from April 4, 1884-November 23, 1884; photocopy of pages. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ403	Platt. Tar, Staves, and New England Rum	Platt, Virginia Bever. 'Tar, Staves, and New England Rum: The Trade of Aaron Lopez of Newport, RI with Colonial North Carolina.' The North Carolina Historical Review 43:1 January 1971.	2019-01-05			
+AZ404	Mason. Journal of a voyage on the Brig Two Brothers, 1775-1776	Mason, Holden. Journal of a voyage on the Brig Two Brothers, 1775-1776. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ405	Trider. History of Dartmouth and Halifax Harbour. Volume I	Trider, Douglas William. History of Dartmouth and Halifax Harbour, 1415-1800. Volume I. Dartmouth, Nova Scotia: by the author, 1999.	2021-08-31			
+AZ406	Benson, Claire	Benson, Claire. Personal correspondence, concerning the Logbook of the Snow Betsey, voyages of 1792 and 1793 and other Bristol information.	2021-08-31			
+AZ407	Mason. Journal of a voyage on the Sloop Judith, 1784-1784	Mason, Holden. Journal of a voyage on the Sloop Judith, 1784-1784. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ408	Richards and Chisholm. Bay of Islands Shipping Arrivals and Departures 1803-1840	Richards, Rhys and Joyce Chisholm. Bay of Islands Shipping Arrivals and Departures 1803-1840. [Wellington, N.Z.] : The Paremata Press, 1992.	2019-01-05			
+AZ409	Crosby. Logbook of a voyage on the Ship Asia, 1791-1794	Crosby, Sylvanus Logbook of a voyage on the Ship Asia, 1791-1794. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ410	Terrible Suffering at Sea by a Portion of the Crew of the Whaling Bark Janet	'Terrible Suffering at Sea by a Portion of the Crew of the Whaling Bark Janet.' New York Herald October 19, 1849.	2021-08-31			https://chroniclingamerica.loc.gov/lccn/sn83030313/1849-10-19/ed-1/seq-4.pdf
+AZ411	Clark. The Whale-fishery	Clark, A. Howard. 'The Whale-fishery.' in Goode, George Brown. The Fisheries and Fishery Industries of the United States. Section V History and Methods of the Fisheries. Washington: Government Printing Office, 1887.	2019-01-05			https://archive.org/details/fisheriesfishery52goodrich
+AZ412	Lebo, Susan	Lebo, Susan. Personal communication regarding material from the Hawaii archives.	2019-01-05			
+AZ413	Thrum. Honolulu’s Share in the Pacific Whaling Industry of by-gone Days	Thrum, Thomas G. 'Honolulu’s Share in the Pacific Whaling Industry of by-gone Days.' Hawaiian Almanac and Annual for 1913. Honolulu, by the author, 1912.	2019-01-05			
+AZ414	Indenture of Nath Briggs to Aaron Sheffield, Sept 6, 1775	Indenture of Nath Briggs to Aaron Sheffield, Sept 6, 1775. Pardon Gray Seabury Papers. New Bedford Free Public Library, New Bedford, MA.	2019-01-05			
+AZ415	Ludlow. Journal of a voyage on an unidentified whaler, 1806-1807	Ludlow, Elias. Journal of a voyage on an unidentified whaler, 1806-1807. Society for the Preservation of Long Island Antiquities, Sag Harbor, NY.	2019-01-05			
+AZ416	Coffin. Journals of voyages on the Sloop Sandwich, 1762-1763	Coffin, Micajah. Journals of voyages on the Sloop Sandwich, 1762-1763. Providence Public Library, Providence, RI.	2019-01-05			
+AZ417	Cahoonn. Logbook of a voyage on the Brig Polly, 1774	Cahoon, Stephen. Logbook of a voyage on the Brig Polly, 1774. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ418	Sisco. A Scrimshander’s Tale	Sisco, Mark. 'A Scrimshander’s Tale.' Maine Antiques Digest, December 2005.	2019-01-05			
+AZ419	Journal of a voyage on the Brig Imogene, 1839-1839	Unidentified keeper. Journal of a voyage on the Brig Imogene, 1839-1839. Houghton Library, Harvard University, Cambridge, MA.	2019-01-05			
+AZ420	Reeves., Swartz, Wetmore and Clapham. Humpback whales	Reeves, Randall R., Steven L. Swartz, Sara E. Wetmore and Phillip J. Clapham. 'Historical occurrence and distribution of humpback whales in the eastern and southern Caribbean Sea, based on data from American whaling logbooks. Journal of Cetacean Research & Management 3(2): 117-129, 2001.	2019-01-05			
+AZ421	Marine Reports. January 4, 1883.	'Marine Reports.' Republican Standard, New Bedford, MA, January 4, 1883.	2021-08-31			
+AZ422	Marine Reports. October 18, 1883.	'Marine Reports.' Republican Standard, New Bedford, MA, October 18, 1883.	2021-08-31			
+AZ423	Marine Reports. January 17, 1884.	'Marine Reports.' Republican Standard, New Bedford, MA, January 17, 1884.	2021-08-31			
+AZ424	Marine Reports.  April 24, 1884.	'Marine Reports.' Republican Standard, New Bedford, MA, April 24, 1884.	2021-08-31			
+AZ425	Marine Reports.  August 28, 1884.	'Marine Reports.' Republican Standard, New Bedford, MA, August 28, 1884.	2021-08-31			
+AZ426	Marine Reports.  October 16, 1884.	'Marine Reports.' Republican Standard, New Bedford, MA, October 16, 1884.	2021-08-31			
+AZ427	Mitchell and Reeves. Northwest Atlantic Humpback Whales	Mitchell, Edward and Randall R. Reeves. 'Catch History, Abundance, and Present Status of Northwest Atlantic Humpback Whales.' Reports of the International Whaling Commission (Special Issue 5) Historical Whaling Records. Cambridge: International Whaling Commission, 1983.	2019-01-05			
+AZ428	Marine Reports.  January 29, 1885.	'Marine Reports.' Republican Standard, New Bedford, MA, January 29, 1885.	2021-08-31			
+AZ429	Marine Reports.  January-July, 1885.	'Marine Reports.' Republican Standard, New Bedford, MA, January-July, 1885.	2021-08-31			
+AZ430	Marine Reports.  September 21, 1885.	'Marine Reports.' Republican Standard, New Bedford, MA, September 21, 1885.	2021-08-31			
+AZ431	Marine Reports.  October 29, 1885.	'Marine Reports.' Republican Standard, New Bedford, MA, October 29, 1885.	2021-08-31			
+AZ432	Marine Reports. Suffolk Gazette 1804-1811	'Marine Reports.' Suffolk Gazette, Sag Harbor, NY. 1804-1811. Microfilm, East Hampton Library, East Hampton, NY.	2021-08-31			
+AZ433	Barboza. Origin of cannons recovered from Dartmouth	Barboza, Robert. 'Origin of cannons recovered from Dartmouth remains a nautical mystery waiting to be solved.' The [Dartmouth/Westport, MA] Chronicle, January 16, 2006 vol. XXXI no. 3.	2019-01-05			
+AZ434	Crew Lists, Ship lists for New London Vessels	Crew Lists, Ship lists for New London Vessels, Mystic Seaport e-resources. www.mysticseaport.org. Internet.	2019-01-05		Ships; Crew lists	https://research.mysticseaport.org/databases/ct-ships/; https://research.mysticseaport.org/databases/crew-lists-new-london/
+AZ435	Ebay listing Feb 2, 2006	Ebay listing Feb 2, 2006. www.ebay.com. Internet.	2019-01-05			
+AZ436	Bockstoce, John	Bockstoce, John. Personal files.	2019-01-05			
+AZ437	Two Well Known Whaling Captains Dead	'Two Well Known Whaling Captains Dead.' Unidentified newspaper, hand dated 1911. New Bedford Whaling Museum Research Library, New Bedford, MA. Scrapbook T-4, p 187.	2021-08-31			
+AZ438	San Francisco Shanghaiers	San Francisco Shanghaiers: Crew Lists from San Francisco whaling voyages. Mystic Seaport e-resources. www.mysticseaport.org. Internet.	2019-01-05			https://research.mysticseaport.org/databases/sfshangaiers/
+AZ439	The Rutter. Number 21	The Rutter. Number 21. G. W. White Blunt Library, Mystic Seaport, Mystic, CT.	2019-01-05			
+AZ440	Thomas. Journal of a voyage on the ship Barclay, 1797-1799	Thomas, Margaret L. Transcription of a Journal by Christopher Almy of a voyage on the ship Barclay, 1797-1799. MMC 1045. Library of Congress, Washington, DC.	2019-01-05			
+AZ441	Holdcamper. Certificates of Enrollment or Registry at the Port of New York, 1789-1867	Holdcamper, Forrest R. comp. List of American Flag Vessels That Received Certificates of Enrollment or Registry at the Port of New York, 1789-1867. Washington, D.C.: National Archives, 1968.	2019-01-05			
+AZ442	Lund. With Deliberate Intent to Defraud?	Lund, Judith N. 'With Deliberate Intent to Defraud? Emma Jane's Last 'Whaling' Voyage.' The Dukes County Intelligencer, 43:2 (November 2001).	2021-08-31			
+AZ443	Schmitt. Mark Well the Whale	Schmitt, Frederick P. Mark Well the Whale. Port Washington, NY: Ira J. Friedman Division, Kennikat Press, 1971.	2019-01-05			
+AZ444	Martha’s Vineyard Historical Society. Annual Report, 2005	Annual Report, 2005. Edgartown, MA: Martha’s Vineyard Historical Society, 2006.	2019-01-05			
+AZ445	New London, CT. Inward foreign manifests	Bureau of Customs. New London, CT. Inward foreign manifests. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ446	Ten Pound Island Book Company. Catalog 165	Catalog 165. Gloucester, MA: Ten Pound Island Book Company, 2006.	2019-01-05			
+AZ447	William Reese Company. Catalog 240	Catalog 240. New Haven, CT: William Reese Company, 2005. reeseco.com. Internet.	2019-01-05			
+AZ448	Barthelmess, Klaus	Barthelmess, Klaus. Personal correspondence re Billy Moog journal for sale on aquilabooks.com.	2019-01-05			
+AZ449	Frank, Stuart M	Frank, Stuart M. Personal correspondence.	2019-01-05			
+AZ450	Ricketson. The History of New Bedford	Ricketson, Daniel. The History of New Bedford. New Bedford: by the author, 1858.	2019-01-05			https://archive.org/details/historyofnewbedf00rick
+AZ451	Worth. Report of the Historical Section	Worth, Henry B. 'Report of the Historical Section' Old Dartmouth Historical Sketches 17 (1907).	2019-01-05			https://www.whalingmuseum.org/explore/library/publications/old-dartmouth-historical-sketches/odhs_no_17
+AZ452	Songini. The Lost Fleet	Songini, Marc. The Lost Fleet: A Yankee Whaler’s Struggle Against the Confederate Navy and Arctic Disaster. New York: St. Martin’s Press, 2007.	2019-01-05			
+AZ453	Williams. Loss of the Arctic Fleet	William F. Williams. 'Loss of the Arctic Fleet.' Famous Fleets in New Bedford’s History: Stories of Wooden ships and Iron Men. New Bedford, MA: Reynolds Printing, 1935.	2019-01-05			
+AZ454	Bruce Gimelson Antique. Advertisement	Advertisement, Bruce Gimelson Antiques, Maine Antiques Digest, February 2007.	2019-01-05			
+AZ455	East Hampton Library. Logs/Journals in the Long Island Collection	Logs/Journals in the Long Island Collection, East Hampton Library, East Hampton, NY.	2019-01-05			
+AZ456	Barnstable, MA, Inward and outward foreign manifests	Bureau of Customs. Barnstable, MA, Inward and outward foreign manifests. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ457	Balcewicz, Arlene	Balcewicz, Arlene. Long Island Maritime Museum. Personal communication.	2019-01-05			
+AZ458	Kougeas, Nancy	Kougeas, Nancy. Bristol Historic and Preservation Society. Personal communication re list of whaling logbooks in the collection.	2019-01-05			
+AZ459	The Bulletin from Johnny Cake Hill. Summer, 2007.	The Bulletin from Johnny Cake Hill, New Bedford, MA: New Bedford Whaling Museum. Summer, 2007.	2019-01-05			
+AZ460	Chyet. Lopez of Newport	Chyet, Stanley F. Lopez of Newport. Detroit: Wayne State University Press, 1970.	2019-01-05			
+AZ461	Dighton/Fall River, MA, Inward and outward documents 1831-1839	Bureau of Customs. Dighton/Fall River, MA, Inward and outward foreign manifests, clearances, and other misc documents 1831-1839. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ462	Dighton/Fall River, MA, Crew Lists and manifests 1834-44, 1845-52, 1854-61	Bureau of Customs. Dighton/Fall River, MA, Crew Lists and foreign manifests 1834-44, 1845-52, 1854-61. RG 36. National Archives and Records Administration, Waltham, MA.	2019-01-05			
+AZ463	Dolin. Leviathan	Dolin, Eric Jay. Leviathan: The History of Whaling in America. New York: W.W. Norton & Company, 2007.	2019-01-05			
+AZ464	Ten Pound Island Book Company. Catalog 163	Catalog 163. Gloucester, MA: Ten Pound Island Book Company, 2006.	2019-01-05			
+AZ465	New Bedford Whaling Museum. Annual Report, 2004	Annual Report, 2004. New Bedford, MA: New Bedford Whaling Museum, 2005.	2019-01-05			
+AZ466	Gould Auction Co. Auction Advertisement	Auction Advertisement, Gould Auction Co, Gardiner, Me, Maine Antiques Digest, March 14, 2003.	2019-01-05			
+AZ467	New Bedford Whaling Museum. Annual Report, 2000	Annual Report, 2000. New Bedford, MA: New Bedford Whaling Museum, 2001.	2019-01-05			
+AZ468	Peterson. Home Again: The Eliot Collection Returns to Mystic	Peterson, William N. 'Home Again: The Eliot Collection Returns to Mystic.' Mystic Seaport Magazine, Summer, 2007.	2019-01-05			
+AZ469	Warrin, Don	Warrin, Don. Personal communication.	2019-01-05			
+AZ470	Ashley. Logbook of the Schooner Thacher, 1808-1809	Ashley, Williams. Logbook of the Schooner Thacher, 1808-1809. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ471	Peck. 200th Anniversary of Warren, Rhode Island	Peck, Henry J. 200th Anniversary of Warren, Rhode Island Historical Sketch. 1747-1947 Warren: Town of Warren, 1947	2019-01-05			https://hdl.handle.net/2027/wu.89072990617
+AZ472	Nebiker. Warren’s Whaling History	Nebiker, Walter. 'Warren’s Whaling History.' Warren 250th Anniversary Commemorative Book. Springfield, Missouri: 1998.	2019-01-05			
+AZ473	Northeast Auctions. Auction Catalog	Auction Catalog. Portsmouth, NH: Northeast Auctions, August 18-19, 2007.	2019-01-05			
+AZ474	 PBA Galleries. Auction Catalog	Auction Catalog. San Francisco, CA: PBA Galleries, October 25, 2001, downloaded from the internet Oct 15, 2001	2019-01-05			
+AZ475	New Bedford Whaling Museum Research Library. Scrapbook 16	Scrapbook 16. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ476	Gill, Michael	Gill, Michael, East Hampton, NY. Personal communication.	2019-01-05			
+AZ477	The Arctic Catch	The Arctic Catch. Clipping from unidentified newspaper. [1888] Nicholson Collection, Providence Public Library, Providence, RI. Misc vol. 15.	2019-01-05			
+AZ478	Ten Pound Island Book Company. Catalog 174	Catalog 174. Gloucester, MA: Ten Pound Island Book Company, 2007.	2019-01-05			
+AZ479	Crawford. Whalers from the Golden Gate	Crawford, Richard W. Whalers from the Golden Gate: A History of the San Francisco Whaling Industry, 1822-1908 Submitted in partial fulfillment for the requirements for the degree Master of Arts in History, San Diego State University, Spring, 1981.	2019-01-05			
+AZ480	Laflin. List of Officers Comprising Whaling Fleet San Francisco	Laflin, James [and later, and P.] List of Officers Comprising Whaling Fleet San Francisco, Cal. San Francisco: by the author, 1885-1906.	2019-01-05			
+AZ481	New Bedford Whaling Museum. Annual Report, 2006	Annual Report, 2006. New Bedford, MA: New Bedford Whaling Museum, 2007.	2019-01-05			
+AZ482	New Bedford Whaling Museum. Annual Report, 1998-1999	Annual Report, 1998-1999. New Bedford, MA: New Bedford Whaling Museum, 1999.	2019-01-05			
+AZ483	New Bedford Whaling Museum. Annual Report, 2003	Annual Report, 2003. New Bedford, MA: New Bedford Whaling Museum, 2004.	2019-01-05			
+AZ484	The Arctic Season	'The Arctic Season.' Unidentified clipping quoting San Francisco Journal of Commerce glued into Laflin List for the 1886 season, NBWM copy, hand dated 1886.	2021-08-31			
+AZ485	Parmentier. From the Davis Straits to the Falklands	Parmentier, Jan. University of Ghent (pers. comm.): from a presentation entitled 'From the Davis Straits to the Falklands: Nantucket Whaling during the period 1772-1777,' given at the annual Whaling History Symposium sponsored by the Kendall Institute and New Bedford Whaling Museum, 15-16 October 2005.	2019-01-05			
+AZ486	Sea Letter, Ship Warren of Sag Harbor, NY. 1811	Sea Letter, Ship Warren of Sag Harbor, NY. 1811. Nicholson Collection, Providence Public Library, Providence, RI.	2021-08-31			
+AZ487	Reeves, Randall R.	Reeves, Randall R. Personal communication.	2019-01-05			
+AZ488	Logbook of a voyage on the schooner E. H. Hatfield of Provincetown, MA, 1876-1876	Unknown keeper. Logbook of a voyage on the schooner E. H. Hatfield of Provincetown, MA, 1876-1876. Nicholson Collection, Providence Public Library, Providence, RI. Annual Report	2021-08-31			https://archive.org/details/logbookofehhatfi00ehha_0
+AZ489	Nantucket Historical Association. Annual Report, 2007	Annual Report, 2007. Nantucket, MA: Nantucket Historical Association, 2008.	2019-01-05			
+AZ490	Scammon. The Marine Mammals of the Northwestern Coast of North America	Scammon, Charles M. The Marine Mammals of the Northwestern Coast of North America. New York: Dover Publications, 1968.	2019-01-05			
+AZ491	New Bedford Whaling Museum. Annual Report, 2007	Annual Report, 2007. New Bedford, MA: New Bedford Whaling Museum, 2008.	2019-01-05			
+AZ492	New Bedford Whaling Museum. Henderson Collection	Henderson Collection, Research Library, New Bedford Whaling Museum, New Bedford, MA.	2019-01-05			
+AZ493	Henderson. Nineteenth Century Gray Whaling	Henderson, David A. Nineteenth Century Gray Whaling: Grounds, Catches and Kills, Practices and Depletion of the Whale Population. The Gray Whale. Eds. Mary Lou Jones, Steven L. Swartz and Steven Leatherwood. Orlando, FL: Academic Press, Inc., 1984.	2021-08-31			
+AZ494	Lebo, Susan	Lebo, Susan. Personal communication regarding shipping arrivals and departures from Hawaii.	2019-01-05			
+AZ495	Henderson. Journal aboard the Bark Ocean Bird	Henderson, David A., ed. Journal aboard the Bark Ocean Bird on a Whaling Voyage to Scammon’s Lagoon, winter of 1858-1859 by Charles Melville Scammon. Los Angeles: Dawson’s Book Shop, 1970.	2019-01-05			
+AZ496	Ring, Richard	Ring, Richard. Special Collections Librarian, Providence Public Library, Providence, RI. Personal communication.	2019-01-05			
+AZ497	Tobey. Journal of a voyage on the ship Japan of Nantucket, 1838-1841	Tobey, John. Journal of a voyage on the ship Japan of Nantucket, 1838-1841. IMA microfilm, New Bedford Whaling Museum Research Library, New Bedford, Massachusetts.	2019-01-05			
+AZ498	Pereira, Laura	Pereira, Laura. Librarian, New Bedford Whaling Museum Research Library, New Bedford, MA. Personal communication.	2019-01-05			
+AZ499	Hegarty. New Bedford and American Whaling	Hegarty, Reginald P. New Bedford and American Whaling. New Bedford, MA: Reynolds Printing, Inc., 1960.	2019-01-05			
+AZ500	Gerstein, Michael	Gerstein, Michael. Personal communication.	2019-01-05			
+AZ501	Whalemen’s Shipping List and Merchants’ Transcript. 5 October, 1847	Whalemen’s Shipping List and Merchants’ Transcript. New Bedford, MA. 5 October, 1847.	2019-01-05			https://www.nber.org/chapters/c8278.pdf
+AZ502	Muller-Wille, Ludger, & Gieseking. Bei Inuit und Walfangern auf Baffin-Land	Müller-Wille, Ludger, & Bernd Gieseking, eds.. Bei Inuit und Walfängern auf Baffin-Land. 1883/1884. Das arktische Tagebuch des Wilhelm Weike(= Mindener Beiträge, 30). Minden: Mindener Geschichtsverein, 2008.	2021-08-31			
+AZ503	Logbook of a voyage on the brig Sarah Louisa of New Bedford, 1840-1842	Unknown keeper. Logbook of a voyage on the brig Sarah Louisa of New Bedford, 1840-1842. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ504	Whalemen’s Shipping List and Merchants’ Transcript. 11 January 1848.	Whalemen’s Shipping List and Merchants’ Transcript. New Bedford, MA. 11 January 1848.	2019-01-05			
+AZ505	Logbook of the brig America of Wareham, voyage of 1842-1844	Unknown keeper. Logbook of the brig America of Wareham, voyage of 1842-1844. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ506	Holmes. Journal of a voyage on the schooner George W. Lewis of Provincetown, 1861-1862	Holmes, Hiram. Journal of a voyage on the schooner George W. Lewis of Provincetown, 1861-1862. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ507	Holmes. Journal of a voyage on the schooner George W. Lewis of Provincetown, 1862-1863	Holmes, Hiram. Journal of a voyage on the schooner George W. Lewis of Provincetown, 1862-1863. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ508	Shipping Information. June 23, 1847.	Shipping Information. New Bedford [MA] Daily Mercury, June 23, 1847.	2019-01-05			
+AZ509	Holmes. Journal of a voyage on the schooner Walter Irving of Provincetown, 1856-1858	Holmes, Hiram. Journal of a voyage on the schooner Walter Irving of Provincetown, 1856-1858. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ510	U.S. Circuit Court for Massachusetts. Case Files, October 1847	U.S. Circuit Court for Massachusetts. Case Files, October 1847. RG 21 National Archives and Records Administration, Northeast Region, Waltham, MA.	2019-01-05			
+AZ511	Stackpole. Whales and Destiny	Stackpole, Edouard A. Whales and Destiny. University of Massachusetts Press, 1972.	2019-01-05			
+AZ512	Butler. New Bedford Shipping Arrivals and Departures	Butler, Martin J. New Bedford Shipping Arrivals and Departures. Typewritten list. Vertical File, New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ513	Mattapoisett Historical Society	Mattapoisett Historical Society, Mattapoisett, MA. Bette Roberts, Director.	2019-01-05			
+AZ514	Logbook, bark Napoleon of New Bedford, voyage of 1874-1875	Logbook, bark Napoleon of New Bedford, voyage of 1874-1875. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA. Information courtesy of Pat Nottage.	2019-01-05			
+AZ515	Logbook, ship Alexander of Nantucket, voyage of 1824-1827	Logbook, ship Alexander of Nantucket, voyage of 1824-1827. Kendall Collection, New Bedford Whaling Museum Research Library, New Bedford, MA. Information courtesy of Barbara Moss.	2019-01-05			
+AZ516	Logbook, brig Charleston Packet of Fairhaven, voyage of 1826-1828	Logbook, brig Charleston Packet of Fairhaven, voyage of 1826-1828. Baker Library, Harvard Business School, Cambridge, MA.	2019-01-05			
+AZ517	Cuffe. Narrative of the Life and Adventures of Paul Cuffe	Cuffe, Paul. Narrative of the Life and Adventures of Paul Cuffe, a Pequot Indian: During Thirty Years spent at Sea, and in Travelling in Foreign Lands. Vernon, Printed by Horace N. Bill, 1839. Facsimile reprint, Cuffee’s Bookcase, Westport, MA, 1979.	2019-01-05			https://archive.org/details/narrativeoflifea00cuff
+AZ518	Lebo, Susan	Lebo, Susan. Personal communication concerning logbooks in RG 84, National Archives and Records Administration, College Park, Maryland.	2019-01-05			
+AZ519	Caulkins. History of New London, Connecticut	Caulkins, Frances M. History of New London, Connecticut from the First Survey of the Coast in 1612 to 1860. New London: H. D. Utley, 1895.	2019-01-05			https://archive.org/details/historyofnewlond00caul
+AZ520	Philbrick. Remarkable Observations	Philbrick, Thomas, ed. Remarkable Observations: The Whaling Journal of Peleg Folger 1751-54. Mill Hill Press, Nantucket, Massachusetts, 2006.	2019-01-05			
+AZ521	Judd. A Brief History of the Town of Fairhaven	Judd, Lewis Strong. A Brief History of the Town of Fairhaven. Fairhaven Old Home Week Association, 1903.	2019-01-05			https://archive.org/details/briefhistoryofto00fairh
+AZ522	Whalemen’s Shipping List	Whalemen's Shipping List and Merchants' Transcript. New Bedford, MA., National Maritime Digital Library. www.nmdl.org/projects/wsl/.	2021-08-31			https://nmdl.org/projects/wsl/
+AZ523	Donnelly, Richard	Donnelly, Richard. Personal communication re logbook of the voyage of King George, 1774.	2019-01-05			
+AZ524	Ships' Papers. Sloop Mary	Ships' Papers. Sloop Mary. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ525	Delano Papers. 2007.66 Box 1 Series A, Folder 2	Delano Papers. 2007.66 Box 1 Series A, Folder 2. Research Library, New Bedford Whaling Museum, New Bedford, MA.	2019-01-05			
+AZ526	Delano Papers. 2007.66 Box 1 Series A, Folder 10	Delano Papers. 2007.66 Box 1 Series A, Folder 10. Research Library, New Bedford Whaling Museum, New Bedford, MA.	2019-01-05			
+AZ527	New Bedford Crew lists	New Bedford Crew lists, New Bedford Free Public Library on line database. www.newbedford-ma.gov/library/whaling-database/.	2019-01-05			http://www.newbedford-ma.gov/library/whaling-database/
+AZ528	New Bedford Whaling Museum. Annual Report, 2010	Annual Report, 2010. New Bedford, MA: New Bedford Whaling Museum, 2011.	2019-01-05			
+AZ529	Warrind. So Ends This Day	Warrin, Donald. So Ends This Day: The Portuguese in American Whaling 1765-1927. North Dartmouth, MA: University of Massachusetts Dartmouth, 2010.	2019-01-05			
+AZ530	Weiss, Dr. Raymond B.	Weiss, Dr. Raymond Butler, a descendent of Captain Charles Butler. Personal communication of information relating to his Butler ancestors and their voyages as found in a large number of newspaper reports.	2021-08-31			
+AZ531	Lund. Burials and Burial Places in the Town of Dartmouth, Massachusetts	Lund, Judith Navas. Burials and Burial Places in the Town of Dartmouth, Massachusetts. Dartmouth, MA: Dartmouth Cemetery Commission, Dartmouth Historical Commission, 1997.	2019-01-05			
+AZ532	Foy, Charles	Charles Foy, East Illinois Univ., Charleston, IL. Personal communication. Information from Welcome Arnold Papers, John Carter Brown Library, Providence, RI and Aaron Lopez papers, Center for Jewish History, New York, NY.	2021-08-31			
+AZ533	New Bedford, Mass. Vital Records to 1850.	New Bedford, Mass. Vital Records to 1850. Births, Marriages. Boston, Mass: New England Historical and Genealogical Society at the charge of the Eddy town-record fund, 1932-1941.	2019-01-05			
+AZ534	Dartmouth, Mass. Vital Records to 1850	Dartmouth, Mass. Vital Records to 1850. Births. Boston, Mass: New England Historical and Genealogical Society at the charge of the Eddy town-record fund, 1929-1930.	2019-01-05			
+AZ535	New Bedford Whaling Museum. Annual Report, 2013	Annual Report, 2013. New Bedford, MA: New Bedford Whaling Museum, 2014.	2019-01-05			
+AZ536	Nantucket, Mass. Vital Records to 1850	Nantucket, Mass. Vital Records to 1850. Boston, Mass: New England Historical and Genealogical Society at the charge of the Eddy town-record fund, 1925-1927.	2019-01-05			
+AZ537	Druett and Wallace. The Sailing Circle	Druett, Joan and Mary Anne Wallace. The Sailing Circle: 19th Century Seafaring Women From New York. Long Island, NY: Three Village Historical Society & Cold Spring Harbor Whaling Museum, 1995.	2019-01-05			
+AZ538	Logbook, Ship Logan, voyage of 1838-1841	Logbook, Ship Logan, voyage of 1838-1841. Ebay listing March 20, 2010 www.ebay.com. Internet.	2019-01-05			
+AZ539	New Bedford Whaling Museum.Annual Report, 2008	Annual Report, 2008. New Bedford, MA: New Bedford Whaling Museum, 2009.	2019-01-05			
+AZ540	Logbook, Bark Thomas Dickason, voyage of 1869-1871	Logbook, Bark Thomas Dickason, voyage of 1869-1871. Ebay listing May 8, 2010 www.ebay.com. Internet.	2019-01-05			
+AZ541	Logbook, Ship William Thompson, voyage of 1835-1838	Logbook, Ship William Thompson, voyage of 1835-1838. Ebay listing April 17, 2010 www.ebay.com. Internet.	2021-08-31			
+AZ542	New Bedford Whaling Museum. Annual Report, 2009	Annual Report, 2009. New Bedford, MA: New Bedford Whaling Museum, 2010.	2019-01-05			
+AZ543	Loan form for five Tallman family logbooks	Loan form, New Bedford Whaling Museum from Tallman family member dated June 8, 2011 for five family logbooks.	2019-01-05			
+AZ544	Finni, John	Finni, John, Museum volunteer, New Bedford Whaling Museum Library. Personal communication.	2019-01-05			
+AZ545	Logbook, Ship Helvetia, voyage of 1837-1839	Logbook, Ship Helvetia, voyage of 1837-1839. Swann Auction Galleries, Sale 2324, lot 356. Catalog downloaded from the internet 10/9/2013.	2019-01-05			https://catalogue.swanngalleries.com/asp/fullCatalogue.asp?salelot=2324+++++356+&refno=++676706&saletype=
+AZ546	Logbook, Bark Massachusetts, voyage of 1865-1868	Logbook, Bark Massachusetts, voyage of 1865-1868. Bauman Rare Books, Downloaded from website November 2, 2012.	2019-01-05			
+AZ547	Logbook, Bark LaGrange, voyage of 1850-1851	Logbook, Bark LaGrange, voyage of 1850-1851. Greg Gibson. Bookman’’s Log. Downloaded from the internet November 6, 2012.	2019-01-05			
+AZ548	Logbook, Bark Superior, voyage of 1842-1843	Logbook, Bark Superior, voyage of 1842-1843. Leslie Hindman Auctioneers, Artfact. Downloaded from the internet November 6, 2012.	2019-01-05			
+AZ549	New Bedford Whaling Museum. Annual Report, 2005	Annual Report, 2005. New Bedford, MA: New Bedford Whaling Museum, 2006.	2019-01-05			
+AZ550	Logbook, Ship Two Brothers, voyage of 1847-1851	Logbook, Ship Two Brothers, voyage of 1847-1851. Bonhams, sale #16937 15 Feb 2009. Downloaded from the internet catalog 9 Feb 2009.	2019-01-05			
+AZ551	Logbook, Schooner Laurel, Ship Benjamin Tucker	Logbook, Schooner Laurel, voyage of 1837-1838 and Logbook, Ship Benjamin Tucker, voyage of 1851-1855. Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., April 8-10, 2010.	2021-08-31			
+AZ552	Logbook, Ship John Howland, voyage of 1847-1851	Logbook, Ship John Howland, voyage of 1847-1851. Ebay listing March 15, 2010 www.ebay.com. Internet.	2019-01-05			
+AZ553	Nantucket Historical Association. Annual Report, 2010	Annual Report, 2010. Nantucket Historical Association. Historic Nantucket, Vol 61. No. 2 Summer 2011.	2019-01-05			
+AZ554	Logbook. Ship Tybee, 1841 to 1843	Logbook of Whale Ship Tybee 1841 to 1843. Prices4Antiques.com. https://www.prices4antiques.com/Log-Book-Whaling-Journal-Whale-Ship-Tybee-1841-to-1843-D9713868.html accessed Sept. 2, 2021	2021-09-02			https://www.prices4antiques.com/Log-Book-Whaling-Journal-Whale-Ship-Tybee-1841-to-1843-D9713868.html
+AZ555	Logbook, Brig Eagle, voyage of 1792	Logbook, Brig Eagle, voyage of 1792 et al. Auction Catalog. Fairfield, ME: James D. Julia, Inc, 2002.	2021-08-31			
+AZ556	Logbook. Sloop Harlequin, Schooner Leviathan	Logbook, Sloop Harlequin, voyage of 1768-1768 and logbook, Schooner Leviathan, voyage of 1769-1769. Catalog 207. Gloucester, MA: Ten Pound Island Book Company, 2011 and letter to Michael Dyer offering these logs dated Oct 26, 2011.	2019-01-05			
+AZ557	Nantucket Historical Association. Annual Report, 2009	Annual Report, 2009. Nantucket Historical Association. Historic Nantucket, Vol 60. No. 2 Summer 2010.	2021-08-31			
+AZ558	New Bedford Whaling Museum. Annual Report, 2011	Annual Report, 2011. New Bedford, MA: New Bedford Whaling Museum, 2012.	2019-01-05			
+AZ559	Logbooks Ship Nantucket, Ship China , Ship Lafayette, Ship Callao	Logbooks Ship Nantucket, voyage of 1845, Ship China voyage of 1846, Ship Lafayette, voyage of 1848, Ship Callao, voyage of 1849. Ebay listing June 6, 2011. www.ebay.com. Downloaded from internet June 6, 2011.	2019-01-05			
+AZ560	Martin, N. A. Journal	Martin, N. A. Journal containing fragments of several whaling voyages. Catalog, Turkey Creek Auctions, Inc. Downloaded from internet November 28, 2011.	2019-01-05			
+AZ561	Gardner. Collection 57, scrapbooks 53 and 54	Gardner, Grace Brown. Collection 57, scrapbooks 53 and 54. Nantucket Historical Society Research Library and Archives. Downloaded from the internet Oct 3, 2014.	2019-01-05			
+AZ562	Nantucket Historical Association. Annual Report, 2011	Annual Report, 2011. Nantucket Historical Association. Historic Nantucket. Vol 62. No. 3 Summer 2012.	2019-01-05			
+AZ563	New Bedford Whaling Museum Research Library. Scrapbook T-4	Scrapbook T-4. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ564	Mayhew, Katherine	Mayhew, Catherine. Personal communication.	2021-08-31			
+AZ565	Jenkins. The Whaling Industry	Jenkins, Lawrence W. The Whaling Industry: Exhibition of Objects, . . .Salem: Peabody Museum, nd.	2019-01-05			
+AZ566	Frank. Scrimshaw and Provenance	Frank, Stuart M. Scrimshaw and Provenance. Mystic, Connecticut: Mystic Seaport, 2013.	2019-01-05			
+AZ567	Ten Pound Island Book Company. Catalog 223 and Catalog 225	Catalog 223 and Catalog 225. Gloucester, MA: Ten Pound Island Book Company, 2014.	2019-01-05			
+AZ568	Archives.com	Archives.com	2019-01-05			Archives.com
+AZ569	Spanburgh, Sally	Spanburgh, Sally, family member. Personal communication. March 10, 2015.	2019-01-05			
+AZ570	Donnelly, Richard	Donnelly, Richard. Personal communication regarding logs sold and being sold at PBA Galleries, San Francisco, CA. and Skinner Auctions, and liveauctions.com.	2021-08-31			
+AZ571	Ten Pound Island Book Company. Catalog 228	Catalog 228. Gloucester, MA: Ten Pound Island Book Company, 2015.	2019-01-05			
+AZ572	Phiney. Journal of the good sloop Dolphin of Boston	Phiney (sic), Zenas. Journal of the good sloop Dolphin of Boston Isaak Freeman commander, May 6, 1772-October 4, 1772. Nicholson Collection, Providence Public Library, Providence, RI.	2019-01-05			
+AZ573	Annual Report, 2014. New Bedford, MA: New Bedford Whaling Museum, 2015.	Annual Report, 2014. New Bedford, MA: New Bedford Whaling Museum, 2015.	2019-01-05			
+AZ574	Druett. Women Who Went A-Whaling	Druett, Joan. Women Who Went A-Whaling. A Discursive List. Unpublished manuscript.	2019-01-05			
+AZ575	Cheyet. Lopez of Newport	Cheyet, Stanley. Lopez of Newport. Detroit: Wayne State University Press, 1970.	2019-01-05			
+AZ576	Journal Schooner Mystic 1910 - 1914; journal bark Greyhound 1917 - 1919	Journal Schooner Mystic 1910 - 1914; journal bark Greyhound 1917 - 1919. Ebay listing March 20, 2010 www.ebay.com.	2019-01-05			
+AZ577	Grieve. The Sea Trade and its Development in Rhode Island Providence Plantations	Grieve, Robert. The Sea Trade and its Development in Rhode Island Providence Plantations : with an account of the evolution of transportation by land and water. Providence, R.I. : [s.n.], 1919.	2019-01-05			
+AZ578	Northeast Auctions. Auction Catalog	Auction Catalog. Portsmouth, NH: Northeast Auctions, August 16, 2015.	2019-01-05			
+AZ579	Lamont. Rise to be a People	Lamont, Thomas D. Rise to be a People. Urbana, IL: University of Illinois Press, 1986.	2019-01-05			
+AZ580	African Americans: Voices of Triumph	African Americans: Voices of Triumph, New York: Time-Life Books, 1993.	2019-01-05			
+AZ581	Marion Antique Auctions. Auction Catalog	Auction Catalog. Marion, MA: Marion Antique Auctions. November 24, 2012.	2019-01-05			
+AZ582	Ten Pound Island Book Company. Auction Catalog 193	Auction Catalog 193. Gloucester, MA: Ten Pound Island Book Company.	2021-08-31			
+AZ583	Lloyd’s Register for 1859, 1861, 1862, 1863	Lloyd’s Register for 1859, 1861, 1862, 1863. research.mysticseaport.org/indexes/ship-registers.	2019-01-05			research.mysticseaport.org/indexes/ship-registers
+AZ584	Whalemen’s Shipping List. June 11, 1861	Whalemen's Shipping List and Merchants' Transcript. New Bedford, MA. June 11, 1861 as read on nmdl.org.	2021-08-31			http://images.mysticseaport.org/images/wsl/18610611.pdf
+AZ585	Whalemen’s Shipping List. May 15 and 22, 1855 as read on nmdl.org.	Whalemen's Shipping List and Merchants' Transcript. New Bedford, MA. May 15 and 22, 1855 as read on nmdl.org.	2021-08-31		May 15; May 22	http://images.mysticseaport.org/images/wsl/18550515.pdf; http://images.mysticseaport.org/images/wsl/18550522.pdf
+AZ586	Descendants of Whaling Masters members	Descendants of Whaling Masters members: Bruce Demoranville, descendant of Charles A. Chace and his father Jonathan Chace. Katherine Potter, (Mrs. William Potter), descendant of William Swain. Wheaton Wilbar, descendant of George Harrison Cannon. Judith M. Park, descendant of Abner Potter Barker, John Ellis, Chuck Taylor, descendant of Thomas G. Young. Marianne Hale, descendant of John N. Tatch. Personal communication.	2019-11-12			
+AZ587	McKissack and McKissack. Black Hands, White Sails	McKissack, Patricia C. and Frederick L. McKissack. Black Hands, White Sails. New York: Scholastic Press, 1999.	2019-01-05			
+AZ588	Howell, N. & H. Account Book. 1833-1847	Howell, N. & H. Account Book. 1833-1847, transcribed by Frank Sorrentino, November 4, 2012.	2019-01-05			
+AZ589	Swann Galleries. Live auction	Live auction. New York: Swann Galleries. February 4, 2016.	2019-01-05			
+AZ590	Frank. Biographical Dictionary of Scrimshaw Artists	Frank, Stuart. Biographical Dictionary of Scrimshaw Artists. Unpublished manuscript.	2019-01-05			
+AZ591	Find a Grave website. www.findagrave.com.	Find a Grave website. www.findagrave.com.	2019-01-05			www.findagrave.com
+AZ592	Boyd Auctions. Auction catalog	Auction catalog. Eliot, ME: Boyd Auctions, Auction May 20, 2016 as seen on internet May 20, 2016.	2019-01-05			
+AZ593	New Bedford Whaling Museum. Annual Report, 2015	Annual Report, 2015. New Bedford, MA: New Bedford Whaling Museum, 2016.	2019-01-05			
+AZ594	Gardiner, Margaret Halsey	Gardiner, Margaret Halsey, descendant. Personal communication.	2019-01-05			
+AZ595	Family recollections. Captainbrown.net.	Family recollections. Captainbrown.net.	2021-08-31			captainbrown.net
+AZ597	Moss, Barbara.	Moss, Barbara. Personal communication of results of reading log KWM 848, Ship Lady Adams which spoke Ship Rachel in 1804.	2019-01-05			
+AZ598	Barney. Record of Vital Information for Nantucket	Barney, Eliza Starbuck. Record of Vital Information for Nantucket. Nantucket Historical Society Research Library & Archives, www.nha.org.	2019-01-05			https://nha.org/research/research-tools/barney-genealogical-record/
+AZ599	Ten Pound Island Book Company. Catalog 235	Catalog 235. Gloucester, MA: Ten Pound Island Book Company, 2016.	2019-01-05			
+AZ600	Ten Pound Island Book Company. Catalog 238	Catalog 238. Gloucester, MA: Ten Pound Island Book Company, 2016.	2019-01-05			
+AZ601	Stackpole. Manuscripts Collection 335, folder 952. Whaling Captains co-cr	Stackpole, Edouard A. Manuscripts Collection 335, folder 952. Whaling Captains co-cr. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ602	Gardner. Manuscripts Collection Scrapbook 53. Whaling Captains and Whalemen A-G	Gardner, Grace Brown. Manuscripts Collection Scrapbook 53. Whaling Captains and Whalemen A-G. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ603	Sanford. Manuscript ledger Box 10, folder 7 Nantucket Atheneum	Sanford, Frederick Coleman. Manuscript ledger Box 10, folder 7 and typed transcription of that ledger. Nantucket, MA: Nantucket Atheneum.	2019-01-05			
+AZ604	Gardner. Manuscripts Collection Scrapbook 54. Whaling Captains and Whalemen H-Z	Gardner, Grace Brown. Manuscripts Collection Scrapbook 54. Whaling Captains and Whalemen H-Z. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ605	Stackpole. Manuscripts Collection 335, folder 495	Stackpole, Edouard A. Manuscripts Collection 335, folder 495. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ606	duPasquier. Les Baleiniers Francais de Louis XVI a Napoleon	duPasquier, J. Thierry. Les Baleiniers Francais de Louis XVI a Napoleon. Paris: Henri Veyrier, 1990.	2019-01-05			
+AZ607	duPasquier. Les Baleiniers francais au XIX Siecle (1814 - 1868)	duPasquier, J. Thierry. Les Baleiniers francais au XIX Siecle (1814 - 1868). Grenoble: Terre et Mer, 4 Seigneurs, 1982.	2019-01-05			
+AZ608	Wilbur. Journal, Bark Seine 1866-1875	Wilbur, Charles. Journal, Bark Seine 1866-1875. EBay.com, downloaded September 19, 2016.	2021-08-31			
+AZ609	The Whale Fishery. Nantucket Weekly Mirror	The Whale Fishery. Nantucket Weekly Mirror, April 16, 1859. Nantucket, MA: Nantucket Atheneum. nantucketatheneum.org.	2021-08-31			
+AZ610	The Nantucket Whale Fishermen	The Nantucket Whale Fishermen. Nantucket Inquirer and Mirror, August 11, 1852. Nantucket, MA: Nantucket Atheneum. nantucketatheneum.org.	2021-08-31			
+AZ611	Logbook Ship Coral, voyage of 1854-18	Logbook Ship Coral, voyage of 1854-18. Auction Catalog. Fairfield, ME: James D. Julia, Inc. February 3, 2012.	2019-01-05			
+AZ612	Stackpole. Manuscripts Collection 335, folder 993	Stackpole, Edouard A. Manuscripts Collection 335, folder 993. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ613	Stackpole. Manuscripts Collection 335, folder 976	Stackpole, Edouard A. Manuscripts Collection 335, folder 976. Nantucket, MA: Nantucket Historical Association Research Library.	2019-01-05			
+AZ614	Tripp. There Goes Flukes	Tripp, William H. There Goes Flukes. New Bedford, MA: Reynolds Printing, 1938.	2019-01-05			
+AZ615	Martin. Around the World in Search of Whales	Martin, Kenneth R. Around the World in Search of Whales: A Journal of the Lucy Ann Voyage, 1841-1844. New Bedford, MA: New Bedford Whaling Museum, 2016.	2019-01-05			
+AZ616	Long Island Genealogy	longislandgenealogy.com	2019-01-05			longislandgenealogy.com
+AZ617	Chatwin, Dale	Chatwin, Dale. Personal communication. Updated list: Nantucket Whalemen Count, 4 March 2017.	2019-01-05			
+AZ618	Ten Pound Island Book Company. Catalog 247	Catalog 247. Gloucester, MA: Ten Pound Island Book Company, 2017.	2019-01-05			
+AZ619	Combined Crew List for New Bedford, 1840 to 1927	Combined Crew List for New Bedford, 1840 to 1927, New Bedford Whaling Museum and New Bedford Free Public Library, 2017.	2019-01-05			
+AZ620	Familysearch.org.	Familysearch.org.	2019-01-05			Familysearch.org.
+AZ621	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July 20, 2017.	2019-01-05			
+AZ622	Crew lists of the ports of Salem and New London	Crew lists of the ports of Salem and New London. nmdl.org.	2019-01-05		New London; Salem	https://research.mysticseaport.org/databases/crew-lists-new-london/; https://research.mysticseaport.org/databases/crew-lists-salem/
+AZ623	New Bedford Whaling Museum. Annual Report, 2016	Annual Report, 2016. New Bedford, MA: New Bedford Whaling Museum, 2017.	2019-01-05			
+AZ624	Johnson. Bad Guys Make Good	Johnson, Don. Bad Guys Make Good. Maine Antiques Digest, June, 2017 p. 14-B.	2019-01-05			
+AZ625	Whitesauctions.com. Auction Catalog	Auction Catalog. Whitesauctions.com for sale July 16, 2017.	2019-01-05			
+AZ626	Congdon material relating to Paul Cuffe	Microfilm, J. Congdon material relating to Paul Cuffe. New Bedford Free Public Library, New Bedford, MA.	2019-01-05			
+AZ627	Whalemen’s Shipping List and Merchants’ Transcript. December 7, 1847	Whalemen’s Shipping List and Merchants’ Transcript. New Bedford, MA. December 7, 1847 as read on nmdl.org.	2019-01-05			http://images.mysticseaport.org/images/wsl/18471207.pdf
+AZ628	Whalemen’s Shipping List and Merchants’ Transcript. January 28, 1847	Whalemen’s Shipping List and Merchants’ Transcript. New Bedford, MA. January 28, 1847 as read on nmdl.org.	2019-01-05			http://images.mysticseaport.org/images/wsl/18470126.pdf
+AZ629	Whalemen’s Shipping List and Merchants’ Transcript. June 8, 1847	Whalemen’s Shipping List and Merchants’ Transcript. New Bedford, MA. June 8, 1847 as read on nmdl.org.	2019-01-05			http://images.mysticseaport.org/images/wsl/18470608.pdf
+AZ630	Homan. Journal of the Bark Hunter, 1878-1879	Homan, Benjamin Franklin. Journal of the Bark Hunter, 1878-1879. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ631	Bartlett. Journal of the Ship Syren, 1878-1878	Bartlett, Gideon N. Journal of the Ship Syren, 1878-1878. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ632	Cory Family Papers. Mss 80	Cory Family Papers. Mss 80. New Bedford Whaling Museum Research Library, New Bedford, MA.	2019-01-05			
+AZ633	Gifford, Richard	Gifford, Richard. Personal communication. 'Some Cuffe and Wainer Family Connections.' Handout at the Cuffe Bicentennial Symposium, 2017.	2021-08-31			
+AZ634	Westport Burial Records (Interred)	Westport Burial Records (Interred). westport.loreprojects.com.	2019-01-05			
+AZ635	Smith. Journal,  on the ship Minerva Smyth, 1820-1823	Smith, Tisdale. Journal, closing months of a whaling voyage on the ship Minerva Smyth, 1820-1823. catalog.swanngalleries.com. Sale Sept 28, 2017.	2019-01-05			
+AZ636	Taber. Journal, whaling voyage on the ship Good Return II, voyage of 1839-1841	Taber, John Smith. Journal, whaling voyage on the ship Good Return II, voyage of 1839-1841. catalog.swanngalleries.com. Sale Sept 28, 2017.	2019-01-05			
+AZ637	Journal, whaling voyage on the ship Helvetia, 1837-1839	[Chase, Obed G. ?]. Journal, whaling voyage on the ship Helvetia, 1837-1839. catalog.swanngalleries.com. Sale Oct 10, 2013.	2019-01-05			
+AZ638	New Bedford Whaling Museum, List of logbooks received	Procknik, Mark. Personal communication: List of logbooks received at New Bedford Whaling Museum Library since 2001. Received February 7, 2018.	2019-01-05			
+AZ639	Zane. Whalers out of Mystic	Zane, Thomas L. ed. Whalers out of Mystic.  Collections and Research Information Bulletin 69-3. MYSTIC, CT; Mystic Seaport, 2000.	2019-01-05			
+AZ640	Famine, Friends & Fenians	Famine, Friends & Fenians.  New Bedford, MA: Old Dartmouth Historical Society/New Bedford Whaling Museum, 2016.	2019-01-05			
+AZ641	whalinghistory.org	whalinghistory.org	2019-01-05			whalinghistory.org
+AZ642	Journals of Good Return II, Marcella, Charles Frederick	Journals of Good Return II, Marcella, Charles Frederick.  Heritage Auctions.  historical.ha.com.  12 April 2018.	2019-01-05			
+AZ643	Nickerson.  Journal of a Whaling Voyage on Board Ship Wabash from New London	Nickerson, Thomas G. Journal of a Whaling Voyage on Board Ship Wabash from New London Toward the South Atlantic Ocean, Luther Fuller, Master. Catalog, Rafael Osona Auction, Nantucket, MA. August 4, 2018.	2021-08-31			
+AZ644	Logbook, Alliance of Nantucket, voyage of 1806	Logbook, Alliance of Nantucket, voyage of 1806.  Chace, Charlie, personal communication.	2019-01-05			
+AZ645	Schwartz, Barbara	Schwartz, Barbara.  Sag Harbor Historical Society.  Personal communication.	2019-01-05			
+AZ646	Cape Cod National Seashore, Edward Penniman House	Cape Cod National Seashore, Edward Penniman House.	2021-08-31			
+AZ647	Rubin, Jeff	Rubin, Jeff.  Personal communication.	2019-01-05			
+AZ648	Howland.  Howland Family	Howland, Franklyn. A brief genealogical and biographical history of Arthur, Henry, and John Howland, and their descendants of the United States and Canada : together with an account of the efforts made in England to learn of their English ancestry, etc. New Bedford, Mass. : F. Howland, 1885.	2021-08-31			
+AZ649	Chilmark Vital Records to 1850.  Births, Marriages	Chilmark Vital Records to 1850.  Births, Marriages.  Boston, Mass: New England Historical and Genealogical Society at the charge of the Eddy town-record fund, internet.	2019-01-05			
+AZ650	Marion Antique Auctions. Auction Catalog	Auction Catalog.  Marion, MA: Marion Antique Auctions. November 24, 2018.	2019-01-05			
+AZ651	Staelin, Katharine	Staelin, Katharine. Personal communication.	2019-01-05			
+AZ652	Rotch.  Account book A-51	Rotch, William, Jr.  Account book A-51.  Research Library, New Bedford Whaling Museum.	2019-01-05			
+AZ653	Trider. History of Dartmouth /District Families and Halifax Harbour, 1800-1850. Volume II	Trider, Douglas William. History of Dartmouth /District Families and Halifax Harbour, 1800-1850. Volume II.  Dartmouth, Nova Scotia: by the author, 2001.	2019-01-05			
+AZ654	Trider. The History of the Dartmouth Quakers	Trider, Douglas William. The History of the Dartmouth Quakers.  Hantsport, Nova Scotia: Lancelot Press Limited, 1985.	2019-01-05			
+AZ655	Garth’s Auctioneers and Appraisers. Auction catalog	Auction catalog.  Delaware, OH: Garth’s Auctioneers and Appraisers. September 14, 2018.	2019-01-05			
+AZ656	Ten Pound Island Book Company. Catalog 260	Catalog 260.  Gloucester, MA: Ten Pound Island Book Company, 2018.	2019-01-05			
+AZ657	MacKinlay.  Atlantic Culture In The Pacific World	MacKinlay, Hillary.  Atlantic Culture In The Pacific World: Maritime Whaling Voyages, 1827-1848.  Master of Arts thesis, Dalhousie University, 2016.	2019-01-05			
+AZ658	Keyes.  The Quaker House in Dartmouth	Keyes, Gene.  The Quaker House in Dartmouth.  Halifax, NS: For the Dartmouth [Nova Scotia] Museum Society, 1989.	2019-01-05			
+AZ659	Nova Scotia Archives, Dalhousie University	Nova Scotia Archives, Dalhousie University, Halifax, Nova Scotia.	2019-01-05			
+AZ660	Richards.  Canadian Whaling in the Pacific Ocean 1834-1850	Richards, Rhys. 'Canadian Whaling in the Pacific Ocean 1834-1850.' Argonauta. The Newsletter of Canadian Nautical Research Society. Vol. XX. No. 3, July 2003 pp 20-24.	2021-08-31			https://www.cnrs-scrn.org/argonauta/index_e.html
+AZ661	Richards.  Canadian Whaling in the Pacific: Part II	Richards, Rhys. 'Canadian Whaling in the Pacific: Part II' Argonauta. The Newsletter of the Canadian Nautical Research Society. Vol. XXV No. 1, January 2008, pp. 10-12.	2021-08-31			https://www.cnrs-scrn.org/argonauta/index_e.html
+AZ662	Robert C. Eldred & Co. Auction Catalog	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., November 15, 2018.	2019-01-05			
+AZ663	Tremewan, Peter	Tremewan, Peter. Personal correspondence re: Translations from Archives Nationales, Paris: Marine CC5 611, now held by the Service historique de la Defense, Marine at Vincennes.	2021-08-31			
+AZ664	Tremewan. French Whaling in New Zealand Waters	Tremewan, Peter. French Whaling in New Zealand Waters.  Antipodes, 2000.  6:3-12.	2019-01-05			
+AZ665	Whaling Captains Biographical Index	Whaling Captains Biographical Index.  Card File.  New Bedford Whaling Museum Library.	2019-01-05			
+AZ666	Ten Pound Island Book Company. Catalog 261	Catalog 261.  Gloucester, MA: Ten Pound Island Book Company, 2018.	2020-03-02			
+AZ667	Vital records of Tisbury, Massachusetts	Vital records of Tisbury, Massachusetts: to the year 1850. Boston, Mass.: Pub. by the New England historic genealogical society, at the charge of the Eddy town-record fund, 1910.	2020-03-02			
+AZ668	Newcastle [England] Courant.  September 24, 1841.	A Valuable Cargo.   Newcastle [England] Courant.  September 24, 1841.	2020-03-02			
+AZ669	Donnelly, Richard	Donnelly, Richard.  Personal communication re: document from Ebay concerning voyage of Commerce from 1801.	2020-03-02			
+AZ670	Kirkpatrick, Andrea	Kirkpatrick, Andrea.  Personal communication of information from her forthcoming book A Game of Chance: The Story of British North American South Seas Whaling.	2020-03-02			
+AZ671	Ten Pound Island Book Company. Catalog 269	Catalog 269.  Gloucester, MA: Ten Pound Island Book Company, 2019.	2020-03-02			
+AZ672	The Bulletin from Johnny Cake Hill, New Bedford, MA	The Bulletin from Johnny Cake Hill, New Bedford, MA: New Bedford Whaling Museum. Summer, 2018.	2020-03-02			
+AZ673	Maine Antiques Digest.  March, 2019.	Maine Antiques Digest.  March, 2019.	2020-03-02			
+AZ674	Ebay listing March 8, 2019	Ebay listing March 8, 2019.  www.ebay.com. Internet.	2020-03-02			
+AZ675	Procknik, Mark	Procknik, Mark.  Librarian, New Bedford Whaling Museum.  Transcriptions of logbooks and journals located at New Bedford Whaling Museum.	2020-03-02			
+AZ676	Taber.  Journal	Taber, Alida (ne: Maria R. A. Lehongre, Mrs. George Taber).  Journal of parts of two whaling trips, Brig Magdalene from Honolulu and Bark William Wilson, 1857- 1861.  Swann Galleries, Auction April 16, 2019.	2020-03-02			
+AZ677	Chace, Charles R.	Chace, Charles R. Descendant of Captain Charles A. Chace.  Personal communication.	2020-03-02			
+AZ678	Ten Pound Island Book Company. Catalog 200	Catalog 200.  Gloucester, MA: Ten Pound Island Book Company.	2020-03-02			
+AZ679	Provincetown Advocate November 15, 1945.	Puffs and Pot Shots.  Provincetown Advocate November 15, 1945.	2020-03-02			
+AZ680	Connors. Went to the Devil	Connors, Anthony J. Went to the Devil: A Yankee Whaler in the Slave Trade. Amherst, MA: Bright Leaf, an imprint of University of Massachusetts Press, 2019.	2020-03-02			
+AZ681	Harrison. Collecting Nantucket	Harrison, Michael R. Collecting Nantucket.  Nantucket, MA: Nantucket Historical Association, 2018.	2020-03-02			
+AZ682	Frank. False Whalers	Frank, Stuart M. 'False Whalers: Slavers and Fenian Patriots in Disguise.' Seaport (South Street Seaport quarterly), Winter/Spring 2004.	2021-08-31			
+AZ683	Ten Pound Island Book Company. Catalog 272	Catalog. Howland 100/Ten Pound 272. Gloucester, MA: Ten Pound Island Book Company, 2019.	2021-08-31			
+AZ684	Robert C. Eldred & Co. Auction Catalog July 2018	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July, 2018 (?).	2021-08-31			
+AZ685	The Bulletin from Johnny Cake Hill, New Bedford, MA	Annual Report, 2018. The Bulletin from Johnny Cake Hill, New Bedford, MA: New Bedford Whaling Museum. Summer, 2019.	2020-03-02			
+AZ686	Luce. Whaling logbook 1771-1775	Luce, Abisha. Whaling logbook 1771-1775.  Nantucket Historical Association, Nantucket, MA.	2020-03-02			https://archive.org/details/ms220log416
+AZ687	Hewes, Mark.	Hewes, Mark.  Descendant of Ansel Nye Stewart (Stuart). Personal communication.	2020-03-02			
+AZ688	Ten Pound Island Book Company. Catalog 274	Catalog 274.  Gloucester, MA: Ten Pound Island Book Company.  July 2019.	2020-03-02			
+AZ689	Collections Files.  New Bedford Whaling Museum.	Collections Files.  New Bedford Whaling Museum.	2020-03-02			
+AZ690	Robert C. Eldred & Co., Inc. Auction Catalog July 25, 2019	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., July 25, 2019.	2021-08-31			
+AZ691	Rafael Osona Auctions, Inc. Auction Catalog August 3, 2019.	Auction Catalog.  Nantucket, MA: Rafael Osona Auctions, Inc., August 3, 2019.	2020-03-02			
+AZ692	Bosworth, Amanda	Bosworth, Amanda.  Personal Communication.	2020-03-02			
+AZ693	Nantucket Historical Association. Annual Report, 2018	Annual Report, 2018.  Nantucket, MA: Nantucket Historical Association, Summer, 2019, with added information from Allison Thompson, Archives Intern.	2020-03-02			
+AZ694	Wall, Helen	Wall, Helen. Personal communication. Descendant of Mrs. Asa Bullard Casper.	2021-08-31			
+AZ695	LT Auctions	LT Auctions. Lawrence B. Trueman, St. George, Me. Journal offered to New Bedford Whaling Museum August 2019.	2021-08-31			
+AZ696	Ten Pound Island Book Company. Catalog 277	Catalog 277.  Gloucester, MA: Ten Pound Island Book Company.  October 2019.	2020-03-02			
+AZ697	Ten Pound Island Book Company. Catalog 232	Catalog 232.  Gloucester, MA: Ten Pound Island Book Company.  2016.	2020-03-02			
+AZ698	Barker, James.  Letterbook	Barker, James.  Letterbook containing correspondence from Nantucket. 1794 -1804.  Privately owned.	2020-03-02			
+AZ699	Josephine, 1905 voyage.  Crew List	Josephine, 1905 voyage. Crew List. Ebay. November 22, 2019.	2021-08-31			
+AZ700	Agenora, 1817 voyage.  Shipping paper	Agenora, 1817 voyage.  Shipping paper.  New Bedford Whaling Museum 2019.82.	2020-03-02			
+AZ701	Donnelly, Richard	Donnelly, Richard.  reporting on sale of a journal kept by Native American Samuel Mingo of Martha’s Vineyard on Andrew Hicks and California, 1879 - 1883.  Buyer unknown.  Read’Em Again Books #9352.	2020-03-02			
+AZ702	Honolulu Entries & Clearances, January 1855-January 1865.	HSA, Series 104, Vol 3, Records of the Honolulu Harbormaster, Register of Entries & Clearances, January 1855-January 1865.	2020-07-14			
+AZ703	Honolulu Entries & Clearances, Jan 1868-July 1880	HSA, Series 104, Vol 6, Records of the Honolulu Harbormaster, Register of Entries & Clearances, Honolulu, Jan 1868-July 1880.	2021-08-31			
+AZ704	Honolulu Entries & Clearances, January 1850-December 1854.	HSA, Series 104, Vol 2, Records of the Honolulu Harbormaster, Register of Entries & Clearances, January 1850-December 1854.	2020-07-14			
+AZ705	The Friend, February 01, 1865	The Friend, 14(02), February 01, 1865, p.16.	2021-08-31			
+AZ706	The Friend, December 01, 1865	The Friend, 14(12), December 01, 1865, p.96.	2021-08-31			
+AZ707	The Friend, April 01, 1865	The Friend, 14(04), April 01, 1865, p.32.	2021-08-31			
+AZ708	Honolulu Entries & Clearances, July 7, 1880-June 1886.	HSA, Series 104, Vol 5, Records of the Honolulu Harbormaster, Register of Entries & Clearances, Honolulu, July 7, 1880-June 1886.	2021-08-31			
+AZ709	Honolulu Entries & Clearances, April 9,1880-January 27, 1881.	HSA, Series 104, Folder 1, Records of the Honolulu Harbormaster, Register of Entries & Clearances, April 9,1880-January 27, 1881.	2020-07-14			
+AZ710	The Friend, March 01, 1866	The Friend, 17(03), March 01, 1866, p.24.	2020-07-14			
+AZ711	The Friend, December 01, 1866	The Friend, 17(12), December 01, 1866, p.112.	2020-07-14			
+AZ712	Mifflin. Hawaiian Interisland Vessels and Hawaiian Registered Vessels	Mifflin, Thomas. Hawaiian Interisland Vessels and Hawaiian Registered Vessels. Santa Barbara, California: Seacoast Press, 1982.	2020-07-14			
+AZ713	The Friend, May 01, 1865	The Friend, 14(05), May 01, 1865, p.40.	2020-07-14			
+AZ714	The Friend, June 01, 1865	The Friend, 14(06), June 01, 1865, p.48.	2020-07-14			
+AZ715	The Friend, November 01, 1865	The Friend, 14(11), November 01, 1865, p.88.	2020-07-14			
+AZ716	The Friend, May 01, 1866	The Friend, 17(05), May 01, 1866, p.40.	2020-07-14			
+AZ717	The Friend, January 01, 1866	The Friend, 17(01), January 01, 1866, p.08.	2020-07-14			
+AZ718	The Friend, March 01, 1866	The Friend, 17(03), March 01, 1866, p.24.; The Friend, 17(11), November 01, 1866, p.104.	2021-08-31			
+AZ719	The Friend, April 01, 1865	The Friend, 14(04), April 01, 1865, p.32.	2020-07-14			
+AZ720	The Friend, January 01, 1868	The Friend, 18(01), January 01, 1868, p. 8.	2020-07-14			
+AZ721	The Friend, 18(05), May 01, 1867	The Friend, 18(05), May 01, 1867.	2020-07-14			
+AZ722	The Friend, February 01, 1867	The Friend, 18(02), February 01, 1867, p.16.	2020-07-14			
+AZ723	The Friend, December 02, 1867	The Friend, 18(12), December 02, 1867, p.112.	2020-07-14			
+AZ724	The Friend, November 01, 1867	The Friend, 18(11), November 01, 1867.	2020-07-14			
+AZ725	HSA 88.	HSA 88.	2020-07-14			
+AZ727	The Friend	The Friend, no page citation. Information from Susan Lebo, Personal communication.	2021-08-31			
+AZ728	Thrum. Hawaiian Almanac and Annual for 1877	Thrum, Thomas G. 'Hawaiian Registered Vessels' Hawaiian Almanac and Annual for 1877. Honolulu, by the author, no publication date.	2021-08-31			
+AZ729	Thrum. Hawaiian Almanac and Annual for 1880	Thrum, Thomas G. 'Hawaiian Registered Vessels' Hawaiian Almanac and Annual for 1880. Honolulu, by the author, no publication date.	2021-08-31			
+AZ730	American Offshore Whaling Crew Lists	American Offshore Whaling Crew Lists, in American Offshore Whaling Voyages: A Database, https://whalinghistory.org/av/crew/, Mystic Seaport Museum, Inc. and New Bedford Whaling Museum.	2021-09-02			https://whalinghistory.org/av/crew/
+AZ731	New Bedford Free Public Library. Crew Lists of Whaleships	Crew Lists of Whaleships. Ships R-Z, Miscellaneous years. National Archives and Records Administration, Washington, D. C. New Bedford Free Public Library microfilm reel 177.	2021-08-31			
+AZ732	Coffin. Journal of the Brig Betsey, voyage of 1816 - 1818	Coffin, Silvanus. Journal of the Brig Betsey, voyage of 1816 - 1818. Nantucket Historical Association, Nantucket, MA.	2020-07-14			
+AZ733	Richards,  Lebo and  Rust.  German Sail Whaling in the Pacific	Richards, Rhys, Susan Lebo and Eric Rust. German Sail Whaling in the Pacific 1837 - 1868. Draft manuscript.	2020-07-14			
+AZ734	Rhode Island Society. Ship's Logs Inventory	Rhode Island Society. Ship's Logs Inventory. http://rihs.org/mssinv/MSS828bydate.pdf accessed 22 April, 2020.	2021-08-31			http://rihs.org/mssinv/MSS828bydate.pdf
+AZ735	Rubin, Jeff	Rubin, Jeff. Personal correspondence regarding logbooks at the Clements Library, University of Michigan, Ann Arbor, Michigan.	2021-08-31			
+AZ736	Baker, Eleanor N.  Journal of her voyage on Northern Light	Baker, Eleanor N. (wife of Captain Michael Baker) Journal of her voyage on Northern Light 1867-1871. Library of Congress, Washington, DC.	2020-07-14			
+AZ737	Finley. Whaling Captains of Color	Finley, Skip. Whaling Captains of Color: America’s First Meritocracy. Annapolis, MD: Naval Institute Press, 2020.	2020-07-14			
+AZ738	Barker. Manuscript letter to G. Ramsdell, 1796	Barker, James. Manuscript letter to G. Ramsdell dated Nantucket 10 mo 26th 1796 in letterbook owned by Richard Donnelly.	2020-07-14			
+AZ739	Finley. Historic Tales of Oak Bluffs	Finley, Skip. Historic Tales of Oak Bluffs. Charleston, SC:The History Press, 2019.	2020-07-14			
+AZ740	New Bedford Whaling Museum. List of photocopied logbooks	638. Procknik, Mark. Personal communication: List of photocopied logbooks at New Bedford Whaling Museum. These logbooks are or were held in private collections. Received June 25, 2020.	2021-08-31			
+AZ741	Pitman. Log of the Ship Mary, 1843-1845	Pitman, Charles, Jr. Log of the Ship Mary, 1843-1845. https://archive.org/details/ms220log132/page/n152, pp. 152ff. Nantucket Historical Association. Appears to be copying Hussey & Robinson, source 107.	2021-08-31			https://archive.org/details/ms220log132/page/n152
+AZ742	Meyer, Andrea	Meyer, Andrea. Librarian, Head of Long Island Collection, East Hampton Library, East Hampton, NY.	2021-08-31			
+AZ743	Rogers Memorial Library	Rogers Memorial Library, Southampton, NY. Southampton Library Microfilms. Information relayed by Jeff Rubin, July, 2020.	2021-08-31			
+AZ744	Elias, Daniel	Elias, Daniel. Personal communication. Records found at National Archives and Records Administration, Waltham, MA.	2021-08-31			
+AZ745	Worth, Henry. Whaling journal	Worth, Henry, Keeper. Log 378, Nantucket Historical Association. Scan found on archives.com.	2021-08-31			https://archive.org/details/ms220log378
+AZ746	Kainbacher Books. Auction catalog XVIII 2019	Catalogue XVIII (N.F.) 2019. Baden: Kainbacher Books. www.antiquariat-kainbacher.at as forwarded by Jeff Rubin.	2021-08-31			https://antiquariat-kainbacher.at/assets/kataloge/Katalog_Antiquariat_Kainbacher_XVIII_2019.pdf
+AZ747	Shaw. My Life as a Sailor	Shaw, Dayton O. My Life as a Sailor. Typewritten Manuscript, New Hampton, NH, 1938. A recollection of Shaw's whaling voyage on the whaler Helen M. Simmons, apparently the voyage of 1876.	2021-08-31			
+AZ748	Donnelly, Richard	Donnelly, Richard reporting on a log for sale at Gettman's Virtual Book and Paper Fair hosted by AntiquarianAuctions.com, 4 December 2020.	2021-08-31			
+AZ749	Plourde, Jennifer	Plourde, Jennifer, a descendant of Captain Francis Drew, reporting on the family of Francis Drew.	2021-08-31			
+AZ750	Pope, Edward. Sworn record of a suit brought by Daniel Howland, Jr. 	Pope, Edward. Justice of the Peace. Sworn record of a suit brought by Daniel Howland, Jr. against Daniel Wait, for money owed. September 1, 1788. New Bedford Whaling Museum Collection.	2021-08-31			
+AZ751	Shaw, George	Shaw, George. Mystic Seaport Library volunteer. Personal communication.	2021-08-31			
+AZ752	Goodman, Jodi	Goodman, Jodi. Special Collections Librarian, New Bedford Free Public Library. Personal communication regarding logs at NBFPL not in whalinghistory.org.	2021-08-31			
+AZ753	Weiss, Dr. Raymond Butler	Weiss, Dr. Raymond Butler. descendant of Capt. Charles Butler. Personal communication reporting Rhode Island Customs Records found at GenealogyBank.com as published in the Newport Mercury and the Providence Gazette.	2021-08-31			
+AZ754	Edgartown Vital Records to 1850	Edgartown Vital Records to 1850. Births, Marriages, and Deaths. Boston, Mass: New England Historical and Genealogical Society at the charge of the Eddy town-record fund, internet.	2021-08-31			
+AZ755	Van Riper. Too Many Captains: The Gay Head Shipwreck of 1782	Van Riper, A. Bowdoin. Too Many Captains: The Gay Head Shipwreck of 1782. MV Museum Quarterly, vol. 61, NO. 3 (August 2020).	2021-08-31			
+AZ756	Bischof, Elizabeth	Bischof, Elizabeth. Executive Director of the Osher Map Library and Smith Center for Cartographic Education at the University of Southern Maine, Portland, ME, Personal communication.	2021-08-31			
+AZ757	Caldwell, David	Caldwell, David. Personal communication, confirming identity of replacement master after reading extant logs.	2021-08-31			
+AZ758	Newport Mercury and Providence Gazette	Additional records for whaling from Rhode Island found in the Newport Mercury and the Providence Gazette, starting in1763. The full arrival and departure dates recorded are the dates from the Rhode Island Customs House reports as printed in the newspapers and so may be a few days later than the actual arrivals and departures. It is not always clear whether all of these voyages belong to Newport, Providence, or other ports. Accessed on GenealogyBank.com.	2021-08-31			
+AZ759	Christies. Auction #12139, July 13, 2021	Christies. London, England. Live Auction # 12139, held on July 13, 2021.	2021-08-31			
+AZ760	Nantucket Commercial Gazette	Additional Records for whaling from Nantucket, MA found in Nantucket Commercial Gazette as accessed in GenealogyBank.com.	2021-08-31			
+AZ761	Woodward. Austin Herrick, Southampton New York Whaling Captain	Woodward, Eric. 'Austin Herrick, Southampton New York Whaling Captain', blog post accessed at https://www.southamptonhistory.org/post/austin-herrick-southampton-new-york-whaling-captain accessed June 15, 2021.	2021-08-31			https://www.southamptonhistory.org/post/austin-herrick-southampton-new-york-whaling-captain
+AZ762	Southampton History Museum	Southampton History Museum website. southamptonhistory.org/post/southampton-s-whaling-captains, accessed June 17, 2021.	2021-08-31			
+AZ763	Richards, Rhys & Thierry Du Pasquier. Bay whaling off southern Africa, c. 1785–1805	Richards, Rhys & Thierry Du Pasquier (1989) Bay whaling off southern Africa, c. 1785–1805, South African Journal of Marine Science, 8:1, 231-250, DOI:10.2989/02577618909504564.	2021-08-31			https://doi.org/10.2989/02577618909504564
+AZ764	Pennsylvania Journal, or, Weekly Advertiser	Pennsylvania Journal, or, Weekly Advertiser (Philadelphia, PA) Wednesday, Sept 27, 1775 accessed on GenalogyBank by Dr. Raymond Butler Weiss.	2021-08-31			
+AZ765	Newspaper records for whaling from Sag Harbor	Additional records for whaling from Sag Harbor, NY found in various newspapers, including Suffolk Gazette from Sag Harbor. There are also occasional voyages from other ports included in these newspapers. Accessed on GenealogyBank.com searching for New York, Sag Harbor, and whaling.	2021-08-31			
+AZ766	McTamaney. Mary. Our Harbor Full of Ships, including whalers	McTamaney. Mary. 'Our Harbor Full of Ships, including whalers.' Times [Hudson Valley.], New York, March 14, 2019.	2021-08-31			
+AZ767	Rafael Osona Auctions. Auction catalog August 8, 2021	Auction Catalog. Nantucket, MA: Rafael Osona Auctions, Inc., August 8, 2021.	2021-08-31			
+AZ768	Robert C. Eldred & Co. Auction catalog August 19, 2021	Auction Catalog. East Dennis, MA: Robert C. Eldred & Co., Inc., August 19, 2021.	2021-08-31			
+AZ769	Historic Nantucket, Vol 71. No. 3 Summer 2021	Annual Report, 2020. Nantucket Historical Association. Historic Nantucket, Vol 71. No. 3 Summer 2021.	2021-08-31			
+AZ770	Gazette. Essex, MA. Apr 2, 1771	Gazette. Essex, MA. Apr 2, 1771. accessed on GenalogyBank by Dr. Raymond Butler Weiss..	2021-08-31			
+AZ771	Pennsylvania Journal. Mar 28, 1771	Pennsylvania Journal, Philadelphia, PA. Mar 28, 1771. accessed on GenalogyBank by Dr. Raymond Butler Weiss.	2021-08-31			
+AZ772	Boston Post-Boy, Aug 20, 1770	Boston Post-Boy, Aug 20, 1770. accessed on GenalogyBank by Dr. Raymond Butler Weiss.	2021-08-31			
+AZ773	Gleason, Ellen. Marie Taber Logbook and Journal	Gleason, Ellen. Student Intern, Clements Library Chronicles. April 16, 2020. Marie Taber Logbook and Journal, William L. Clements Library, The University of Michigan.	2021-08-31			https://clements.umich.edu/whaling-logs-acquired/
+AZ774	Philadelphia, PA. newspapers	Philadelphia, PA. newspapers as accessed on Genealogybank.com.	2021-08-31			
