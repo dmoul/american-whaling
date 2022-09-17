@@ -1,0 +1,562 @@
+# The voyages {#sec-voyages}
+
+```{r}
+#| label: setup-voyages
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+#source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-voyages
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+df_vessel <- tar_read(vessel)
+df_log_all <- tar_read(log_all)
+df_log <- tar_read(log)
+df_voyage_duration <- tar_read(voyage_duration)
+df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+# df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+```
+
+```{r}
+#| label: prepare-voyage-data
+
+n_voyages_distinct <- nrow(df_voyage_distinct)
+
+n_vessels <- df_vessel %>%
+  distinct(vessel_id) %>%
+  filter(!str_detect(vessel_id,"AS0000")) %>% # drop rows where vessel is unknown
+  nrow()
+
+n_vessels_unknown <- df_voyage_distinct %>%
+  filter(vessel_id == "AS0000") %>%
+  nrow()
+
+n_voyages_with_logs <- df_log %>%
+  filter(first_log_entry) %>%
+  distinct(voyage_id)  %>% # this step is likely unnecessary
+  nrow()
+
+df_log_voyage_count <- df_log %>%
+  count(voyage_id, source, name = "n_obs") %>%
+  left_join(.,
+       df_voyage %>% select(voyage_id, year_out),
+       by = "voyage_id") %>%
+  arrange(voyage_id, desc(n_obs)) %>%
+  distinct(voyage_id, .keep_all = TRUE)
+
+df_log_voyage_count_decade <- df_log_voyage_count %>%
+  filter(!is.na(year_out)) %>%
+  # mutate(decade = glue("{10 * floor(year_out / 10)}s"))
+  mutate(decade = 10 * floor(year_out / 10))
+
+df_log_voyage_count_decade_summary <- df_log_voyage_count_decade %>%
+  group_by(decade) %>%
+  summarize(n_obs_med = median(n_obs, na.rm = TRUE),
+            n_obs_avg = mean(n_obs, na.rm = TRUE),
+            n_voyages = n_distinct(voyage_id)) %>%
+  ungroup()
+
+df_log_voyage_count_decade_summary_by_source <- df_log_voyage_count_decade %>%
+  group_by(decade, source) %>%
+  summarize(n_obs_med = median(n_obs, na.rm = TRUE),
+            n_obs_avg = mean(n_obs, na.rm = TRUE),
+            n_voyages = n_distinct(voyage_id)) %>%
+  ungroup()
+
+voyage_duration_count <- df_voyage_duration  %>%
+  filter(!is.na(duration_days),
+         duration_days > 0) %>%
+  arrange(duration_days) %>%
+  mutate(bin = ceiling(duration_days / 30),
+         index = bin * 30) %>%
+  count(index, bin) %>%
+  mutate(bin_edges = glue("{lag(index+1, default = 1)}-{index}"))
+
+```
+
+```{r}
+#| label: fig-ships-at-new-bedford-warve
+#| fig-cap: "Whale-ships at New Bedford wharves; ship hove down for repairs; with oil-casks [@GBG1887]"
+#| out-width: "100%"
+
+knitr::include_graphics(here("images", "45994-whale-ships-at-new-bedford.jpg")) 
+
+```
+
+<br>
+
+## What was it like to work on a whaling ship?
+
+The US National Park Service's [New Bedford Historical Park website](https://www.nps.gov/nebe/learn/historyculture/whaleship.htm) offers this summary:
+
+> Though the sea is traditionally understood as romantic landscape, whaling was not a romantic business. In the earliest years of the industry, whalemen were from seafaring communities and were brought up to view the ship as their workplace.
+>
+> In addition to being dirty and dangerous, whaling was monotonous work. Life onboard consisted of long periods of boredom; for weeks, even months, no whales would be seen. The crew would repair gear, write letters, play games and music, and carve scrimshaw --- pieces of whale bone or tooth --- to pass the time. Food and water would often become foul, and fights would break out among the crew because of the uncomfortable conditions. Men of all ranks and races faced danger from injury, illness, shipwreck, drowning, and piracy.
+>
+> Whale sightings equated to short bursts of excitement as the men rushed to catch the whale, and then kill and process it.
+
+<br>
+
+For more insight, see the good overview article *Whaling The Old Way: Life on a nineteenth-century whaler was thrilling, tedious, and often disgusting* [@JW2010].
+
+<br>
+
+## Voyages starting each year
+
+The `voyages` table includes `r comma(n_voyages_distinct)` voyages of `r comma(n_vessels)` known vessels, most making multiple voyages, and `r comma(n_vessels_unknown)` voyages for which the name of the vessel is unknown. The first voyage set out in `r min(df_voyage$year_out, na.rm = TRUE)`; the last voyage returned in `r max(df_voyage$year_out, na.rm = TRUE)`. There is a lot of missing data and noticeable errors due to gaps in record keeping, illegible text, or oversights in transcription. See *@sec-dealing-with-errors Dealing with errors duplicates and omissions.*
+
+The number of voyages peaked in the 1840s-1860s.
+
+```{r}
+#| label: fig-voyages-each-year-histogram
+#| fig-cap: "Voyages in dataset starting each year"
+
+my_binwidth <- 1
+
+disturbances <- tribble(
+  ~id, ~start, ~end, ~event,
+  1, 1775, 1783, "American War of Independence",
+  2, 1812, 1815, "War of 1812",
+  3, 1845, 1850, "Period including the Mexican-American War",
+  4, 1860, 1865, "American Civil War",
+  5, 1872, 1875, "Economic panic of 1873 and depression",
+  6, 1894, 1897, "Lead-up to Spanish American War"
+)
+
+disturbances_heading <- tribble(
+  ~id, ~description,
+  7, "Possible Causes of Disruption"
+)
+
+ggplot() +
+  geom_histogram(data = df_voyage_distinct,
+                 aes(year_out),
+                 binwidth = my_binwidth, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  dark_mode() +
+  labs(title = "Voyages table: Voyages starting each year",
+       subtitle = glue("{comma(n_voyages_distinct)} voyages",
+                       "; bins are {my_binwidth} year wide"),
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+There are multi-year intervals in which the number voyages declined a lot. Below I note the wars and other disturbances I speculate most likely caused these declines:
+
+```{r}
+#| label: fig-voyages-each-year-disruptions-histogram
+#| fig-cap: "Voyages in dataset starting each year with annotated periods of disruption"
+
+my_binwidth <- 1
+
+ggplot() +
+  geom_histogram(data = df_voyage_distinct,
+                 aes(year_out),
+                 binwidth = my_binwidth, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_rect(data = disturbances,
+            aes(xmin = start, xmax = end, ymin = 0, ymax = 390),
+            lty = 2, fill = my_color_blue, alpha = 0.3) +
+  geom_text(data = disturbances,
+            aes(x = 1680, y = 170 + 130 - (23 * id), label = glue("{start}-{end}: {event}")),
+            hjust = 0, size = 3) +
+  geom_text(data = disturbances_heading,
+            aes(x = 1680, y = 170 + 20 * id, label = description),
+            hjust = 0, size = 3) +
+  dark_mode() +
+  labs(title = "Voyages table: Voyages starting each year\nwith disruptions",
+       subtitle = glue("{comma(n_voyages_distinct)} voyages",
+                       "; bins are {my_binwidth} year wide"),
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+The `logbook` table contains a subset of these voyages: `r comma(nrow(distinct(df_log_all, voyage_id)))` voyages (including duplicates) starting in the years `r year(min(df_log_all$log_date, na.rm = TRUE))` to `r year(max(df_log_all$log_date, na.rm = TRUE))`. Some include gaps between observations greater than one year, which suggest serious data quality issues (for example, they probably encompass multiple journeys). Removing duplicate voyages and ones with gaps greater than one year leaves the `r comma(n_voyages_with_logs)` voyages shown in yellow below:
+
+```{r}
+#| label: fig-voyages-and-logbook-tables-histogram
+#| fig-cap: "The Logbook table includes a subset of the voyages in the Voyages table"
+
+my_binwidth <- 1
+
+df_voyage_distinct %>%
+  left_join(.,
+            df_log_voyage_count %>% select(voyage_id, n_obs),
+            by = "voyage_id"
+  ) %>%
+  mutate(in_logbook = !is.na(n_obs),
+         in_logbook = if_else(!is.na(n_obs), "Yes", "No")
+         ) %>%
+  ggplot() +
+  geom_histogram(aes(year_out, fill = in_logbook),
+                 binwidth = my_binwidth, alpha = 0.8,
+                 na.rm = TRUE) +
+  dark_mode() +
+  labs(title = "Logbook and voyages tables:\nVoyages starting each year",
+       subtitle = glue("{comma(n_voyages_with_logs)} of {comma(n_voyages_distinct)} voyages are included in the logbook table",
+                       "\nbins are {my_binwidth} year wide"),
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+Zooming in on these `r comma(n_voyages_with_logs)` voyages:
+
+```{r}
+#| label: fig-logbook-voyages-each-year
+#| fig-cap: "Logbook table: voyages starting each year"
+
+my_binwidth <- 1
+
+df_log_voyage_count %>%
+  ggplot(aes(year_out)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  dark_mode() +
+  labs(title = glue("Logbook table includes {comma(n_voyages_with_logs)} voyages"),
+       subtitle = glue("Year of voyage start ('year_out')",
+                       "; bins are {my_binwidth} year wide"),
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+## Voyage duration {#sec-voyage-duration}
+
+Many of the voyages in the dataset curated by Maury and Townsend include `year_out` and `year_in` but not the more detailed `day_out` and `day_in`: There are only `r nrow(df_voyage_duration)` voyages with the data necessary to calculate voyage duration.
+
+```{r}
+#| label: fig-voyage-duration-histogram
+#| fig-cap: "Voyage durations - voyages with complete dates only"
+
+my_binwidth <- 30
+
+voyage_duration_med <- median(df_voyage_duration$duration_days, na.rm = TRUE)
+voyage_duration_avg <- mean(df_voyage_duration$duration_days, na.rm = TRUE)
+voyage_duration_mode <- voyage_duration_count[which.max(voyage_duration_count$n), ]
+n_voyages_gt_1500 <-  df_voyage_duration %>%
+  filter(duration_days > 1500) %>% 
+  nrow()
+
+df_voyage_duration %>%
+  ggplot(aes(duration_days)) +
+  geom_histogram(binwidth = my_binwidth, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = 365 * (1:4), lty = 5, color = my_color_blue) + #year boundaries
+  geom_vline(xintercept = voyage_duration_med, lty = 2, color = "white") + # median
+  annotate(
+    geom = "curve", x = 780, y = 20, xend = voyage_duration_mode$index + 40, yend = voyage_duration_mode$n - 4,  color = "grey50",
+    curvature = -0.2, arrow = arrow(length = unit(2, "mm"))
+  ) +
+  annotate("text", x = 800, y = 20, 
+           label = glue("Most common:\n{voyage_duration_mode$bin_edges} days"), hjust = 0, color = "grey60") +
+  coord_cartesian(xlim = c(1, 1500)) +
+  dark_mode() +
+  labs(title = "Duration of voyages with complete data",
+       subtitle = glue("{comma(nrow(df_voyage_duration))} voyages have complete day_out and day_in data",
+                       "\nbins are {my_binwidth} days wide; white dashed line is median: {round(voyage_duration_med, 0)} days",
+                       "\nblue dashed lines are year markers",
+                       "\nnot showing {n_voyages_gt_1500} voyages longer than 1,500 days ({round(1500/365, 1)} years)"),
+       x = "Number of days",
+       y = NULL,
+       caption = my_caption)
+  
+```
+
+<br>
+
+To have more voyages to work with I enriched the data for voyages having only `year_out` and `year_in` by simulating missing data, either by day of the year (`yday`) or voyage duration, weighted by the frequencies of existing values.
+
+```{r}
+#| label: fig-voyage-duration-histogram-simulated
+#| fig-cap: "Voyage duration including simulated day of the year when only year was provided"
+
+my_binwidth <- 30
+
+voyage_duration_med <- median(df_voyage_duration_simulated$duration_days, na.rm = TRUE)
+voyage_duration_avg <- mean(df_voyage_duration_simulated$duration_days, na.rm = TRUE)
+voyage_duration_mode <- df_voyage_duration_simulated[which.max(df_voyage_duration_simulated$duration_days), ]
+n_voyages_gt_1500_sim <-  df_voyage_duration_simulated %>%
+  filter(duration_days > 1500) %>% 
+  nrow()
+n_voyages_gt_2500_sim <-  df_voyage_duration_simulated %>%
+  filter(duration_days > 2500) %>% 
+  nrow()
+
+df_voyage_duration_simulated %>%
+  ggplot(aes(duration_days)) +
+  geom_histogram(binwidth = my_binwidth, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = 365 * (1:4), lty = 5, color = my_color_blue) + # year boundaries
+  geom_vline(xintercept = voyage_duration_med, lty = 2, color = "white") + # median
+  coord_cartesian(xlim = c(1, 1500)) +
+  dark_mode() +
+  labs(title = "Duration of voyages including simulated data",
+       subtitle = glue("{comma(nrow(df_voyage_duration_simulated))} voyages; includes some simulated day_out and day_in data",
+                       "\nbins are {my_binwidth} days wide; white dashed line is median: {round(voyage_duration_med, 0)} days",
+                       "\nblue dashed lines are year markers",
+                       "\nnot showing {n_voyages_gt_1500_sim} voyages longer than 1,500 days ({round(1500/365, 1)} years)"),
+       x = "Number of days",
+       y = NULL,
+       caption = my_caption)
+  
+```
+
+<br>
+
+During the peak whaling decades and indeed the whole second half of the nineteenth century, there was more variety in the duration of voyages (principally, there were more longer voyages). Again, I include simulated data so I can work with more data points. This density plot shows the distribution of voyage length in each decade. The height of a point on each curve is relative to the rest of the decade (horizontally), not relative to other decades (vertically):
+
+```{r}
+#| label: fig-voyage-duration-histogram-by-decade-simulated
+#| fig-cap: "Voyage duration density plots by decade with some simulated date data"
+
+duration_day_decade_med <- df_voyage_duration_simulated %>%
+  filter(between(decade, 1760, 1920)) %>%
+  mutate(decade = factor(decade)) %>%
+  filter(!is.na(decade),
+         !is.na(duration_days)) %>%
+  group_by(decade) %>%
+  summarize(duration_med = median(duration_days),
+            duration_avg = mean(duration_days),
+            n_voyage = n()) %>%
+  ungroup()
+
+df_voyage_duration_simulated %>%
+  filter(!is.na(decade),
+         !is.na(duration_days),
+         between(decade, 1760, 1920)) %>%
+  mutate(decade = factor(decade)) %>%
+  ggplot() +
+  geom_density_ridges(aes(x = duration_days, y = decade),
+                      rel_min_height = 0.005,
+                      fill = my_color_yellow, color = my_color_yellow, alpha = 0.8, size = 0.15) +
+  geom_point(data = duration_day_decade_med,
+               aes(x = duration_med, y = decade, size = n_voyage), 
+             shape = 18, color = my_color_red) +
+  scale_y_discrete(labels = c("1760", "", "1780", "", "1800", "", "1820", "", "1840", "", "1860",
+                              "", "1880", "", "1900", "", "1920")) +
+  scale_size_continuous(labels = c(10, 100, 200,400, 600),
+                        breaks = c(10, 100, 200, 400, 600)) +
+  scale_x_continuous(limits = c(0, NA), labels = comma_format()) +
+  coord_cartesian(xlim = c(0, 2500)) +
+  dark_mode() +
+  labs(title = "Duration of voyages changed over the decades",
+       subtitle = glue("{comma(sum(duration_day_decade_med$n_voyage))} voyages including some simulated; between 1760 and 1929\nday_out and day_in data",
+                       "; diamonds indicate median",
+                       "\nnot showing {n_voyages_gt_2500_sim} voyages longer than 2,500 days ({round(2500/365, 1)} years)"),
+       x = "Days",
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Observations in the logbooks {#sec-observations-in-the-logbooks}
+
+Many daily observations are missing in the dataset. It seems Townsend was only interested in observations when there was a strike (and mainly recorded `year_out` and `year_in` without additional date information), CoML gathered daily observations where possible, and Maury was somewhere in the middle. Thus where there were duplicate logbook records, I favored CoML then Maury over Townsend when preparing a set of distinct voyages. In all places referring to logbook records I use this consolidate set.
+
+```{r}
+#| label: fig-three-sources-simulated
+#| fig-cap: "Source of logbook information - voyages with some simulated date data"
+
+max_x <- df_voyage_duration_simulated %>%
+  filter(duration_days <= 2500) %>%
+  pull(duration_days) %>%
+  max()
+
+n_excluded <- nrow(df_voyage_duration_simulated %>% filter(duration_days > max_x))
+
+df_voyage_duration_simulated %>%
+  filter(!is.na(source)) %>%
+  ggplot(aes(duration_days, n_obs, color = source)) +
+  geom_point(alpha = 0.8) +
+  scale_x_continuous(labels = comma_format()) +
+  scale_y_continuous(labels = comma_format()) +
+  coord_cartesian(xlim = c(1, max_x), ylim = c(1, max_x)) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  dark_mode() +
+  labs(title = "Number of observations by duration of voyage",
+       subtitle = glue("{comma(nrow(df_voyage_duration_simulated) - n_excluded)} voyages", 
+                       " including some simulated day_out and day_in data",
+                       "\nexcluding {n_excluded} voyages over 2,500 days"),
+       caption = my_caption)
+  
+```
+
+<br>
+
+```{r}
+voyage_obs_med <- df_log |>
+  distinct(voyage_id, n_obs) |>
+  pull(n_obs) |>
+  median(na.rm = TRUE)
+
+```
+
+The median voyage duration was `r round(voyage_duration_med)` days (`r round(voyage_duration_med / 365, 1)` years). The median number of observations per voyage was `r voyage_obs_med`; multiple observations were recorded on days when there were one or more strikes. At the low end of `n_obs`, even after removing voyages with observation gaps > 1 year, one can see the set of mostly Townsend-sourced voyages in the very steep line at the left in a plot of the empirical cumulative density:
+
+```{r}
+#| label: fig-obs-ecd
+#| fig-cap: "Number of observations per voyage - empirical cumulative density plot"
+
+df_log_voyage_count_for_plot <- df_log_voyage_count %>%
+  mutate(subset = "all voyages") %>%
+  bind_rows(.,
+            df_log_voyage_count %>%
+              filter(n_obs > 100) %>%
+              mutate(subset = "at least 100 obs")
+  )
+
+n_voyages_all_obs <- nrow(df_log_voyage_count)
+n_voyages_gt100_obs <- df_log_voyage_count %>%
+  filter(n_obs > 100) %>%
+  nrow()
+
+df_log_voyage_count_for_plot %>%
+  ggplot(aes(n_obs, color = subset)) +
+  stat_ecdf(size = 2, alpha = 0.8) +
+  scale_y_continuous(labels = percent_format()) +
+  scale_x_continuous(labels = comma_format()) +
+  dark_mode() +
+  labs(title = "Number of observations per voyage (ECD)",
+       subtitle = glue("{comma(n_voyages_all_obs)} voyages in the logbook data set; {n_voyages_gt100_obs} with >= 100 obs"),
+       x = "Number of observations",
+       y = NULL,
+       color = "Voyages",
+       caption = my_caption)
+```
+
+<br>
+
+Does the number of observations per voyage change per decade? Yes. In the middle decades of the 1800s there were more (suggesting longer voyages and/or fewer Townsend-sourced voyages) as well as more voyages.
+
+```{r}
+#| label: fig-obs-per-voyage-per-decade
+#| fig-cap: "Number of observations per voyage - by decade"
+
+df_log_voyage_count_decade_summary %>%
+  pivot_longer(cols = c(n_obs_med, n_obs_avg), names_to = "metric", values_to = "value") %>%
+  ggplot() +
+  geom_segment(data = df_log_voyage_count_decade_summary,
+               aes(y = n_obs_med, yend = n_obs_avg, x = decade, xend = decade), 
+               color = "grey90") +
+  geom_point(aes(decade, value, color = metric, size = n_voyages),
+             alpha = 0.8) + 
+  geom_smooth(aes(decade, value, color = metric), se = FALSE) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_size_continuous(breaks = c(10, 100, 200, 400)) +
+  guides(color = guide_legend(override.aes = list(size = 2))) +
+  dark_mode() +
+  labs(title = "Observations per voyage",
+       subtitle = glue("Per decade. In the middle decades of the 1800s the dataset includes",
+                       "\nmore observations per voyage and more voyages"),
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+  
+```
+
+<br>
+
+Same information by source:
+
+```{r}
+#| label: fig-obs-per-voyage-per-decade-by-source
+#| fig-cap: "Number of observations per voyage - by decade"
+#| fig-height: 7
+#| fig-width: 10
+
+df_log_voyage_count_decade_summary_by_source %>%
+  pivot_longer(cols = c(n_obs_med, n_obs_avg), names_to = "metric", values_to = "value") %>%
+  ggplot() +
+  geom_segment(data = df_log_voyage_count_decade_summary_by_source, #%>%
+               aes(y = n_obs_med, yend = n_obs_avg, x = decade, xend = decade), 
+               color = "grey90") +
+  geom_point(aes(decade, value, color = metric, size = n_voyages),
+             alpha = 0.8) + 
+  geom_smooth(aes(decade, value, color = metric), se = FALSE) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 50))) +
+  scale_size_continuous(breaks = c(10, 100, 200)) +
+  guides(color = guide_legend(override.aes = list(size = 2))) +
+  facet_grid(. ~ source) +
+  dark_mode() +
+  labs(title = "Observations per voyage - by source",
+       subtitle = glue("Per decade. In the middle decades of the 1800s the dataset includes",
+                       "\nmore voyages and more observations per voyage"),
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+```{r}
+my_binwidth <- 1
+
+df_log_for_plot <- df_log %>%
+  filter(!is.na(days_between_obs)) %>%
+  mutate(no_gap_days = days_between_obs <= 1)
+
+n_df_log_obs <- nrow(df_log_for_plot)
+n_df_log_obs_voyages <- nrow(distinct(df_log_for_plot, voyage_id))
+n_df_log_voyages <- nrow(distinct(df_log, voyage_id))
+pct_w_gap <- (n_df_log_obs - sum(df_log_for_plot$no_gap_days)) / n_df_log_obs
+
+yes_no <- factor(c("No", "Yes"), levels = c("No", "Yes"))
+
+```
+
+After removing `r n_df_log_voyages - n_df_log_obs_voyages` voyages with gaps between observations greater than one year, the great majority of observations are the same day or one day after the previous observation. This will be helpful for plotting routes traveled in *@sec-voyage-tracks Voyage Tracks.*
+
+```{r}
+#| label: fig-days-between-obs
+#| fig-cap: "Number of days between observations"
+
+df_log_for_plot %>%
+  ggplot(aes(days_between_obs, fill = no_gap_days)) +
+  scale_x_continuous(breaks = c(1, 100 * 1:4)) +
+  geom_histogram(binwidth = my_binwidth, alpha = 0.8, na.rm = TRUE) +
+  scale_y_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  dark_mode() +
+  guides(color = "none") +
+  labs(title = "Number of days between observations",
+       subtitle = glue("{comma(n_df_log_voyages)} voyages without gaps > 365 days in the logbook data set",
+                       "\n{comma(n_df_log_obs)} observations; {100 - round(100 * pct_w_gap, 1)}% are same or next day",
+                       "\n bins are {my_binwidth} day wide"),
+       x = NULL,
+       y = "Count log10 scale",
+       fill = "Same or\nnext day?",
+       color = NULL,
+       caption = my_caption)
+
+```
+
+<br><br>

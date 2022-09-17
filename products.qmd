@@ -1,0 +1,731 @@
+# The products {#sec-products}
+
+```{r}
+#| label: setup-products
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-products
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+# df_crew <- tar_read(crew)
+
+```
+
+```{r}
+#| label: define-product-data
+
+df_log_voyage_count <- df_log %>%
+  count(voyage_id, source, name = "n_obs") %>%
+  left_join(.,
+       df_voyage %>% select(voyage_id, year_out),
+       by = "voyage_id") %>%
+  arrange(voyage_id, desc(n_obs)) %>%
+  distinct(voyage_id, .keep_all = TRUE)
+
+df_log_voyage_count_decade <- df_log_voyage_count %>%
+  filter(!is.na(year_out)) %>%
+  mutate(decade = 10 * floor(year_out / 10)) 
+
+voyage_detail <- df_log_voyage_count_decade |>
+  select(voyage_id, decade) |>
+  inner_join(df_voyage_distinct,
+             by = c("voyage_id")) |>
+  distinct(voyage_id, .keep_all = TRUE) |>
+  select(-sailing_from) 
+
+product_by_decade <- voyage_detail |>
+  mutate(sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel) %>%
+  pivot_longer(cols = c(bone, sperm, oil), names_to = "product", values_to = "value") %>%
+  filter(!is.na(value)) %>%
+  group_by(decade, product) %>%
+  summarize(
+    n_voyages = n(),
+    output_med = median(value / n_voyages, na.rm = TRUE),
+    output_avg = mean(value / n_voyages, na.rm = TRUE)
+  ) %>%
+  ungroup() %>%
+  filter(output_med > 0)
+
+product_by_decade_from_df_voyage_distinct <- df_voyage_distinct |>
+  mutate(sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel,
+         decade = 10 * floor(year_out / 10)) |>
+  pivot_longer(cols = c(bone, sperm, oil), names_to = "product", values_to = "value") |>
+  filter(!is.na(value)) |>
+  group_by(decade, product) |>
+  summarize(
+    n_voyages = n(),
+    output_med = median(value / n_voyages, na.rm = TRUE),
+    output_avg = mean(value / n_voyages, na.rm = TRUE)
+  ) %>%
+  ungroup() %>%
+  filter(output_med > 0)
+
+
+df_product_combo <- df_voyage_distinct %>%
+  filter(!(is.na(bone) & is.na(sperm) & is.na(oil))) %>%
+  select(voyage_id, voyage_name, bone, sperm, oil) %>%
+  mutate(across(c(bone, sperm, oil), ~ifelse(!is.na(.x), TRUE, FALSE) ),
+         bone_sperm = bone & sperm,
+         bone_oil = bone & oil,
+         sperm_oil = sperm & oil,
+         bone_sperm_oil = bone & sperm & oil
+  ) %>%
+  pivot_longer(cols = bone:bone_sperm_oil, names_to = "product", values_to = "value") %>%
+  group_by(product) %>%
+  summarize(pct_product = sum(value) / n(),
+            n_product = pct_product * n()
+  ) %>%
+  ungroup() %>%
+  mutate(product = factor(product, 
+                          levels = rev(c("bone", "sperm", "oil", 
+                                         "bone_sperm", "bone_oil", "sperm_oil", "bone_sperm_oil"))))
+  
+df_product_combo_decade <- df_voyage_distinct %>%
+  mutate(decade = 10 * floor(year_out / 10)) %>% 
+  filter(!(is.na(bone) & is.na(sperm) & is.na(oil)),
+         !is.na(decade)) %>%
+  select(decade, year_out, voyage_id, voyage_name, bone, sperm, oil) %>%
+  mutate(across(c(bone, sperm, oil), ~ifelse(!is.na(.x), TRUE, FALSE) ),
+         bone_sperm = bone & sperm,
+         bone_oil = bone & oil,
+         sperm_oil = sperm & oil,
+         bone_sperm_oil = bone & sperm & oil
+  ) %>%
+  pivot_longer(cols = bone:bone_sperm_oil, names_to = "product", values_to = "value") %>%
+  group_by(decade, product) %>%
+  summarize(pct_product = sum(value) / n(),
+            n_product = pct_product * n()
+  ) %>%
+  ungroup() %>%
+  mutate(product = factor(product, 
+                          levels = rev(c("bone", "sperm", "oil", 
+                                         "bone_sperm", "bone_oil", "sperm_oil", "bone_sperm_oil"))))
+
+n_product_combo_voyage <- df_voyage_distinct %>%
+  filter(!(is.na(bone) & is.na(sperm) & is.na(oil))) %>%
+  nrow()
+
+n_product_combo_vessel <- df_voyage_distinct %>%
+  filter(!(is.na(bone) & is.na(sperm) & is.na(oil))) %>%
+  distinct(vessel_id, .keep_all = TRUE) %>%
+  nrow()
+
+```
+
+```{r}
+#| label: define-product-distance-for-plot
+
+product_and_distance_tmp <- df_voyages_for_plot |>
+  st_drop_geometry() |>
+  # assume distances < cutoff_voyage_distance_km indicate trial voyages or missing log entries fatal to this analysis
+  filter(n_obs > 1) |> # change to n_obs > cutoff_n_obs to drop voyages with low numbers of observations
+  inner_join(df_voyage_distinct |> select(voyage_id, voyage_rank, voyage_name, port, ground, bone, sperm, oil,
+                                  year_out, year_in, vessel_id, rig, tonnage),
+             by = "voyage_id") |>
+  distinct(voyage_id, .keep_all = TRUE) |> # filter out multiple voyage ranks
+  mutate(decade = 10 * floor(year_out / 10)) |>
+  filter(!voyage_id %in% c("AV02138", "AV08908")) # remove some outliers to simplify plots
+
+product_and_distance_summary_for_plot <- product_and_distance_tmp |>
+  filter(voyage_distance_km >= cutoff_voyage_distance_km) |>
+  mutate(# change units for clearer plots
+         sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel,
+         #bone = bone * ton_per_lb,
+         voyage_distance_100km = voyage_distance_km / 100
+         ) |>
+  pivot_longer(cols = c(voyage_duration_days, voyage_distance_100km),
+                        names_to = "metric", values_to = "metric_value") |>
+  filter(metric_value > 0)
+
+n_voyages_from_logbook_table <- nrow(distinct(product_and_distance_summary_for_plot, voyage_id))
+
+product_and_distance_for_plot <- product_and_distance_tmp |>
+  filter(voyage_distance_km >= cutoff_voyage_distance_km) |>
+  mutate(# change units for clearer plots
+         sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel,
+         #bone = bone * ton_per_lb,
+         voyage_distance_100km = voyage_distance_km / 100) |>
+  pivot_longer(cols = c(bone, sperm, oil), names_to = "product", values_to = "value") |>
+  filter(!is.na(value)) |>
+  mutate(prod_per_voyage = value,
+         prod_per_day = value / voyage_duration_days,
+         prod_per_100km = value / (100 * voyage_distance_km)
+         ) %>%
+  pivot_longer(cols = c(voyage_duration_days, voyage_distance_100km, starts_with("prod_per")),
+                        names_to = "metric", values_to = "metric_value") |>
+  filter(metric_value > 0)
+
+
+# now prepare data for "alternate views" from df_voyage_distinct
+product_and_distance_from_df_distinct_tmp <- df_voyage_distinct |>
+  filter(!voyage_id %in% c("AV02138", "AV08908")) |> # remove some outliers to simplify plots
+  filter(year_out != day_out & year_in != day_in) |>
+  select(voyage_id:voyage_name, year_out:return_code, bone, sperm, oil) |>
+  mutate(date_out = ymd(day_out),
+         date_in = ymd(day_in),
+         duration_days = as.numeric(difftime(date_in, date_out, units = "days")),
+         decade = 10 * floor(year_out / 10)
+         ) |>
+  filter(!is.na(duration_days),
+         duration_days >= 7)
+
+product_for_plot <- product_and_distance_from_df_distinct_tmp |>
+  # use same from ...
+  mutate(# change units for clearer plots
+         sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel,
+         #bone = bone * ton_per_lb,
+         #voyage_distance_100km = voyage_distance_km / 100
+         ) %>%
+  pivot_longer(cols = c(bone, sperm, oil), names_to = "product", values_to = "value") |>
+  filter(!is.na(value)) |>
+  mutate(prod_per_voyage = value,
+         prod_per_day = value / duration_days,
+         #prod_per_100km = value / (100 * voyage_distance_km)
+         ) |>
+  pivot_longer(cols = c(duration_days, starts_with("prod_per")),
+                        names_to = "metric", values_to = "metric_value")  |>
+  filter(metric_value > 0)
+
+n_voyages_from_voyages_table <- nrow(distinct(product_for_plot, voyage_id))
+
+```
+
+<br>
+
+The whole purpose of the voyages was to harvest valuable product: sperm oil, whale oil, and whalebone (baleen), among other products. There is a good summary at <https://www.whalingmuseum.org/learn/research-topics/whaling-history/whales-and-hunting/> and excerpts from it below.
+
+<br>
+
+## Sperm oil
+
+>Oil from sperm whale blubber otherwise known as body oil is of a light straw color. It has particular qualities separating it from almost any other type of oil. One in particular is that it retains its lubricating qualities in extreme temperatures making it ideal for light, rapid machinery. Another feature is its superb qualities of illumination. It burns very clearly and brightly and without smoke or odor. Great quantities of sperm oil went into public and private lighting as well as lighthouses. A byproduct of the sperm oil refining process was high quality soap. About half of the crude sperm oil obtained by American vessels at the height of the fishery was exported to other countries. [@NBWM-WH2022]
+
+<br>
+
+```{r}
+#| label: fig-bottle-can-sperm-oil
+#| fig-cap: "A bottle and can of sperm oil on display in the New Bedford Whaling Museum [@RM2022]"
+
+knitr::include_graphics(here("images", "Sperm_oil_bottle_and_can-original.jpg"))
+
+```
+
+<br>
+
+## Whale oil
+
+>Otherwise known as “train oil” the whale oils are varying shades of brown in color, depending upon the age of the blubber from which they were boiled and the general health of the animal from which they were obtained. Whale oils were the first of all oils — animal or mineral — to achieve commercial importance. The principle sources for whale oil in the days of Yankee whaling were right whales, bowhead whales and humpback whales. Yankee whaling merchants sometimes adopted the phrase “brown oil is better than no oil,” in their instructions to their ship captains meaning that rather than return home without having filled the ship with sperm oil, they were to take other whales instead. Whale oil has an ancient history having been used in medieval Europe as an illuminant and a lubricant as well as food. It saw new uses during the 19th century Industrial Revolution both in Europe and America in the tempering of steel, screw cutting and cordage manufacture. It continued to be used as an illuminant particularly in the headlamps of miners. By-products of the whale oil refining process were soap and stearin a material that was added to spermaceti to decrease its brittleness and to make a smoother burning candle. [@NBWM-WH2022] 
+
+<br>
+
+```{r}
+#| label: fig-image-whale-old-and-lamps
+#| fig-cap: "(1) A bottle of unrefined whale oil [@WP-NWOB2022]; and (2) Whale oil lamps made of pressed and free-blown lead glass [@MMA-WOL2022]"
+
+knitr::include_graphics(here("images", "whale-oil-and-lamps.png"))
+
+```
+
+<br>
+
+Collecting whale oil involved cutting the blubber from the whale:
+
+```{r}
+#| label: fig-image-stripping-blubber
+#| fig-cap: "Whalers stripping blubber from a slain whale [@WAD1884a]"
+#| fig-width: 5
+#| out-width: "100%"
+
+knitr::include_graphics(here("images", "Stripping_blubber_from_a_whale.jpg"))
+
+```
+
+<br>
+
+Then boiling it down to collect the oil:
+
+```{r}
+#| label: fig-image-boiling-blubber
+#| fig-cap: "Whalers 'trying out' (boiling blubber) in tryworks on a whaling ship [@WAD1884b]"
+#| out-width: "100%"
+
+knitr::include_graphics(here("images", "Boiling_blubber_on_a_whaling_ship-cropped.png"))
+
+```
+
+<br> 
+
+## Whalebone (baleen)
+
+>Instead of teeth, baleen whales have long strips, known as baleen, which hang from the roofs of their mouths, and which they use to strain out krill from sea water. Baleen is made of keratin, the same substance found in human nails, hair, hoofs, and claws. It was used in a variety of nineteenth-century products: buggy whips, carriage springs, corset stays, fishing poles, hoops for women’s skirts, umbrella ribs, and other applications for which plastic or steel would now be used. [@NBWM-WH2022]
+
+<br>
+
+```{r}
+#| label: fig-baleen
+#| fig-cap: "A young visitor approaches a display of Bryde's whale baleen. In contrast to toothed marine mammals such as dolphins and killer whales, baleen whales have ﬁnely fringed plates along their jaws that they use as sieves to trap prey [@FFWRCC2011]"
+
+knitr::include_graphics(here("images", "baleen-large-5733725597_0f034cf53d_k_d.jpg"))
+
+```
+
+<br>
+
+## Product yield per voyage
+
+How much was harvested, and how did that change over time? If these voyages are representative of the industry, yields dropped through the 1840s as more ships entered the hunt, then increased again, presumably due to more effective methods or seeking more productive grounds that weren't fished out.
+
+### Introduction
+
+The units of product used in the `Voyages` table are [noted here](https://whalinghistory.org/av/voyages/columns/). I have changed the units to make it easier to plot all three products together:
+
+* bone: quantity of whalebone or baleen returned, in pounds
+* sperm: quantity of sperm oil returned, in gallons (originally, in barrels)
+* oil: quantity of whale oil returned, in gallons (originally, in barrels)
+
+The `Voyages` table includes product yield and (in most cases) voyage start and end dates. I filtered out voyages likely to misrepresent the results, for example, voyages shorter than `r cutoff_voyage_distance_km` km, which leaves `r comma(sum(product_by_decade$n_voyages))` voyages. See *@sec-dealing-with-errors Dealing with errors, duplicates, and omissions *for details.
+
+The `Logbook` table includes records for a subset of the voyages in the `Voyages` table and includes latitude and longitude on specific days. From this I calculated distances for the XX voyages that report returning with at least one product.
+
+To improve clarity in the following plots I did the following:
+
+* Use [LOESS](https://en.wikipedia.org/wiki/Local_regression) lines to summarize the data presented in scatter plots.
+* Limit the time frame displayed to 1800-1900. There are relatively few voyages before and after this range; including them would distort the LOESS lines.
+
+```{r}
+#| label: product-by-decade
+#| fig-cap: "Whaling product yields - by decade (log scale)"
+#| eval: false
+
+n_voyages_for_plot <- sum(product_by_decade$n_voyages)
+
+product_by_decade %>%
+  filter(decade <= 1900,
+         decade >= 1820) |>
+  ggplot(aes(decade, output_med, color = product, size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  #scale_y_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_size_continuous(breaks = c(10, 100, 200, 300)) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(1, 1500)) +
+  dark_mode() +
+  labs(title = "Median product collected per voyage\nduring each decade",
+       subtitle = glue("{comma(n_voyages_for_plot)} voyages (from df_log)", 
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = NULL,
+       y = "Median product",
+       caption = my_caption)
+           
+```
+
+```{r}
+#| label: product-by-decade-from-df-voyage-distinct
+#| fig-cap: "Whaling product yields - by decade (log scale)"
+#| eval: false
+
+n_voyages_for_plot <- sum(product_by_decade_from_df_voyage_distinct$n_voyages) # TODO: is this incorrect?
+
+product_by_decade_from_df_voyage_distinct %>%
+  filter(decade <= 1900) |>
+  ggplot(aes(decade, output_med, color = product, size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  #scale_y_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_size_continuous(breaks = c(100, 250, 500, 1000)) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(1, 250)) +
+  dark_mode() +
+  labs(title = "Median product collected per voyage\nduring each decade",
+       subtitle = glue("{comma(n_voyages_for_plot)} voyages (from df_voyages_distinct)", 
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = NULL,
+       y = "Median product",
+       caption = my_caption)
+           
+```
+
+```{r}
+#| label: fig-whaling-products-facted-plots
+#| fig-cap: "Whaling product yields - by decade"
+#| eval: false
+
+#fig.height=7, fig.width=7
+
+product_by_decade %>%
+  ggplot(aes(decade, output_med, color = product, size = n_voyages),
+         alpha = 0.8) +
+  geom_point(show.legend = TRUE) +
+  geom_smooth(se = FALSE, show.legend = FALSE, span = 0.4) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = comma_format()) +
+  scale_color_discrete(guide = "none") +
+  scale_size_continuous(breaks = c(10, 100, 200, 300)) +
+  coord_cartesian(xlim = c(1820, 1900), ylim = c(0, 2000)) +
+  dark_mode() +
+  theme(legend.position = "right") +
+  labs(title = "Median product collected per voyage\nduring each decade",
+       subtitle = glue("bone in pounds, oil and sperm in gallons"),
+       x = NULL,
+       y = "Median product",
+       caption = my_caption)
+           
+```
+
+<br>
+
+### Product per voyage
+
+<br>
+
+```{r}
+#| label: fig-product-per-voyage
+#| fig-cap: "Whaling product yield by product per voyage (from voyages in the Voyages table)"
+
+product_for_plot |>
+  filter(metric == "prod_per_voyage",
+         metric_value > 0) |> # remove cases in which voyage did not collect any of one product
+  ggplot(aes(x = year_in, y = metric_value, color = metric)) +
+  geom_point(size = 1, alpha = 0.6) +
+  geom_smooth(se = TRUE, show.legend = FALSE, color = "grey80") +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  facet_wrap(~product, scales = "free_y") +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  theme(legend.position = "none") +
+  labs(title = "Product per voyage (from Voyages table)",
+       subtitle = glue("{comma(n_voyages_from_voyages_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+
+```
+
+<br>
+
+The smaller set of `r comma(nrow(distinct(product_and_distance_for_plot, voyage_id)))` voyages in `df_log` shows similar LOESS lines:
+
+```{r}
+#| label: fig-product-per-voyage-another-view
+#| fig-cap: "Whaling product yield by product per voyage (from voyages in the Logbook table)"
+
+n_voyages_for_plot <- nrow(distinct(product_and_distance_for_plot, voyage_id))
+
+product_and_distance_for_plot %>%
+  filter(metric == "prod_per_voyage") |>
+  # remove cases in which voyage did not collect any of one product
+  filter(metric_value > 0) |>
+  ggplot(aes(x = year_in, y = metric_value, color = product)) +
+  geom_point(size = 1, alpha = 0.6) +
+  geom_smooth(se = TRUE, show.legend = FALSE, color = "grey80") +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  facet_wrap(~product, scales = "free_y") +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  theme(legend.position = "none") +
+  labs(title = "Product per voyage (from Logbook table)",
+       subtitle = glue("{comma(n_voyages_from_logbook_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+
+```
+
+<br>
+
+### Normalized product yield {#sec-normalized-yields}
+
+Time is money. The further a vessel travels and the longer it is at sea, the higher the expenses. *Product per km* and *product per day* are measures of efficiency.
+
+The efficiency in gathering whale oil plummeted in 1840s and 1850s as vessels traveled much further. This was at the same time that the amount of whale oil generated reached its peak.
+
+```{r}
+#| label: fig-product-days-normalized-smooth
+#| fig-cap: "Whaling product yield per 100km (from voyages in the from Voyages and Logbook tables)"
+
+n_voyages_for_plot <- nrow(distinct(product_and_distance_for_plot, voyage_id))
+
+product_and_distance_for_plot %>%
+  filter(metric %in% c("prod_per_100km", "prod_per_voyage"),
+         #product == "bone",
+         metric_value > 0) %>% 
+  ggplot(aes(x = year_in, y = metric_value, color = product)) +
+  geom_smooth(se = TRUE, show.legend = TRUE, na.rm = TRUE,
+              method = "loess" # force same method on all groups
+              ) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  facet_wrap(~metric, scales = "free_y") +
+  dark_mode() +
+  theme(legend.position = "right") +
+  labs(title = "Normalized product metrics: product per 100km (from Voyages and Logbook tables)",
+       subtitle = glue("{comma(n_voyages_from_logbook_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+```
+
+<br>
+
+```{r}
+#| label: fig-product-distance-normalized-smooth
+#| fig-cap: "Whaling product yield per day (from voyages in the Voyages and Logbook tables)"
+
+product_and_distance_for_plot %>%
+  filter(metric %in% c("prod_per_day", "prod_per_voyage"),
+         metric_value > 0) %>% 
+  ggplot(aes(x = year_in, y = metric_value, color = product)) +
+  geom_smooth(se = TRUE, show.legend = TRUE, na.rm = TRUE,
+              method = "loess" # force same method on all groups
+              ) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  facet_wrap(~metric, scales = "free_y") +
+  dark_mode() +
+  theme(legend.position = "right") +
+  labs(title = "Normalized product metrics: product per day (from Voyages and Logbook tables)",
+       subtitle = glue("{comma(n_voyages_from_logbook_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+```
+
+<br>
+
+There were very wide ranges in voyage distance and duration.
+
+```{r}
+#| label: fig-product-days-and-distance
+#| fig-cap: "Voyage distance and days (from voyages in the from Voyages and Logbook tables)"
+
+product_and_distance_summary_for_plot |>
+  ggplot(aes(x = year_in, y = metric_value)) +
+  geom_jitter(size = 1, alpha = 0.6, color = my_color_red) +
+  geom_smooth(se = TRUE, show.legend = FALSE, color = "grey80") +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = comma_format()) +
+  facet_wrap(~ metric, scales = "free_y") +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  theme(legend.position = "none") +
+  labs(title = "Voyage distance and duration (from Voyages and Logbook tables)",
+       subtitle = glue("{comma(n_voyages_from_logbook_table)} voyages"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+
+```
+
+<br>
+
+The larger set of voyages in the `Voyages` table has the basic shape and magnitude of @fig-product-days-normalized-smooth above, which uses the smaller set of voyages in the `Logbook` table.
+
+<br>
+
+```{r}
+#| label: fig-product-days-and-distance-normalized-smooth-debug
+#| fig-cap: "Whaling product yield per day (from voyages in the Voyages table)"
+
+product_for_plot |>
+  filter(metric %in% c("prod_per_day", "prod_per_voyage"),
+         metric_value > 0) |> # remove cases in which voyage did not collect any of one product
+  ggplot(aes(x = year_in, y = metric_value)) + #, group = product, size = product)) +
+  geom_smooth(aes(color = product), se = TRUE, show.legend = TRUE, na.rm = TRUE,
+              method = "loess"
+              ) +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  facet_wrap(~metric, scales = "free_y") +
+  dark_mode() +
+  theme(legend.position = "top") +
+  labs(title = "Normalized product metrics (from Voyages table)",
+       subtitle = glue("{comma(n_voyages_from_voyages_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+
+```
+
+<br>
+
+The scatterplots below show the data behind the LOESS lines:
+
+```{r}
+#| label: fig-product-per-day-another-view
+#| fig-cap: "Whaling product yield per day scatterplots (from voyages in the Voyages table)"
+
+product_for_plot |>
+  filter(metric == "prod_per_day",
+         metric_value > 0) |> # remove cases in which voyage did not collect any of one product
+  ggplot(aes(x = year_in, y = metric_value, color = product)) +
+  geom_point(size = 1, alpha = 0.6) +
+  geom_smooth(se = TRUE, show.legend = FALSE, color = "grey80",
+              method = "loess") +
+  scale_x_continuous(breaks = c(1800 + seq(0, 100, 20))) +
+  scale_y_continuous(labels = comma_format()) +
+  facet_wrap(~product, scales = "free_y") +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  theme(legend.position = "none") +
+  labs(title = "Product per day (from Voyages table)",
+       subtitle = glue("{comma(n_voyages_from_voyages_table)} voyages",
+                       "; bone in pounds, oil and sperm in gallons"),
+       x = "Year voyage ended",
+       y = "metric_value",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Combinations of product
+
+```{r}
+#| label: define-product-combos-upset-chart-data
+
+df_product_combo2_tmp <- df_voyage_distinct %>%
+  select(voyage_id, voyage_name, bone, sperm, oil) %>%
+  mutate(bone = ifelse(bone == 0, NA_real_, bone),
+         sperm = ifelse(sperm == 0, NA_real_, sperm),
+         oil = ifelse(oil == 0, NA_real_, oil),
+    across(c(bone, sperm, oil), ~ifelse(!is.na(.x), TRUE, FALSE) ),
+         bone_sperm = bone & sperm & !oil,
+         bone_oil = bone & oil & !sperm,
+         sperm_oil = sperm & oil & !bone,
+         bone_sperm_oil = bone & sperm & oil,
+         # make single categories the count limited to these cases
+         bone2 = bone & !sperm & !oil,
+         sperm2 = sperm & !bone & !oil,
+         oil2 = oil & !bone & !sperm,
+         none = !oil & !bone & !sperm
+  ) %>%
+  filter(!none) |>
+  mutate(bone = bone2,
+         sperm = sperm2,
+         oil = oil2,
+         ) %>%
+  select(-c(bone2, sperm2, oil2, none)) 
+
+n_voyages_combo2 <- nrow(df_product_combo2_tmp)
+n_voyage_distinct <- nrow(df_voyage_distinct)
+pct_missing <- 1 - n_voyages_combo2 / n_voyage_distinct
+
+```
+
+Whaling crews typically returned with more than one product. The plot below shows discrete sets of product combinations.
+
+Note that in the Voyages table `r comma(n_voyage_distinct - n_voyages_combo2)` of the `r comma(n_voyage_distinct)` voyages (`r percent(pct_missing)`) are missing product values (bone, sperm, oil) or record zero product. It seems unlikely that a quarter of all whaling voyages returned without any product, so I assume the data is incomplete. We can hope the data at hand is reasonably representative as noted in the assumptions in *@sec-overview Overview*.
+
+<br>
+
+```{r}
+#| label: fig-product-combos-bar-chart
+#| fig-cap: "Whaling product combinations"
+#| eval: false
+
+#In the plot below, "bone", "sperm" and "oil" categories include voyages returning with any of this product, regardless of whether other products were also collected. 
+
+df_product_combo %>%
+  ggplot(aes(pct_product, product, fill = product)) +
+  geom_col(alpha = 0.8) +
+  scale_x_continuous(labels = percent_format()) +
+  scale_fill_brewer(palette = "Set1") +
+  dark_mode() +
+  theme(plot.title.position = "plot",
+        legend.position = "none") +
+  labs(title = "Product: percent of voyages including this combo",
+       subtitle = glue("{comma(n_product_combo_voyage)} voyages of {comma(n_product_combo_vessel)} vessels", 
+                       " include at least one product"),
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+```
+
+```{r}
+#| label: fig-product-combos-upset-chart
+#| fig-cap: "Whaling product combinations"
+
+df_product_combo2 <- df_product_combo2_tmp %>%
+  pivot_longer(cols = bone:bone_sperm_oil, names_to = "product", values_to = "value") %>%
+  group_by(product) %>%
+  summarize(pct_product = sum(value) / n(),
+            n_product = pct_product * n()
+  ) %>%
+  ungroup() %>%
+  mutate(product = factor(product, 
+                          levels = rev(c("bone", "sperm", "oil", 
+                                         "bone_sperm", "bone_oil", "sperm_oil", "bone_sperm_oil"#, 
+                                         #"none"
+                                         )
+                                       )
+                          )
+         ) %>%
+  arrange(product)
+
+# test
+# sum(df_product_combo2$n_product)
+# df_product_combo2 %>%
+#   group_by(product) %>%
+#   summarize(pct = sum(pct_product)) %>%
+#   ungroup() %>%
+#   pull(pct) %>%
+#   sum()
+
+expression_input <- df_product_combo2 |>
+  mutate(product = str_replace_all(product, "_", "&")) |>
+  select(product, n_product) |>
+  pivot_wider(names_from = product, values_from = n_product) |>
+  as_vector()
+
+upset(fromExpression(expression_input),
+      order.by = "freq")
+grid.text(glue("Product mix in {comma(n_voyages_combo2)} voyages"), x = 0.66, y = 0.92, gp = gpar(fontsize = 14))
+
+```
+
+<br><br>

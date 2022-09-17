@@ -1,0 +1,347 @@
+# The masters {#sec-masters}
+
+```{r}
+#| label: setup-masters
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-masters
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+# df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+df_voyages_for_plot <- tar_read(voyages_for_plot)
+df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+df_crew = tar_read(crew)
+
+```
+
+What of the men who captained the whaling vessels? Take for example John Scott DeBlois.
+
+```{r}
+#| label: fig-image-master
+#| fig-cap: "Captain John Scott DeBlois, husband of Henrietta (Tew) DeBlois. Master of the Ann Alexander, which along with two of its whaleboats was sunk by a sperm whale in 1851. [@JSD1870]. Read more about DeBlois in [Dirty Work, Clean Money: The Life of Whaling Ship Captain John Deblois and his Wife Henrietta](http://smallstatebighistory.com/dirty-work-clean-money-the-life-of-whaling-ship-captain-john-deblois-his-wife-henrietta/) by Ingrid Peters And Elizabeth Sulock."
+
+knitr::include_graphics(here("images", "P5883.jpg"))
+
+```
+
+<br>
+
+## John Scott DeBlois in the data set
+
+John DeBlois shows up in the data set as third mate, then as master. Not included in the data set is his first voyage on the Ann Alexander as first mate 1845-1849 [@IPES2015]. His first as master was on the ill-fated Ann Alexander voyage that set out in 1850. After leading a successful voyage on the Vigilant that returned in 1855 he led two voyages of the new ship Merlin. His wife Henrietta accompanied him on the first [@IPES2015]. All were to the Pacific, and with the exception of the loss of the Ann Alexander, all were about three years in duration.
+
+```{r}
+#| label: fig-voyages-jsb
+#| fig-cap: "Voyages of John Scott DeBlois in the data set"
+#| column: page-right
+
+df_crew|>
+  filter(name_last == "Deblois" & str_detect(name_first, "John S")) |>
+  arrange(year_out) |>
+  select(voyage, rank, lay, voyage_id) |>
+  inner_join(df_voyage_distinct |>
+               select(voyage_id, port, ground, return_code, bone, sperm, oil, master),
+             by = "voyage_id") |>
+  mutate(lay = str_replace(lay, "-", "/"),
+         return_code = if_else(return_code == "L", "Lost, sank, wrecked or missing", return_code)) |>
+  relocate(voyage_id, .after = master) |>
+  rename(return = return_code) |>
+  gt() |>
+  tab_header(title = md("**Voyages of John Scott DeBlois in the crew lists and voyages tables**")) |>
+  tab_options(table.font.size = 10) |>
+  tab_spanner(
+    label = "Product",
+    columns = c(bone, sperm, oil)
+  ) |>
+  tab_footnote(
+    footnote = "Bone in pounds",
+    locations = cells_column_labels(
+      columns = c(bone)
+    )
+  ) |>
+  tab_footnote(
+    footnote = "Sperm oil and whale oil in barrels",
+    locations = cells_column_labels(
+      columns = c(sperm, oil)
+    )
+  ) |>
+  sub_missing(missing_text = "")
+  
+```
+
+<br>
+
+
+## Age
+
+```{r}
+#| label: define-masters-data
+
+df_masters <- df_voyage %>%
+  select(voyage_id, voyage_rank, voyage_name, master_id, master, birth, death, year_out, fate, vessel_id) %>%
+  mutate(#master_id = str_remove(master_id, "( A)?( )?\\?"), #"( A)?" isn't working
+         master_id = str_extract(master_id, "AM\\d+"),
+         master = str_remove_all(master, "[\\*\\?\\+ ]+$"),
+         birth_year = parse_number(str_extract(birth, "\\d{4}$")),
+         birth_year = case_when(
+           master_id == "AM2892"        ~ 1825, # assume transcription error off by a century
+           TRUE                         ~ birth_year
+         ),
+         age_at_voyage  = year_out - birth_year,
+         decade_voyage = 10 * floor(year_out / 10)) %>%
+  filter(!is.na(age_at_voyage), # data quality checks
+         age_at_voyage > 0)
+
+
+n_masters_distinct <- df_masters %>%
+  distinct(master_id) %>%
+  nrow()
+
+master_age_med <- median(df_masters$age_at_voyage)
+
+n_master_age_likely_error <- df_masters %>%
+  filter(age_at_voyage < 20 | age_at_voyage > 70) %>%
+  nrow()
+
+```
+
+Most whaling masters were in their thirties when starting a whaling voyage. I did not remove from the plot below `r n_master_age_likely_error` cases that likely are in error: masters younger than 20 or older than 70. 
+
+```{r}
+#| label: fig-age-of-masters-histogram
+#| fig-cap: "Age of master at start of voyage"
+
+my_binwidth <- 1
+
+df_masters %>%
+  ggplot(aes(age_at_voyage)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = master_age_med, lty = 2, color = "white") +
+  geom_vline(xintercept = c(29.5, 39.5), lty = 2, color = "blue") +
+  scale_x_continuous(breaks = 0:10 * 10) +
+  dark_mode() +
+  labs(title = "Age of master at start of voyage",
+       subtitle = glue("{comma(nrow(df_masters))} voyages include masters' birth and year_out data",
+                       "\nbins are {my_binwidth} year wide; white dashed line is median: {round(master_age_med, 0)}"),
+       x = "Years old",
+       y = "Count",
+       caption = my_caption)
+
+```
+
+<br>
+
+After the mid-century peak, fewer young men became masters, leading to a rise in the median age.
+
+```{r}
+#| label: fig-age-of-masters-density-plot
+#| fig-cap: "Age of masters density plot - by decade"
+
+master_age_decade_med <- df_masters %>%
+  filter(age_at_voyage > 0,
+         decade_voyage >= 1760) %>%
+  rename(decade = decade_voyage) %>%
+  group_by(decade) %>%
+  summarize(age_med = median(age_at_voyage),
+            age_avg = mean(age_at_voyage),
+            n_master = n()) %>%
+  ungroup()
+  
+df_masters %>%
+  filter(age_at_voyage > 0,
+         decade_voyage >= 1760) %>%
+  mutate(decade = factor(decade_voyage))  %>%
+  ggplot() +
+  geom_density_ridges(aes(x = age_at_voyage, y = decade),
+                      rel_min_height = 0.005,
+                      fill = my_color_yellow, color = my_color_yellow, alpha = 0.8, size = 0.25) +
+  geom_point(data =  master_age_decade_med %>%
+               mutate(decade = factor(decade)),
+               aes(x = age_med, y = decade, size = n_master), shape = 18, color = my_color_red) +
+  scale_y_discrete(labels = c("1760", "", "1780", "", "1800", "", "1820", "", "1840", "", "1860",
+                              "", "1880", "", "1900", "", "1920", "", "1940")) + #"1720", "", "1740", "", 
+  scale_size_continuous(labels = c(1, 100, 1000, 2000),
+                        breaks = c(1, 100, 1000, 2000)) +
+  dark_mode() +
+  labs(title = "Age of masters at start of voyage",
+       subtitle = glue("{comma(nrow(df_masters))} vessels in the voyages data set\ninclude birth and year_out data",
+                       "; diamonds indicate median"),
+       x = "Years of age",
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+Half the masters made three or fewer voyages. Some probably made their money then moved on to other pursuits. Some lost their health or their lives. The other half returned to the sea again and again.
+
+```{r}
+#| label: fig-voyages-per-master-histogram
+#| fig-cap: "Voyages per master"
+
+df_voyages_per_master <- df_masters %>%
+  distinct(voyage_id, master_id, .keep_all = TRUE) %>%
+  count(master_id, birth_year, sort = TRUE)
+
+n_voyages_per_master_med <- median(df_voyages_per_master$n)
+n_voyages_per_master_avg <- mean(df_voyages_per_master$n)
+
+df_voyages_per_master %>%
+  ggplot(aes(n)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = n_voyages_per_master_med, lty = 2, color = "white") +
+  #geom_vline(xintercept = n_voyages_per_master_avg + 0.5, lty = 2, color = "blue") +
+  dark_mode() +
+  labs(title = glue("Half the masters made {spell_out(n_voyages_per_master_med)} or more voyages"),
+       subtitle = glue("{comma(nrow(df_voyages_per_master))} masters",
+                       #"\nwhite dashed line is median: {n_voyages_per_master_med} voyages", 
+                       #"; blue is average: {round(n_voyages_per_master_avg, 1)}"
+                       ),
+       x = "Number of voyages",
+       y = "Count",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Masters' years at sea
+
+Whaling became a way of life; half spent nearly a decade to more than 40 years at sea (total years at sea is estimated; see *@sec-dealing-with-errors Dealing with errors, duplicates, and omissions*).
+
+```{r}
+#| label: fig-masters-years-at-sea
+#| fig-cap: "Masters' time at sea (all voyages)"
+
+df_masters_at_sea <- df_masters %>%
+  left_join(.,
+            df_voyage_duration_simulated |>
+              select(voyage_id, duration_days, date_start, date_end, n_obs),
+            by = "voyage_id") |>
+  filter(!is.na(duration_days)) |>
+  group_by(master_id) |>
+  summarize(duration_days_avg  = mean(duration_days)) |>
+  ungroup() |>
+  left_join(df_masters,
+            .,
+            by = "master_id") |>
+  filter(!is.na(duration_days_avg)) |>
+  group_by(master_id) |>
+  summarize(est_days_at_sea = sum(duration_days_avg),
+            est_years_at_sea = est_days_at_sea / 365.24) |>
+  ungroup()
+
+master_years_at_sea_med = median(df_masters_at_sea$est_years_at_sea)
+
+df_masters_at_sea |>
+  ggplot(aes(est_years_at_sea)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = master_years_at_sea_med + 0.5, lty = 2, color = "white") +
+  # geom_vline(xintercept = n_voyages_per_master_avg + 0.5, lty = 2, color = "blue") +
+  dark_mode() +
+  labs(title = glue("Half the masters spent {spell_out(round(master_years_at_sea_med))} or more years\nat sea (estimated)"),
+       subtitle = glue("{comma(nrow(df_masters_at_sea))} masters for which there is at least one voyage duration",
+                       #"\nwhite dashed line is median: {round(master_years_at_sea_med, 1)} years", 
+                       # "; blue is average: {round(n_voyages_per_master_avg, 1)}"
+                       ),
+       x = "Est. years at sea",
+       y = "Count",
+       caption = my_caption)
+
+```
+
+<br>
+
+```{r}
+#| label: define-masters-per-voyage
+#| eval: false
+
+df_masters_per_voyage <- df_masters %>%
+  count(voyage_id, master_id, sort = TRUE)
+
+n_masters_2plus <- df_masters_per_voyage %>%
+  filter(n >= 2) %>%
+  nrow()
+
+n_masters_3plus <- df_masters_per_voyage %>%
+  filter(n >= 3) %>%
+  nrow()
+
+# Of the `r comma(nrow(df_voyage_distinct))` voyages in the dataset, `r n_masters_2plus` had more than one master, and `r spell_out(n_masters_3plus)` voyages had three. There were three main reasons:
+```
+
+## Fate
+
+Some masters did not return home. Some were killed by whales, some by other causes; some who took ill likely died after leaving their vessel.
+
+```{r}
+#| label: fig-masters-unhappy-fate
+#| fig-cap: "Masters' unhappy fates"
+
+df_masters_fate <- df_masters %>%
+  arrange(voyage_id, master_id, desc(voyage_rank)) %>% # bias toward keeping last voyage segment (not sure it matters)
+  distinct(voyage_id, master_id, fate) %>%
+  arrange(fate) %>%
+  distinct(master_id, .keep_all = TRUE) %>%
+  filter(!is.na(fate)) %>%
+  separate_rows(fate, sep = "[[:upper:]]{0}") %>%
+  filter(fate != "",
+         fate != "R") %>%
+  left_join(.,
+            code_masters_fate %>%
+              rename (fate = code),
+            by = "fate")
+
+n_dead <- df_masters_fate %>%
+  filter(fate %in% c("D", "K")) %>%
+  nrow()
+
+n_unhappy_pct <- nrow(df_masters_fate) / n_masters_distinct
+n_dead_pct <- n_dead / n_masters_distinct
+
+df_masters_fate %>%
+  count(description) %>%
+  mutate(description = fct_reorder(description, n)) %>%
+  ggplot(aes(n, description, fill = description)) +
+  geom_col(alpha = 0.8, na.rm = TRUE, fill = my_color_red) +
+  scale_fill_brewer(palette = "Set1") +
+  dark_mode() +
+  theme(legend.position = "none") +
+  labs(title = "Masters with an unhappy fate",
+       subtitle = glue("{comma(nrow(df_masters_fate))} of {comma(n_masters_distinct)} masters ",
+                       "({percent(n_unhappy_pct)}) had an unhappy fate",
+                       "\n{n_dead} ({percent(n_dead_pct)}) died or were killed by a whale"),
+       x = "Number of masters",
+       y = NULL,
+       caption = my_caption)
+```
+
+<br><br>

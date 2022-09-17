@@ -1,0 +1,782 @@
+# Financial returns {#sec-financial}
+
+```{r}
+#| label: setup-financial-return
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+#source(here::here("scripts", "mapping-prep.R"))
+source(here::here("scripts", "half-violin.R"))
+
+```
+
+```{r}
+#| label: load-data-for-financial-return
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+# df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+# df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+# df_crew <- tar_read(crew)
+
+df_cwm <- tar_read(cwm)
+
+df_cpi <- tar_read(cpi_1845)
+
+```
+
+## The New Bedford business model
+
+As noted in *The Economist* [@TE2015]:
+
+>Overall returns in the whaling business in New Bedford between 1817 and 1892 averaged 14% a year—an impressive record by any standard.
+>
+>New Bedford was not the only whaling port in America; nor was America the only whaling nation. Yet according to a study published in 1859, of the 900-odd active whaling ships around the world in 1850, 700 were American, and 70% of those came from New Bedford. The town’s whalers came to dominate the industry, and reap immense profits, thanks to a novel technology that remains relevant to this day. They did not invent a new type of ship, or a new means of tracking whales; instead, they developed a new business model that was extremely effective at marshalling capital and skilled workers despite the immense risks involved for both. 
+>
+>The whaling industry...was one of the first to grapple with the difficulty of aligning incentives among owners, managers and employees, according to Tom Nicholas and Jonas Peter Akins of Harvard Business School. In this model, there was no state backing. Managers held big stakes in the business, giving them every reason to attend to the interests of the handful of outside investors. Their stakes were held through carefully constructed syndicates and rarely traded; everyone was, financially at least, on board for the entire voyage. Payment for the crew came from a cut of the profits, giving them a pressing interest in the success of the voyage as well. As a consequence, decision-making could be delegated down to the point where it really mattered, to the captain and crew in the throes of the hunt, when risk and return were palpable....
+>
+>At the top of the New Bedford hierarchy was an agent or firm of agents like Gideon Allen, responsible for the purchase and outfitting of the ship, the hiring of the crew and the sale of the catch. To give them an incentive to cut the best deals possible, the agents put up a big share of the investment. Those with the best reputation received better terms from the other investors. Captains, who ran the show while the ship was at sea, often put up capital as well. A similar system of incentives is used in the riskier reaches of the investment-management business today, notes Mr Nicholas.
+>
+>Investors received half to two-thirds of the profits. The rest was divided among the crew in what was known as the “lay” system. A captain might get a 12th lay (one-twelfth of the remaining profit).....
+>
+>Every participant wanted to bring in returns quickly, but there were no artificial deadlines—nothing resembling what is now called “quarterly capitalism”. When whales became rare in accessible places, the crews from New Bedford extended their search to every corner of every ocean, however many years that took.
+>
+>To ensure that they were not ruined by a few disastrous voyages, the whaling firms invested in multiple expeditions at the same time, much as the venture capitalists of today “spray and pray”. A study published in 1997 concluded that, of the 787 boats launched from New Bedford during the 18th century, 272 sank or were destroyed. The firm that belonged to George Howland was not atypical: of its 15 ships, between four and nine were at sea at any given moment. One was sunk by a whale, three lost at sea, two burned by their crews, one destroyed by a Confederate gunboat during America’s civil war and five abandoned in Arctic ice. Yet Howland died a millionaire in 1852.
+
+<br>
+
+```{r}
+#| label: fig-cwm-image
+#| fig-cap: "The Charles W. Morgan moored at Mystic Seaport, CT [@CWMMS2022]"
+
+knitr::include_graphics(here("images", "Charles_W._Morgan.jpg"))
+
+```
+
+<br><br>
+
+## The case of the Charles W. Morgan {#sec-case-cwm}
+
+The Charles W. Morgan was commissioned in 1841 from New Bedford, MA, and now is preserved at The Mystic Seaport Museum. Staff there compiled [*Statistical and Financial Results of the 37 Voyages of the ship Charles W. Morgan*](https://educators.mysticseaport.org/static/connections/pdfs/cwm_financial_stats.pdf), helps to make concrete some of dynamics in the whaling industry. We should keep in mind the document's provisos:
+
+> It should be noted that over the years during which the Charles W. Morgan was active, there were great fluctuations in the prices of the various commodities. For example, the price of sperm oil rose as high as $2.27 per gallon in 1867 and dropped as low as $0.30 per gallon in 1920. Whalebone rose from a low of $0.34 per pound in 1845 to a high of $5.35 per pound in 1892. Prices of the various commodities also fluctuated widely within a given year.
+>
+> In 1868 some Grade A whale oil sold for $0.78 per gallon in New Bedford in May, whereas the average price for the whole year was $1.02. At the same time, some whalebone sold for $0.86 per pound, although the average price for the year was $1.24 per pound. On the other hand, some sperm oil sold for $1.80 per gallon in May, while the average price for the year was $1.78 per gallon. 
+>
+> Prices varied according to the quality of the product. The types of oil were sometimes separated into Grade A (best quality), Grade B (“dark and sour”), and Grade C (“black and stinking”). Bone prices varied according to length and place of origin. Long bone and that from the Arctic were more valuable than short pieces and that from the South Seas (See Elmo P. Hohman, The American Whaleman, p. 292). 
+
+Prices for whale oil peaked in the 1860s; sperm oil peaked shortly after. Both then entered a period of price decline that never recovered. Additionally, inflation over this time period further reduced real returns.
+
+The collapse of sperm and whale oil prices suggests the main dynamic was a collapse in demand rather than supply (as would have been the case if whales had become too rare to meet demand). 
+
+In contrast, the price for baleen bone spiked in the 1890s, and the continuing high price for baleen bone when sales ended raises the question: Why did the owners of the Charles W. Morgan switch in 1906 from using the port of San Franciso as a base to hunt whales in the Pacific, returning the ship to the original port of New Bedford and hunting sperm oil and whale oil in the Atlantic? Did the population of baleen whales collapse in the Pacific? Was it too costly to fit out the ship on the West coast? Was the ship too old and of questionable seaworthiness? Were there other reasons? The home ports and hunting areas are listed in Appendix *@sec-cwm-voyages Charles W. Morgan’s voyages*.
+
+```{r}
+min_year_cwm <- min(df_cwm$year_in)
+max_year_cwm <- max(df_cwm$year_in)
+
+```
+
+```{r}
+#| label: fig-sale-price-cwm
+#| fig-cap: "Sale prices for Charles W. Morgan's product"
+
+df_cwm %>%
+  inner_join(.,
+             my_product_color_manual,
+             by = "product") %>%
+  ggplot(aes(year_in, rate, color = product)) +
+  geom_line(size = 0.5, show.legend = FALSE) +
+  geom_point(size = 2) +
+  scale_y_continuous(labels = label_dollar()) +
+  dark_mode() +
+  labs(title = "Sale prices for Charles W. Morgan's product",
+       subtitle = glue("\n$/unit: gallons of sperm and whale oil; pounds of baleen bone",
+                       "\n37 voyages returning {min(df_cwm$year_in)}-{max(df_cwm$year_in)}",
+                       "; not adjusted for inflation"),
+       x = NULL,
+       y = NULL
+  )
+```
+
+<br>
+
+Revenue peaked in the 1860s and declined as prices declined. There isn't much difference between nominal dollars and 1845 dollars (adjusted based on estimated CPI [@MF2022]) since inflation was low during this period (see *@fig-cpi-in-years-of-cwm-operation Inflation (consumer price index) during the years of the Charles W. Morgan's operation* in the Appendix. For this reason, the other plots in this section are not adjusted for inflation.
+
+```{r}
+#| label: fig-revenue-cwm
+#| fig-cap: "Revenue for Charles W. Morgan's product each voyage"
+#| eval: false
+
+df_cwm_summary <- df_cwm %>%
+  group_by(voyage, year_out, year_in) %>%
+  summarize(revenue = sum(revenue)) %>%
+  ungroup() %>%
+  mutate(duration_years = year_in - year_out,
+         revenue_per_year = revenue / duration_years)
+
+df_cwm_summary %>%
+  ggplot(aes(year_in, revenue)) +
+  geom_line(size = 0.5, color = my_color_red) +
+  geom_point(size = 2, color = my_color_red) +
+  geom_smooth(span = 0.4, se = FALSE, color = "white") +
+  scale_y_continuous(labels = label_dollar(scale = 0.001, suffix = "K")) +
+  dark_mode() +
+  labs(title = "Revenue for Charles W. Morgan's product",
+       subtitle = glue("\n37 voyages returning {min(df_cwm$year_in)}-{max(df_cwm$year_in)}",
+                       "; not adjusted for inflation"),
+       x = NULL,
+       y = NULL
+  )
+```
+
+```{r}
+#| label: fig-revenue-cwm-adjusted-by-cpi
+#| fig-cap: "Revenue for Charles W. Morgan's product each voyage"
+
+df_cwm_summary <- df_cwm %>%
+  group_by(voyage, year_out, year_in) %>%
+  summarize(revenue = sum(revenue)) %>%
+  ungroup() %>%
+  mutate(duration_years = year_in - year_out,
+         revenue_per_year = revenue / duration_years)
+
+df_cwm_summary_adjusted <- df_cwm_summary |>
+  inner_join(df_cpi |> select(-starts_with("annual")),
+             by = c("year_in" = "year")) |>
+  mutate(revenue_1845_dollars = revenue / index_1845,
+         revenue_per_year_1845_dollars = revenue_per_year / index_1845) |>
+  rename(revenue_nominal = revenue,
+         revenue_per_year_nominal = revenue_per_year) |>
+  pivot_longer(cols = starts_with("revenue"), names_to = "metric", values_to = "value")
+
+df_cwm_summary_adjusted |>
+  filter(!str_detect(metric, "per_year")) |>
+  ggplot(aes(year_in, value, color = metric)) +
+  geom_line(size = 0.5) + 
+  geom_point(size = 2) + 
+  scale_y_continuous(labels = label_dollar(scale = 0.001, suffix = "K")) +
+  dark_mode() +
+  labs(title = "Revenue for Charles W. Morgan's product",
+       subtitle = glue("\n37 voyages returning {min(df_cwm$year_in)}-{max(df_cwm$year_in)}",
+                       "; in 1845 dollars and nominal dollars"),
+       x = NULL,
+       y = NULL,
+       color = NULL,
+       caption = my_caption
+  )
+
+```
+
+<br>
+
+It was advantageous to collect multiple products, since a crew didn't know how many and what kinds of whales they would encounter.
+
+```{r}
+#| label: fig-revenue-by-product-cwm
+#| fig-cap: "Revenue by product from Charles W. Morgan's voyages"
+
+df_cwm %>%
+  complete(year_in, product, fill = list(revenue = 0)) %>%
+  ggplot(aes(year_in, revenue, fill = product)) +
+  geom_area() +
+  scale_y_continuous(labels = label_dollar(scale = 0.001, suffix = "K")) +
+  dark_mode() +
+  labs(title = "Revenue by product from Charles W. Morgan's voyages",
+       subtitle = glue("\n37 voyages returning {min(df_cwm$year_in)}-{max(df_cwm$year_in)}",
+                       "; not adjusted for inflation"),
+       x = NULL,
+       y = NULL,
+       fill = "Revenue\ncontribution"
+  )
+```
+
+<br>
+
+
+## Investment and return
+
+```{r}
+
+cost_of_ship <- 45000
+cost_of_voyage <- 7000 # wild guess
+cost_of_crew <- 0.33 # portion of profits
+
+```
+
+Whaling was an uncertain business, but it offered the potential for great returns in the industry's heyday. From the perspective of an investor in the Charles W. Morgan's voyages, was it a good investment?
+
+Let's apply some hypothetical costs to the Charles W. Morgan's voyages. These numbers may vary significantly from the actual numbers, which are not at hand, and as a convenience I'm simplifying matters. For example, fitting out for multi-year journeys cost more than short ones; I'm ignoring that. 
+
+In this simplified model of investment and return I use these hypothetical values (a.k.a. *assumptions*) for the three main costs to the investors:
+
+* Cost to build the ship: `r dollar(cost_of_ship)` as noted in *Whaling Ships – A Few Historical Details* [@SKB2017] and recognized over the first two voyages.
+* Cost to fit out the ship for a voyage, including supplies needed for the crew: `r dollar(cost_of_voyage)`. This is a wild guess. Let's assume it includes wharf fees, repairs, supplies, interest on money borrowed, insurance, and any other non-crew costs. 
+* Cost of the crew (percent of profits less cost of voyage paid at the voyage's end). Assume `r percent(cost_of_crew, accuracy = .1)` based on  [@NBWM-WH2022]. A master could earn $\frac{1}{8}^{th}$ (`r percent(1/8, accuracy = .1)`) share [@JT2015] so let's assume the rest of the crew shared `r percent(cost_of_crew - 1/8, accuracy = .1)`.
+
+```{r}
+#| label: define-profit-loss-model
+
+df_cwm_costs <- tibble(voyage = 1:37,
+                       expense_building = 0,
+                       expense_outfitting = cost_of_voyage)
+df_cwm_costs$expense_building[1:2] <- cost_of_ship / 2
+
+df_cwm_profit <- df_cwm %>%
+  group_by(voyage, year_out, year_in) %>%
+  summarize(revenue = sum(revenue)) %>%
+  ungroup() %>%
+  inner_join(.,
+             df_cwm_costs,
+             by = "voyage") %>%
+  bind_rows(.,
+            tibble_row(voyage = 0, year_in = 1841, revenue = 0, expense_building = 0, expense_outfitting = cost_of_voyage)
+  ) %>%
+  arrange(voyage) %>%
+  mutate(expense_crew = (revenue - expense_outfitting) * cost_of_crew) %>%
+  mutate(expense_crew = pmax(if_else(voyage == 0, 0, expense_crew),  # no crew cost during ship construction
+                             0), # no crew cost if no profit from voyage
+         expense_total = expense_building + expense_outfitting + expense_crew,
+         net_profit = revenue - expense_total,
+         cum_profit = cumsum(net_profit)
+         )
+  
+model_cwm_return <- df_cwm_profit %>%
+  mutate(year = year_in - min(year_in) + 1) %>%
+  lm(cum_profit ~ year,
+     data = .)
+
+df_model_return <- model_cwm_return %>% tidy(conf.int = TRUE, conf.level = 0.90)
+all_years <- max(df_cwm$year_in) - min(df_cwm$year_out)
+yearly_investment <- df_cwm_profit %>%
+  mutate(input = expense_outfitting + expense_crew) %>%
+  pull(input) %>%
+  sum(.) / all_years
+
+revenue_total <- sum(df_cwm_profit$revenue)
+revenue_yearly <- revenue_total / all_years
+investment_total <- sum(df_cwm_profit$expense_outfitting) + sum(df_cwm_profit$expense_crew)
+investment_yearly <- investment_total / all_years
+expense_crew_total <- sum(df_cwm_profit$expense_outfitting)
+expense_crew_yearly <- sum(df_cwm_profit$expense_outfitting) / all_years
+expense_yearly <- investment_total / all_years
+return_net_avg <- df_model_return$estimate[[2]]
+return_net_total <- df_cwm_profit$cum_profit[[max(df_cwm_profit$voyage)]]
+return_pct <- return_net_avg / expense_yearly - 1
+
+```
+
+Annual returns of `r percent(return_pct, accuracy = .1)` would be quite good (were these numbers real). This is net of expenses and before taxes. 
+
+Also of note: the shorter voyages in the Pacific that started in the 1880s maintained a similar level of returns, which dropped only around the time the C.W. Morgan returned to the Atlantic in 1906.
+
+```{r}
+#| label: fig-hypothetical-return-cwm
+#| fig-cap: "Hypothetical investors' view: cumulative return from Charles W. Morgan's voyages"
+
+df_cwm_profit %>%
+  ggplot(aes(year_in, cum_profit)) +
+  geom_hline(yintercept = 0, lty = 2, color = "white") +
+  geom_line(size = 0.5, color = my_color_red) +
+  geom_point(size = 2, color = my_color_red) +
+  geom_smooth(method = "lm", se = FALSE, color = my_color_yellow) + #span = 0.4, 
+  annotate("text", x = 1845, y = 8e5, hjust = 0,
+           label = glue("Average annual")) +
+  annotate("text", x = 1845, y = 7e5, hjust = 0,
+           label = glue("* revenue: {dollar(round(revenue_yearly, 0))}")) +
+  annotate("text", x = 1845, y = 6e5, hjust = 0,
+           label = glue("* investment: {dollar(round(yearly_investment, 0))}")) +
+  annotate("text", x = 1845, y = 5e5, hjust = 0,
+           label = glue("   including crew costs: {dollar(round(expense_crew_yearly, 0))}")) +
+  annotate("text", x = 1845, y = 4e5, hjust = 0,
+           label = glue("* return: {dollar(round(return_net_avg, 0))}")) +
+  annotate("text", x = 1845, y = 3e5, hjust = 0,
+           label = glue("* yield: {percent(return_pct, accuracy = .1)}")) +
+  scale_y_continuous(labels = label_dollar(scale = 0.001, suffix = "K")) +
+  dark_mode() +
+  labs(title = "Hypothetical investors' view: cumulative return\nfrom Charles W. Morgan's voyages",
+       subtitle = glue("from start of first voyage in {min(df_cwm$year_out)} to final return in {max(df_cwm$year_in)}",
+                       " ({all_years} years)",
+                       "\n37 voyages; before taxes and not adjusted for inflation"),
+       x = NULL,
+       y = NULL
+  )
+  
+```
+
+<br>
+
+## Estimating the financial returns of other vessels' voyages
+
+The wide variation in product harvested per day and per km as seen in *@sec-normalized-yields Normalized product yield metrics* suggests some voyages were a lot more successful than others. To explore this, I use the prices paid at the end of each Charles W. Morgan voyage as reference points by doing the following:
+
+* Focus on the years when the Charles W. Morgan was in operation, since I have easily-accessible reference prices for this period.
+* Use a spline to interpolate prices in years the Morgan was at sea and didn't sell product; this avoids large step changes year-to-year in references prices.
+* Use these reference prices to estimate the revenue resulting from all voyages for which there exists `year_in` data in this period.
+* Since voyages were of varying duration, also look at normalized returns, for example: revenue per day for voyages for which there is sufficient data.
+
+The resulting revenue estimates for other voyages are definitely imperfect, however they likely are in the neighborhood and useful for looking at the revenue distribution.
+
+```{r}
+#| label: define-return-comparisons
+
+df_cwm_bone <- df_cwm %>%
+  filter(product == "bone") %>%
+  full_join(.,
+             tibble(temp_year = min(.$year_in):max(.$year_in)), 
+             by = c("year_in" = "temp_year")) %>%
+  arrange(year_in) %>%
+  fill(rate, product, .direction = "down") %>%
+  select(year_in, rate, product)
+
+my_rate_bone = stats::smooth.spline(df_cwm_bone$year_in, df_cwm_bone$rate, 
+                        n = length(df_cwm_bone$year_in))
+
+df_cwm_sperm <- df_cwm %>%
+  filter(product == "sperm") %>%
+  full_join(.,
+             tibble(temp_year = min(.$year_in):max(.$year_in)), 
+             by = c("year_in" = "temp_year")) %>%
+  arrange(year_in) %>%
+  fill(rate, product, .direction = "down") %>%
+  select(year_in, rate, product)
+
+my_rate_sperm = stats::smooth.spline(df_cwm_sperm$year_in, df_cwm_sperm$rate, 
+                        n = length(df_cwm_sperm$year_in))
+
+df_cwm_oil <- df_cwm %>%
+  filter(product == "whale") %>%
+  full_join(.,
+             tibble(temp_year = min(.$year_in):max(.$year_in)), 
+             by = c("year_in" = "temp_year")) %>%
+  arrange(year_in) %>%
+  fill(rate, product, .direction = "down") %>%
+  select(year_in, rate, product)
+
+my_rate_oil = stats::smooth.spline(df_cwm_oil$year_in, df_cwm_oil$rate, 
+                        n = length(df_cwm_oil$year_in))
+
+# rate_reference <- 
+#   bind_rows(
+#     df_cwm_bone,
+#     df_cwm_sperm,
+#     df_cwm_oil
+#   )
+
+rate_reference <- 
+  bind_rows(
+    tibble(year_in = my_rate_bone$x,
+           rate = my_rate_bone$y,
+           product = "bone_lb"),
+    tibble(year_in = my_rate_sperm$x,
+           rate = my_rate_sperm$y,
+           product = "sperm_gal"),
+    tibble(year_in = my_rate_oil$x,
+           rate = my_rate_oil$y,
+           product = "oil_gal")
+  ) %>%
+  pivot_wider(names_from = product,
+              names_prefix = "rate_",
+              values_from = rate) %>%
+  full_join(.,
+            tibble(year_in = min(df_voyage_distinct$year_in, na.rm = TRUE):max(df_voyage_distinct$year_in, na.rm = TRUE)),
+            by = "year_in") %>%
+  arrange(year_in) %>%
+  fill(starts_with("rate_"), .direction = "downup")
+
+rate_reference_long <- rate_reference %>%
+  pivot_longer(cols = starts_with("rate_"), names_to = "product", values_to = "rate") %>%
+  mutate(product = str_remove(product, "rate_"))
+```
+
+
+```{r}
+#| label: rate-reference
+#| fig-cap: "Reference prices used to estimate voyage revenue"
+
+rate_reference_long %>%
+  ggplot(aes(year_in, rate, color = product)) +
+  geom_line() +
+  geom_vline(xintercept = c(min_year_cwm, max_year_cwm), lty = 2, color = "white") +
+  scale_y_continuous(label = dollar_format()) +
+  dark_mode() +
+  labs(title = "Reference prices used to estimate voyage revenue",
+       subtitle = glue("Based on product sold at end of Charles W. Morgan's voyages",
+                       "\nDotted lines indicate first and last sale")
+  )
+
+```
+
+<br>
+
+### Returns by voyage
+
+```{r}
+#| label: define-voyage-revenue
+
+df_voyage_revenue <- df_voyage_distinct %>%
+  filter(!is.na(year_in)) %>%
+  select(voyage_id, voyage_name, year_in, "bone", "sperm", "oil") %>%
+  mutate(vessel = str_extract(voyage_name, ".*(?= \\:)"),
+         vessel = if_else(vessel == "Unknown", paste0("Unknown_", voyage_id), vessel)
+         ) %>%
+  mutate(bone_lb = bone,
+         sperm_gal = sperm * gal_per_barrel,
+         oil_gal = oil * gal_per_barrel) %>%
+  pivot_longer(cols = c("bone_lb", "sperm_gal", "oil_gal"), names_to = "product", values_to = "amount") %>% 
+  left_join(.,
+            rate_reference_long,
+            by = c("year_in", "product")) %>%
+  filter(!is.na(amount),
+         amount > 0.1) %>%
+  mutate(revenue = rate * amount)
+  
+```
+
+The revenue histogram below includes all voyages with `year_in` data. The most reliable are revenue in the years with Charles W. Morgan's reference prices, shown in yellow below. 
+
+```{r}
+#| label: define-revenue-voyage
+
+df_voyage_revenue_summary_voyage <- df_voyage_revenue %>%
+  group_by(voyage_id, vessel, year_in) %>%
+  summarize(voyage_revenue = sum(revenue)) %>%
+  ungroup() %>%
+  mutate(decade = 10 * floor(year_in / 10 ))
+
+voyage_revenue_voyage_med <- median(df_voyage_revenue_summary_voyage$voyage_revenue)
+
+min_year <- min(df_voyage_revenue_summary_voyage$year_in)
+max_year <- max(df_voyage_revenue_summary_voyage$year_in)
+voyage_revenue_summary_voyage_n = nrow(df_voyage_revenue_summary_voyage)
+
+voyage_revenue_voyage_cwm_med <- df_voyage_revenue_summary_voyage %>%
+  filter(between(year_in, min_year_cwm, max_year_cwm)) %>%
+  pull(voyage_revenue) %>%
+  median()
+
+voyage_revenue_voyage_cwm_n <- df_voyage_revenue_summary_voyage %>%
+  filter(between(year_in, min_year_cwm, max_year_cwm)) %>%
+  summarize(n_voyages = n()) %>%
+  as.numeric()
+```
+
+```{r}
+#| label: fig-estimated-revenue-all-voyages
+#| fig-cap: "Estimated revenue per voyage in the years the Charles W. Morgan operated"
+
+plot_cutoff_revenue <- 250000
+binwidth <- 5000
+
+data_for_plot <- df_voyage_revenue_summary_voyage |>
+  filter(!voyage_id %in% c("AV02138", "AV05677")) |> # remove two voyages with 10x and 100x there revenue of the rest (likely data errors)
+  mutate(cwm_contemporary = between(year_in, min_year_cwm, max_year_cwm)) 
+
+n_datapoints_not_shown <- data_for_plot |>
+  filter(voyage_revenue > plot_cutoff_revenue) |>
+  nrow()
+
+data_for_plot |>
+  ggplot(aes(voyage_revenue, fill = cwm_contemporary)) +
+    geom_histogram(binwidth = binwidth) +  #bins = 45
+  geom_vline(xintercept = voyage_revenue_voyage_cwm_med, lty = 2, color = "white") + # median
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale(),
+                                           prefix = "$")) +
+  coord_cartesian(xlim = c(0, plot_cutoff_revenue)) +
+  dark_mode() +
+  labs(title = "All voyages: estimated revenue per voyage\nin the years the C.W. Morgan operated",
+       subtitle = glue("Red are voyages ending {min_year} to {max_year} that have year_in data (n = {comma(voyage_revenue_summary_voyage_n)})",
+                       "\nYellow are voyages ending {min_year_cwm} to {max_year_cwm} (n = {comma(voyage_revenue_voyage_cwm_n)})",
+                       "; not showing {n_datapoints_not_shown} voyage(s) with revenue > {round(plot_cutoff_revenue/1000)}K",
+                       "\nBinwidth: ${binwidth}; dotted line is median of C.W. Morgan and its contemporaries: ${comma(round(voyage_revenue_voyage_cwm_med, 0))}"),
+       x = "Voyage revenue",
+       fill = "C.W.M.\nContemporary",
+       caption = my_caption)
+```
+
+<br>
+
+```{r}
+#| label: fig-median-revenue-during-cwm-operation-by-decade-half-violin
+#| fig-cap: "Median revenue per voyage declined during Charles W. Morgan's operation"
+
+df_voyage_revenue_summary_voyage_for_plot <- df_voyage_revenue_summary_voyage %>%
+  filter(between(year_in, min_year_cwm, max_year_cwm)) %>%
+  mutate(decade = factor(as.character(decade)))
+
+med_by_decade <- df_voyage_revenue_summary_voyage_for_plot %>%
+  group_by(decade) %>%
+  summarize(median_revenue = median(voyage_revenue),
+            n_voyages = n()
+            ) %>%
+  ungroup() %>%
+  mutate(n_scaled = n_voyages / max(n_voyages))
+
+df_voyage_revenue_summary_voyage_for_plot %>%
+  ggplot(aes(decade, voyage_revenue)) +
+  geom_flat_violin(aes(fill = decade, color = decade),
+                   show.legend = FALSE, width = 3) +
+  geom_point(data = med_by_decade,
+             aes(decade, median_revenue, size = n_voyages),
+             #size = 3, 
+             color = "white") +
+   geom_hline(yintercept = voyage_revenue_voyage_cwm_med, lty = 2, color = "white") +
+  scale_y_log10(labels = label_number(prefix = "$",
+                                           scale_cut = cut_short_scale())) +
+  scale_size_continuous(breaks = c(100, 500, 1000, 2000)) +
+  coord_cartesian(ylim = c(1e3, 1e6)) +
+  dark_mode() +
+  labs(title = "Median revenue per voyage declined\nover the decades the Charles W. Morgan operated",
+       subtitle = glue("Estimated revenue per voyage;",
+                       " voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_voyage_cwm_n)})",
+                       "\nWhite dot is decadal median",
+                       "\nDotted line is overall median: ${comma(round(voyage_revenue_voyage_cwm_med, 0))}"),
+       x = NULL,
+       y = "Voyage revenue (log10 scale)",
+       caption = my_caption)
+```
+
+<br>
+
+The cumulative density plot below includes all voyages in the decades the Charles W. Morgan operated, grouped by decade. Over time the median return declined.
+
+```{r}
+#| label: fig-median-revenue-during-cwm-operation
+#| fig-cap: "Median revenue per voyage declined during Charles W. Morgan's operation"
+
+df_voyage_revenue_summary_voyage %>%
+  filter(between(year_in, min_year_cwm, max_year_cwm)) %>%
+  ggplot(aes(voyage_revenue)) +
+  stat_ecdf(color = my_color_red, size = 2) +
+  stat_ecdf(aes(color = decade, group = decade)) +
+  geom_vline(xintercept = voyage_revenue_voyage_cwm_med, lty = 2, color = "white") +
+  geom_hline(yintercept = 0.50, lty = 2, color = "white") +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale(),
+                                           prefix = "$")) +
+  scale_y_continuous(labels = percent_format()) +
+  scale_color_gradient(low = my_color_blue, high = my_color_yellow,
+                       limits = c(min_year_cwm, max_year_cwm)) +
+  coord_cartesian(xlim = c(1e3, 2.5e5)) +
+  dark_mode() +
+  labs(title = "Median revenue per voyage declined\nover the decades the Charles W. Morgan operated...",
+       subtitle = glue("Estimated revenue per voyage;",
+                       " voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_voyage_cwm_n)})",
+                       "\nRed line includes all decades in range",
+                       "\nDotted vertical line is overall median: ${comma(round(voyage_revenue_voyage_cwm_med, 0))}"),
+       x = "Voyage revenue",
+       y = "",
+       caption = my_caption)
+
+```
+
+<br>
+
+### Normalized return
+
+```{r}
+#| label: define-revenue-per-day-during-cwm-operation
+
+voyage_sim_cut_off <- 30
+
+df_voyage_revenue_per_day <-  df_voyage_revenue_summary_voyage %>%
+  filter(between(year_in, min_year_cwm, max_year_cwm)) %>%
+  left_join(.,
+            df_voyage_duration_simulated %>%
+              select(voyage_id, duration_days),
+            by = "voyage_id"
+            ) %>%
+  mutate(revenue_per_day = voyage_revenue / duration_days) %>%
+  filter(duration_days >= voyage_sim_cut_off) # quality check: voyage must be at least 30 days in duration
+
+voyage_revenue_per_day_n <- nrow(df_voyage_revenue_per_day)
+voyage_revenue_per_day_med <- median(df_voyage_revenue_per_day$revenue_per_day)
+
+```
+
+At the same time, revenue per day increased, since voyages were shorter over time.
+
+Note that I'm including the simulated data introduced in *@sec-voyage-duration Voyage duration* so that there are more voyages (`r voyage_revenue_per_day_n`) with voyage duration in the period that the C.W. Morgan's operated. I excluded voyages less than `r voyage_sim_cut_off` days.
+
+```{r}
+#| label: fig-revenue-per-day-during-cwm-operation
+#| fig-cap: "Revenue per day during C.W. Morgan's operation"
+
+df_voyage_revenue_per_day %>%
+  ggplot(aes(revenue_per_day)) +
+  stat_ecdf(color = my_color_red, size = 2) +
+  stat_ecdf(aes(color = decade, group = decade)) +
+  geom_vline(xintercept = voyage_revenue_per_day_med, lty = 2, color = "white") +
+  geom_hline(yintercept = 0.50, lty = 2, color = "white") +
+  scale_x_continuous(labels = label_number(prefix = "$", 
+                                           scale_cut = cut_short_scale())) +scale_y_continuous(labels = percent_format()) +
+  scale_color_gradient(low = my_color_blue, high = my_color_yellow,
+                       limits = c(min_year_cwm, max_year_cwm)) +
+  coord_cartesian(xlim = c(1, 250)) +
+  dark_mode() +
+  labs(title = "...While revenue per day generally increased\nover the decades the Charles W. Morgan operated",
+       subtitle = glue("Estimated revenue per day;",
+                       " voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_per_day_n)})",
+                       "\nRed line includes all decades in range",
+                       "\nDotted vertical line is overall median: ${comma(round(voyage_revenue_per_day_med, 0))} per day"),
+       x = "Revenue per day",
+       y = "",
+       caption = my_caption)
+```
+
+<br>
+
+Surprisingly, the average and distribution of revenue per day is quite similar for other voyages that sold product during the years the Charles W. Morgan operated (for the set of n = `r comma(voyage_revenue_per_day_n)` voyages). Perhaps whaling masters had a revenue objective and adjusted the duration of their voyages accordingly.
+
+```{r}
+#| label: fig-average-revenue-per-day-during-cwm-operation
+#| fig-cap: "Revenue per day during the years of Charles W. Morgan's operation"
+
+plot_cutoff_revenue <- 450
+
+n_datapoints_not_shown <- df_voyage_revenue_per_day |>
+  filter(revenue_per_day > plot_cutoff_revenue) |>
+  nrow()
+
+df_voyage_revenue_per_day %>%
+  ggplot(aes(year_in, revenue_per_day)) + #, size = n_vessel_voyages
+  geom_jitter(color = my_color_red, fill = my_color_red, alpha = 0.5) +
+  geom_smooth(se = FALSE, color = "white") +
+  scale_y_continuous(labels = label_number(prefix = "$", 
+                                           scale_cut = cut_short_scale())) +
+  coord_cartesian(ylim = c(0, 450)) +
+  dark_mode() +
+  labs(title = "Revenue per day",
+       subtitle = glue("Voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_per_day_n)})",
+                       "\nNot showing {n_datapoints_not_shown} voyage(s) with rev/day > ${plot_cutoff_revenue}",),
+       x = NULL,
+       y = "Revenue per day",
+       caption = my_caption)
+```
+
+<br>
+
+The plot below has duration on the X axis instead of the year_in: again, the average revenue per day is remarkably consistent over voyages long and short.
+
+```{r}
+#| label: fig-revenue-per-day-by-voyage-duration-during-cwm-operation
+#| fig-cap: "Revenue per day by voyage duration during years of Charles W. Morgan's operation"
+
+plot_cutoff_revenue <- 450
+
+n_datapoints_not_shown <- df_voyage_revenue_per_day |>
+  filter(revenue_per_day > plot_cutoff_revenue) |>
+  nrow()
+
+df_voyage_revenue_per_day %>%
+  arrange(year_in) %>%
+  ggplot(aes(duration_days, revenue_per_day, color = year_in)) +
+  geom_point(alpha = 0.5) + #
+  geom_smooth(data = df_voyage_revenue_per_day %>% 
+                filter(between(duration_days, 120, 2000)),
+              color = "white", se = FALSE) +
+  scale_x_continuous(labels = comma_format()) +
+  scale_y_continuous(labels = label_number(prefix = "$", 
+                                      scale_cut = cut_short_scale())) +
+  scale_color_gradient(low = my_color_red, high = my_color_yellow,
+                         ) + 
+  coord_cartesian(ylim = c(0, plot_cutoff_revenue)) +
+  dark_mode() +
+  labs(title = "Revenue per day by voyage duration",
+       subtitle = glue("Voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_per_day_n)})",
+                       "\nNot showing {n_datapoints_not_shown} voyage(s) with revenue_per_day > ${plot_cutoff_revenue}"),
+       x = "Duration (days)",
+       y = "Revenue per day",
+       caption = my_caption)
+```
+
+<br>
+
+From the 1860s on there were a minority of voyages that were very productive very quickly. Presumably the voyages returned earlier than anticipated once their holds were full.
+
+```{r}
+#| label: fig-revenue-per-day-by-voyage-duration-during-cwm-operation-by-decade
+#| fig-cap: "Revenue per day by voyage duration (by decade) during the years of Charles W. Morgan's operation"
+#| fig-height: 8
+#| fig-width: 8
+
+plot_cutoff_revenue <- 300
+
+n_datapoints_not_shown <- df_voyage_revenue_per_day |>
+  filter(revenue_per_day > plot_cutoff_revenue) |>
+  nrow()
+
+df_voyage_revenue_per_day %>%
+  mutate(decade = as.character(decade),
+         decade = if_else(decade %in% c("1890", "1900", "1910", "1920"), "1890s-1920s", decade),
+         decade = factor(decade)
+         ) %>%
+  group_by(decade) %>%
+  mutate(n = n(),
+         decade_label = paste0(decade, " (n=", n, ")")) %>%
+  ungroup() %>%
+  arrange(year_in) %>%
+  ggplot(aes(duration_days, revenue_per_day, color = year_in)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(color = "white", se = TRUE) +
+  scale_y_continuous(labels = label_number(prefix = "$", 
+                                      scale_cut = cut_short_scale())) +
+  scale_color_gradient(low = my_color_red, high = my_color_yellow,
+                         ) +
+  coord_cartesian(ylim = c(0, plot_cutoff_revenue)) +
+  facet_wrap(decade_label ~ ., ncol = 2) +
+  dark_mode() +
+  labs(title = "Revenue per day by voyage duration - by decade",
+       subtitle = glue("Voyages ending {min_year_cwm} to {max_year_cwm}",
+                       " (n = {comma(voyage_revenue_per_day_n)})",
+                       "\nNot showing {n_datapoints_not_shown} voyage(s) with revenue_per_day > ${plot_cutoff_revenue}"),
+       x = "Duration (days)",
+       y = "Revenue per day",
+       caption = my_caption)
+```
+
+<br>
+
+## Summary
+
+Over time the volume of product harvested declined, prices declined, inflation took its bite, and whereas for a while there were three primary products that provided a means to spread the risk, ventures became increasingly dependent on sperm oil (see *@sec-relative-portion-species-decade Relative portion by species per decade*). Not shown here (but explained below), cost of wages rose as the industrial revolution gained momentum, and American whaling lost its competitive edge compared to other countries.
+
+Perhaps in response to these changing dynamics, the Charles W. Morgan undertook multi-year voyages until about 1885, then mostly yearly voyages.
+
+Derek Thompson provides a good summary of some of the dynamics that brought the American Whaling movement to an end in *The Spectacular Rise and Fall of U.S. Whaling: An Innovation Story* [@DT2012]:
+
+> In the middle of the 19th century, whale oil prices increased, which should have led to more production. But output never recovered after the 1850s even as whaling continued to grow around the world. Why did Americans give up? 
+>
+> The answer from Davis, Gallman, and Gleiter will also look familiar to a modern business audience: US workers got too darn expensive, and other countries stole our share of the whale business.
+>
+> Thanks to the dry-land industrial revolution, "higher wages, higher opportunity costs of capital, and a plethora of entrepreneurial alternatives turned Americans toward the domestic economy," the authors write. Meanwhile, slower growth overseas made whaling more attractive to other countries. "Lower wages, lower opportunity costs of capital, and a lack of entrepreneurial alternatives pushed [people like the] Norwegians into exploiting the whale stocks," they continue.
+>
+> Between the 1860s and the 1880s the wages of average US workers grew by a third, making us three times more expensive than your typical Norwegian seaman. Whales aren't national resources. They're supranational resources. They belong to whomever can hunt them most efficiently. With all the benefits of modern whaling technology and workers at a third the price, Norway and other countries snagged a greater share of the world's whales.
+>
+> As the costs of whaling grew, capitalists funneled their cash into other domestic industries: notably railroads, oil, and steel. When New Bedford's whaling elite opened the city's first cotton mill and petroleum-refining plant, the harpoon had been firmly lodged inside the heart of American whaling. Ishmael complained famously, in the first paragraph of Moby Dick, of having "nothing particular to interest me on shore," so he struck out to earn a living wage at sea. In the second half of Melville's century, the industrial revolution lured young men without means to factories rather than the ocean. Capital beckoned the nation's Ishmaels to the machines, away from the watery parts of the world. 
+
+It's likely that at least as influential as labor costs were the characteristics of alternative investment opportunities: closer to home, lower risk, with potential to grow larger than whaling and provide correspondingly higher returns. The industrial revolution was the "next big thing".
+
+<br><br>

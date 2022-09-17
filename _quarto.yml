@@ -1,0 +1,48 @@
+project:
+  type: book
+  output-dir: "_whaling-by-numbers"
+
+execute:
+  freeze: auto  # re-render only when source changes
+  
+book:
+  title: "American Whaling by the Numbers"
+  author: "[Daniel Moul](https://dmoul.github.io)"
+  date: today
+  cover-image: "./images/baleen-large-5733725597_0f034cf53d_k_d.jpg"
+  #site-url: https://dmoul.github.io/
+  page-footer: 
+    center: "Copyright 2022 by [Daniel Moul](https://dmoul.github.io). License: [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/)"
+    background: dark
+  # navbar:
+  #   search: true
+  
+  chapters: 
+    - index.qmd
+    - overview.qmd
+    - voyages.qmd
+    - vessels.qmd
+    - masters.qmd
+    - crew.qmd
+    - whales.qmd
+    - products.qmd
+    - financial.qmd
+    - voyage-tracks.qmd
+    - appendix.qmd
+    - references.qmd
+
+bibliography: references.bib
+license: "CC BY"
+appendix-style: default
+
+format:
+  html:
+    # theme: yeti
+    # theme: cosmo
+    theme:
+      light: flatly
+      dark: darkly
+    # cover-image: "./images/baleen-large-5733725597_0f034cf53d_k_d.jpg"
+    toc: true
+    number-sections: true
+    number-depth: 3

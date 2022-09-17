@@ -1,0 +1,422 @@
+# Appendix
+
+```{r}
+#| label: setup-appendix
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+#source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-appendix
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+df_crew <- tar_read(crew)
+df_crewlist <- tar_read(crew_list)
+
+df_cwm <- tar_read(cwm)
+
+df_cpi <- tar_read(cpi_1845)
+
+```
+
+```{r}
+#| label: prepare-appendix-data
+
+# first defined in voyage-tracks.qmd
+cwm_voyages <- df_voyage %>%
+  filter(vessel_id == "AS0089") %>%
+  arrange(year_out)
+
+# first defined in voyage-tracks.qmd
+n_vessels_voyages_for_plot_nolargegaps <- df_voyages_for_plot_nolargegaps %>%
+  distinct(vessel) %>%
+  nrow()
+
+n_voyages_crewlist <- df_crewlist |>
+  distinct(voyage_id, crewlist_id) |>
+  count(voyage_id, sort = TRUE)
+
+```
+
+## Dealing with errors, duplicates, and omissions {#sec-dealing-with-errors}
+
+Hand-written records have errors. Many people in many locations over more than 150 years wrote entries in paper ledgers as part of their normal work. Men on each voyage wrote daily entries in the ships' logs. Spellings varied. Abbreviations were inconsistently applied. Some entries are illegible. Some are simply missing. A portion of this data was heroically transcribed into electronic records and made available freely for others to use--including in this work.
+
+Below I summarize actions I took to make the best use of the data at hand and to minimize the chance of misleading presentation or inference. Since this is a descriptive, informal analysis and not one that could be used to make decisions, I have favored simplicity over rigor in my assumptions and techniques.
+
+### Voyages
+
+#### Sources of log data
+
+As noted in *@sec-observations-in-the-logbooks Observations in the logbooks*, Townsend transcribed only a small subset of the daily log data, resulting in under-reporting sightings and strikes.
+
+```{r}
+
+df_encounters_by_voyage_from_df_log <- df_log |> 
+  group_by(voyage_id, source) |>
+  mutate(obs_date_first = min(log_date),
+         obs_date_last = max(log_date),
+         n_days_obs_range = difftime(obs_date_last, obs_date_first, units = "days")) |>
+  ungroup() |>
+  group_by(voyage_id, encounter) |>
+  mutate(n_encounter = n()) |>
+  ungroup() |>
+  group_by(voyage_id, source, obs_date_first, obs_date_last, n_days_obs_range) |>
+  summarize(NoEnc = length(subset(encounter, encounter == "NoEnc")),
+            Sight = length(subset(encounter, encounter == "Sight")),
+            Strike = length(subset(encounter, encounter == "Strike")),
+            n_tried = sum(n_tried),
+            n_obs = n()
+  ) |>
+  mutate(pct_days_w_obs = n_obs / as.integer(n_days_obs_range))
+
+df_encounters_by_voyage_from_df_log |>
+  filter(!is.infinite(pct_days_w_obs)) |>
+  ggplot(aes(pct_days_w_obs, fill = source, color = source)) +
+  geom_density(alpha = 0.6) +
+  scale_x_continuous(labels = label_percent()) +
+  coord_cartesian(xlim = c(0, 1.2)) +
+  dark_mode() +
+  labs(title = glue("Townsend recorded a small subset of log entries (mostly strikes)", 
+                    "\nCoML recorded daily (more often when there were mulitiple encounters)",
+                    "\nMaury was somewhere in the middle"),
+       x = "Pct of days in logbook date range with observations (per voyage)",
+       fill = NULL,
+       color = NULL,
+       y = "Density",
+       caption = my_caption)
+
+```
+
+#### Duplicate voyage data
+
+The dataset includes some duplicates of voyages arising from the use of three sources (in chronological order): Townsend, Maury and Census on Marine Life (CoML). Where there are duplicates, I take CoML over the others and Maury over Townsend.
+
+#### Limited detailed log data
+
+As seen in @fig-voyages-and-logbook-tables-histogram there is log data for `r comma(nrow(distinct(df_log, voyage_id)))` of the `r comma(nrow(df_voyage_distinct))` voyages (`r percent(nrow(distinct(df_log, voyage_id)) / nrow(df_voyage_distinct), accuracy = 0.1)`). Even though the detailed logs are a convenience sample (no effort has been made to select voyages randomly or in a way that is stratified by some meaningful characteristic), I assume the voyages for which detailed logs are not available are reasonably similar in nature and distribution to ones for which there is log data.
+
+#### Simulated voyage `day_in` and/or `year_in` data
+
+Simulated `day_out` and `day_in` (and in some cases `year_in`) data provides more than four times the number of voyages to work with (compare @fig-voyage-duration-histogram and @fig-voyage-duration-histogram-simulated. The simulated days use the frequencies in the complete data to weight the randomly selected simulated data.
+
+#### Voyage log gaps
+
+* For analysis, voyages that have a gap of more than a year between observations have been dropped, since I assume the data is too poor to use. In this case the voyage could be (and perhaps should be) categorized as two separate voyages.
+
+* For plotting, voyages that have a gap in the logs of more than `r spell_out(max_obs_gap)` days have been dropped.
+
+* I manually viewed all tracks that passed the above filters, and identified a subset as good tracks for plotting. I excluded ones with widely misplaced points (likely a data error), or gaps that led to tracks crossing land masses when plotting the segment between the points.
+
+### Voyage outlier data likely to be data errors
+
+In some cases I removed a small number of the largest data poitns that were implausably larger than the next highest values. For example, in product_per_day calculated from the Logbook table joined to the Voyages table:
+
+```{r}
+
+df_voyage_distinct |>
+  filter(!voyage_id %in% c("AV02138", "AV08908")) |> # remove some outliers to simplify plots
+  filter(year_out != day_out & year_in != day_in) |>
+  select(voyage_id:voyage_name, year_out:return_code, bone, sperm, oil) |>
+  mutate(date_out = ymd(day_out),
+         date_in = ymd(day_in),
+         duration_days = as.numeric(difftime(date_in, date_out, units = "days")),
+         decade = 10 * floor(year_out / 10)
+         ) |>
+  filter(!is.na(duration_days),
+         #duration_days >= 7
+         ) |>
+  mutate(# change units for clearer plots
+         sperm = sperm * gal_per_barrel,
+         oil = oil * gal_per_barrel,
+         #bone = bone * ton_per_lb,
+         #voyage_distance_100km = voyage_distance_km / 100
+         ) %>%
+  pivot_longer(cols = c(bone, sperm, oil), names_to = "product", values_to = "value") |>
+  filter(!is.na(value)) |>
+  mutate(prod_per_voyage = value,
+         prod_per_day = value / duration_days,
+         ) |>
+  pivot_longer(cols = c(duration_days, starts_with("prod_per")),
+                        names_to = "metric", values_to = "metric_value") |>
+  filter(metric == "prod_per_day") |>
+  arrange(-metric_value) |>
+  group_by(product) |>
+  mutate(multiple_of_median = metric_value / median(metric_value, na.rm = TRUE)) |>
+  slice_head(n = 5) |>
+  select(voyage_id, voyage_name, metric, product, metric_value, multiple_of_median) |>
+  filter(product %in% c("oil", "sperm")) |>
+  gt() |>
+  tab_header(md(glue("**Top values of product_per_day are more than 100x the median value", 
+                     "<br>more than the next highest values**"))) |>
+  fmt_number(columns = c(metric_value, multiple_of_median),
+             decimals = 0)
+  
+
+```
+
+<br>
+
+### Tonnage ambiguity
+
+Vessels were modified during their working years, which could significantly change their tonnage. The `voyages` data set include multiple tonnages for many ships represented in the form: "218/130/145"; this example is from the bark A. R. Tucker (vessel AS0020) for which the data set includes voyages starting in 1851 and ending in 1906. Since the years of each configuration are not included, I used the largest number. Thus the plot of tonnage by decade in @sec-tonnage may overstate vessels' tonnage in their early or late years, when I assume vessels sailed in configurations with lower tonnages.
+
+### Masters' total years at sea
+
+Since most voyages lack good duration data (see Simulated voyage `day_in` and/or `year_in` data above), and since duration of voyages varied over the decades (see @fig-obs-per-voyage-per-decade), where there is actual or estimated voyage duration for at least one of a master's voyage, for @fig-masters-years-at-sea I used the average of all that master's voyages for each voyage, and summed the total for each master.
+
+### Crew size
+
+I assume that any vessel with less than `r min_crew_size_cutoff` crew has an incomplete crew list, and I excluded it from the plots in @sec-number-of-crew Number of crew.
+
+### Unique crew members
+
+There is no unique identifier per person. The `crewentry_id` field in the crew lists is based on the `crewlist_id`, and the spellings and abbreviations of names were not always consistent. Thus its difficult to identify individual people who participated in multiple voyages. It is tractable problem to reduce the over-count in the `r n_voyages_crewlist |> filter(n > 1) |> nrow()` voyages that have two or three crew lists, since a voyage happens over a short time frame with a small set of the universe of crew members. I made an effort to remove duplicates in this case, however there are some remaining due to differences in the spellings individual first or last names. I did not spend the time to find and address these individual cases among the `r comma(nrow(df_crew))` crew records remaining.
+
+### Crew skin color
+
+```{r}
+#| label: skin-color-again
+
+# first defined in crew.qmd
+df_crew_skin <- df_crew %>%
+  mutate(skin = str_to_lower(skin),
+         skin = case_when(
+           str_detect(skin, "light|fair|fare|freck|white")              ~ "white, light, fair",
+           str_detect(skin, "black|blk|negro|colo|african|coulered|collourd|sable|dark|lite")      
+                                                                        ~ "negro, black, colored",
+           skin == "b"                                                  ~ "negro, black, colored",
+           str_detect(skin, "indian|swarthy|copper|tawny|brown|coffee|mixed|native")    
+                                                                        ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "tto|mullato|mulato|sepia|seppia|sambo")    ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "olive|portuguese|portguguese|portugues|portugese")             
+                                                                        ~ "olive, portuguese",
+           str_detect(skin, "yellow")                                   ~ "yellow, yellowish",
+           str_detect(skin, "ruddy|rudy|red")                           ~ "ruddy, red",
+           is.na(skin)                                                  ~ "unknown",
+           TRUE                                                         ~ skin
+           ),
+         skin = fct_lump_min(skin, min = 3000, other_level = "other")
+         )
+
+```
+
+The many clerks over many years recording skin color likely did not apply consistent definitions or spellings. I consolidated `r nrow(distinct(df_crew, skin))` unique skin descriptions (including misspellings) into `r spell_out(nrow(distinct(df_crew_skin, skin)))` categories:
+
+```{r}
+#| label: fig-tbl-skin-color-categories
+#| fig-cap: "High-level skin color categories"
+
+count(df_crew_skin, skin, name = "n_crew") %>%
+  arrange(-n_crew) %>%
+  gt() %>%
+  tab_header(md("**Crew skin color in consolidated categories**")) |>
+  cols_align(columns = skin, align = "left") %>%
+  fmt_number(columns = n_crew,
+             decimals = 0)
+```
+
+<br>
+
+It's likely my interpretation does not match the recording clerks' interpretation in some cases. For example, in which category should I place "brown"? To illustrate the challenge, some of the logic used to classify is shown below. Note that any category with less than 3000 instances is placed in "other".
+
+```{r}
+#| label: fig-skin-category-code
+#| fig-cap: "Code extract calculating skin color category"
+#| echo: true
+#| fontsize: 8
+#| column: page
+
+df_crew_skin <- df_crew %>%
+  mutate(skin = str_to_lower(skin),
+         skin = case_when(
+           str_detect(skin, "light|fair|fare|freck|white")              ~ "white, light, fair",
+           str_detect(skin, "black|blk|negro|colo|african|coulered|collourd|sable|dark|lite")      
+                                                                        ~ "negro, black, colored",
+           skin == "b"                                                  ~ "negro, black, colored",
+           str_detect(skin, "indian|swarthy|copper|tawny|brown|coffee|mixed|native")    
+                                                                        ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "tto|mullato|mulato|sepia|seppia|sambo")    ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "olive|portuguese|portguguese|portugues|portugese")             
+                                                                        ~ "olive, portuguese",
+           str_detect(skin, "yellow")                                   ~ "yellow, yellowish",
+           str_detect(skin, "ruddy|rudy|red")                           ~ "ruddy, red",
+           is.na(skin)                                                  ~ "unknown",
+           TRUE                                                         ~ skin
+           ),
+         skin = fct_lump_min(skin, min = 3000, other_level = "other")
+         )
+
+```
+
+<br>
+
+## Product and revenue
+
+### Other whale products
+
+As noted at whalingmuseum.org [@NBWM-WH2022], while the three products in our data set (sperm oil, whale oil, and baleen bone) were the most common, whaling crews did gather other products: (1) spermaceti (a liquid wax from sperm whale heads); and (2) rare but extremely valuable ambergris (a lumpy product of whale intestines). Thus the revenue estimates per voyage and the combinations of products collected are necessarily understated.
+
+### Accounting for product from ships that were lost
+
+The voyages data set appears to include records for voyages in ships were lost or abandoned yet quantities of product (whale, sperm, bone) are recorded. It's likely that as the masters took their logs with them but were not able to sell the product they collected. Thus in some cases revenue per voyage may be overstated.
+
+### Product per day
+
+Some voyages appear to last only a few days, likely due to incorrect start or end dates for the voyage. The resulting product per day amounts are not credible. To partially adjust for this, I excluded voyages shorter than 7 days in *@sec-normalized-yields Normalized product yield*.
+
+### Inflation
+
+Prices for the Charles W. Morgan's products come from Mystic Seaport Museum. As noted in *@sec-case-cwm Charles W. Morgan* I did not adjust for inflation except in *@fig-revenue-cwm-adjusted-by-cpi Revenue for Charles W. Morgan's product each voyage*, because inflation was low during this period. This conclusion is based on estimates of CPI from the Federal Reserve Bank of Minneapolis [@MF2022]:
+
+```{r}
+#| label: fig-cpi-in-years-of-cwm-operation
+#| fig-cap: "Inflation based on estimated Consumer Price Index during the years of the Charles W. Morgan's operation"
+
+df_cpi |>
+  filter(between(year, min(df_cwm$year_in), max(df_cwm$year_in))) |>
+  ggplot(aes(year, index_1845)) +
+  geom_line(size = 0.5, color = my_color_red) +
+  scale_y_continuous(labels = scales::label_number(suffix = "%")) +
+  dark_mode() +
+  labs(title = "Estimated Consumer Price Index (CPI) annual inflation",
+       subtitle = glue("\nDuring the years of the C.W. Morgan's operation {min(df_cwm$year_in)}-{max(df_cwm$year_in)}",
+                       "\nSource: Federal Reserve Bank Minneapolis"),
+       x = NULL,
+       y = "Annual inflation"
+  )
+
+```
+
+<br>
+
+## How many gallons in a barrel of whale oil?
+
+As noted on the Petroleum History Institute website [@POH2022]
+
+> The petroleum barrel... contains 42 gallons. Sources used in researching the whale oil barrel ranged from 30 to 35 gallons. Like the early days of the petroleum barrel (1860's), the whale oil barrel didn't seem to settle exactly for a prescribed gallonage in its infancy. 
+
+Since Mystic Seaport Museum used `r gal_per_barrel` gallons/barrel in [*Statistical and Financial Results of the 37 Voyages of the ship Charles W. Morgan*](https://educators.mysticseaport.org/static/connections/pdfs/cwm_financial_stats.pdf), I use `r gal_per_barrel` everywhere.
+
+<br>
+
+## Data definition
+
+More information about about data tables and columns can be found here:
+
+* `voyages`, `return_code`, `masters_fate`, `vessel_rig` and other abbreviations: [https://whalinghistory.org/av/voyages/columns/](https://whalinghistory.org/av/voyages/columns/)
+
+* `logbook`: [https://whalinghistory.org/av/logs/aowl/columns/](https://whalinghistory.org/av/logs/aowl/columns/)
+
+* `crewlist` and `crew`: [https://whalinghistory.org/av/crew/columns/](https://whalinghistory.org/av/crew/columns/)
+
+<br>
+
+## Charles W. Morgan's voyages {#sec-cwm-voyages}
+
+Below is more information about the tracks and whale sightings in @sec-cwm-voyage-tracks Voyages of the Charles W. Morgan. The first 13 voyages sailed from home port of New Bedford, MA to whaling grounds worldwide (1841-1887). Then, presumably because much of the sailing would be in the Pacific, the Morgan’s home port shifted to San Francisco, CA for the next 17 voyages (1887-1906). The remaining 7 voyages in the dataset were again from New Bedford, MA (1906-1921); these voyages were generally limited to the Atlantic. Note voyages with a voyage_rank greater than one indicate a replacement master. 
+
+<br>
+
+
+```{r}
+#| label: fig-tbl-cwm-voyages
+#| fig-cap: "The voyages of the Charles W. Morgan"
+
+cwm_voyages %>%
+  select(voyage_id, voyage_rank, port, ground, year_out, year_in, master) %>%
+  gt() %>%
+  tab_options(table.font.size = 11) %>%
+  tab_header(md("**The voyages of the Charles W. Morgan**")) %>%
+  sub_missing(columns = everything())
+
+```
+
+<br><br>
+
+## All good voyage tracks {#sec-good-voyage-tracks}
+
+Below is more information about the tracks plotted in @sec-voyage-tracks Voyage Tracks.
+
+<br>
+
+```{r eval=TRUE}
+#| label: fig-tbl-good-tracks
+#| fig-cap: "All tracks good for plotting"
+#| column: page-right
+
+good_voyages_all <- df_voyages_for_plot_nolargegaps %>%
+  st_drop_geometry() %>%
+  inner_join(.,
+             df_voyage_distinct %>% 
+               select(voyage_id, ground, bone, sperm, oil, vessel_id, tonnage),
+             by = "voyage_id"
+             ) %>%
+  distinct(voyage_id, .keep_all = TRUE) %>%
+  arrange(log_date_min) %>%
+  select(voyage_id, voyage_name, ground, 
+         bone, sperm, oil, 
+         distance_km = voyage_distance_km, avg_distance_day = voyage_ave_distance_km_day, 
+           n_obs, duration_days = voyage_duration_days, log_date_min, log_date_max,
+         vessel_id, tonnage) %>%
+  separate(tonnage, sep = "/", into = c("x1", "x2", "x3", "x4", "x5"), 
+           extra = "merge", fill = "right", convert = TRUE) %>%
+  rowwise() %>%
+  mutate(tonnage_max = max(c_across(x1:x5), na.rm = TRUE),
+         tonnage_max = ifelse(is.infinite(tonnage_max), NA_real_, tonnage_max)) %>%
+  select(-(x1:x5))
+
+good_voyages_all %>%
+  gt() %>%
+  tab_options(table.font.size = 11) %>%
+  tab_header(md(glue("**All {nrow(df_voyages_for_plot_nolargegaps)} plotted voyages**",
+                     "<br>undertaken by {n_vessels_voyages_for_plot_nolargegaps} vessels"))) %>%
+  tab_spanner(
+    label = "Voyage",
+    columns = c(voyage_id, voyage_name, ground)
+    ) %>%
+  tab_spanner(
+    label = "Product",
+    columns = c(bone, sperm, oil)
+    ) %>%
+  tab_spanner(
+    label = "Voyage stats",
+    columns = c(distance_km, avg_distance_day, n_obs, duration_days, log_date_min, log_date_max)
+    ) %>%
+  tab_spanner(
+    label = "Vessel",
+    columns = c(vessel_id, tonnage_max)
+    ) %>%
+  sub_missing(columns = everything()) %>%
+  fmt_number(columns = c(bone, sperm, oil),
+             decimals = 0) %>%
+  fmt_number(columns = c(distance_km, avg_distance_day),
+             decimals = 0) #%>%
+    #as_raw_html() # needed to print from a within a function
+```
+
+<br><br>

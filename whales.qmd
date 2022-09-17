@@ -1,0 +1,918 @@
+# The whales {#sec-whales}
+
+```{r}
+#| label: setup-whales
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+# Two extra libraries to make mp4 animations (now in my_packages list)
+# library(av)
+# library(fs)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-whales
+
+# df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+df_log_all <- tar_read(log_all) %>%
+  mutate(species = if_else(species == "Whale", "Whale (unspecified)", species))
+
+df_log <- tar_read(log) %>%
+  mutate(species = if_else(species == "Whale", "Whale (unspecified)", species))
+  
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+# df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+# df_crew <- tar_read(crew)
+
+```
+
+```{r}
+#| label: define-whale-data
+
+df_log_all_whale_sightings <- df_log_all %>%
+  filter(encounter == "Sight") %>%
+  select(voyage_id, encounter, species, log_date) %>%
+  replace_na(list(species = "Whale (unspecified)"))
+
+df_log_all_whale_strikes <- df_log_all %>%
+  filter(encounter == "Strike") %>%
+  select(voyage_id, encounter, species, n_tried, log_date) %>%
+  replace_na(list(species = "Whale (unspecified)"))
+
+whale_sightings_voyage_species_counts_decade <- df_log_all_whale_sightings %>%
+  mutate(decade = 10 * floor(year(log_date) / 10 )) %>%
+  count(decade, voyage_id, species, sort = TRUE)
+
+whale_strikes_voyage_species_counts_decade <- df_log_all_whale_strikes %>%
+  mutate(decade = 10 * floor(year(log_date) / 10 )) %>%
+  count(decade, voyage_id, species, sort = TRUE) %>%
+  complete(., decade, species, fill = list(n = 0)) %>%
+  filter(!is.na(species)) # remove "NoEnc" equivalent
+
+whale_tried_voyage_species_counts_decade <- df_log_all_whale_strikes %>%
+  mutate(decade = 10 * floor(year(log_date) / 10 )) %>%
+  count(decade, voyage_id, species, wt = n_tried, sort = TRUE) %>%
+  complete(., decade, species, fill = list(n = 0))
+
+whale_voyage_species_decade <- bind_rows(
+  whale_sightings_voyage_species_counts_decade %>% rename(n_sight = n),
+  whale_strikes_voyage_species_counts_decade %>% rename(n_strike = n),
+  whale_tried_voyage_species_counts_decade %>% rename(n_tried = n)
+  ) %>%
+  replace_na(list(n_sight = 0, n_strike = 0, n_tried = 0)) %>%
+  group_by(decade, voyage_id, species) %>%
+  summarize(n_sight = sum(n_sight),
+            n_strike = sum(n_strike),
+            n_tried = sum(n_tried)) %>%
+  mutate(n_total = n_sight + n_strike) %>%
+  ungroup()
+
+species_to_plot_set1 <- c("Sperm", "Right", "Whale (unspecified)")
+species_to_plot_set2 <- c("Humpback", "Pilot", "Bowhead", "Finback", "Grampus", "Gray", "Killer", "Blue") #"Dolphin"
+
+```
+
+```{r}
+#| label: fig-sperm-whale
+#| fig-cap: "The most prized species: sperm whale (Physeter macrocephalus). [@DML1884]"
+
+knitr::include_graphics(here("images", "Physeter_macrocephalus.jpg"))
+
+```
+
+::: {.callout-note appearance="simple"}
+The generalizations in this chapter are very reliant on the assumption that the log data available for a subset of the voyages is representative of all voyages. See *@fig-voyages-and-logbook-tables-histogram Logbook and voyages tables: Voyages starting each year*; see also *@sec-dealing-with-errors Dealing with errors, duplicates, and omissions.*
+:::
+
+## Most common species {#sec-most-common-species}
+
+Sperm and Right whales were the species most hunted. Starting in the 1850s Sperm whales became the most sought after and remained so through the decades of the American whaling movement. The number of Right whales sighted, struck, and tried plummeted in the 1850s and never recovered.
+
+```{r}
+#| label: define-whale-species-for-plot
+
+species_to_plot <- c("Sperm", "Right", "Whale (unspecified)", "Bowhead", "Humpback", "Pilot")
+
+whale_species_for_plot <- whale_voyage_species_decade %>%
+  filter(!is.na(species), #should be noop
+         n_total > 0) %>% # 71 rows (decade, species)
+  group_by(decade, species) %>%
+  summarize(n_total = sum(n_total), # sight + strike (not including tried)
+            pct_sight = sum(n_sight) / n_total,
+            pct_strike = sum(n_strike) / n_total,
+            #pct_tried = sum(n_tried) / n_total,
+            n_sight = sum(n_sight),
+            n_strike = sum(n_strike),
+            n_tried = sum(n_tried),
+            ) %>%
+  ungroup() %>%
+  group_by(decade) %>%
+  mutate(n_decade_total = sum(n_total),
+         n_species_pct_decade = n_total / n_decade_total # is this correct?
+         ) %>%
+  ungroup() %>%
+  group_by(species) %>%
+  mutate(n_species_total = sum(n_total),
+         n_species_pct_species = n_total / n_species_total) %>%
+  ungroup()
+
+whale_species_for_plot <- whale_voyage_species_decade %>%
+  filter(!is.na(species), #should be noop
+         n_total > 0) %>% # 71 rows (decade, species)
+  group_by(decade, species) %>%
+  summarize(n_total_decade_species = sum(n_total), # sight + strike (not including tried)
+            n_sight_decade_species = sum(n_sight),
+            n_strike_decade_species = sum(n_strike),
+            pct_sight_decade_species = n_sight_decade_species / n_total_decade_species,
+            pct_strike_decade_species = n_strike_decade_species / n_total_decade_species,
+            n_tried_decade_species = sum(n_tried)
+            ) %>%
+  ungroup() %>% 
+  group_by(decade) %>%
+  mutate(n_decade_total = sum(n_total_decade_species),
+         n_species_pct_decade = n_total_decade_species / n_decade_total # is this correct?
+         ) %>%
+  ungroup() %>%
+  group_by(species) %>%
+  mutate(n_species_total = sum(n_total_decade_species),
+         n_species_pct_species = n_total_decade_species / n_species_total) %>%
+  ungroup()
+
+
+whale_species_tried_for_plot <- whale_voyage_species_decade %>%
+  select(decade, voyage_id, species, n_tried) %>%
+  filter(!is.na(species),
+         species != "Dolphin",
+         n_tried > 0) %>% 
+  group_by(decade, species) %>%
+  summarize(n_tried_decade_species = sum(n_tried)) %>%
+  ungroup() %>% 
+  complete(decade, species, fill = list(n_tried_decade_species = 0)) %>% #view()
+  group_by(decade) %>%
+  mutate(n_tried_decade = sum(n_tried_decade_species),
+         pct_tried_decade = n_tried_decade_species / n_tried_decade
+         ) %>%
+  ungroup() %>% 
+  group_by(species) %>%
+  mutate(n_species_total = sum(n_tried_decade_species),
+         pct_tried_species = n_tried_decade_species / n_species_total) %>%
+  ungroup()
+
+```
+
+```{r}
+#| label: fig-sighted-or-struck-encounters-most-common
+#| fig-cap: "Number of encounters by species each decade (most common species)"
+
+whale_species_for_plot %>% 
+  filter(species %in% species_to_plot_set1) %>%
+  ggplot(aes(decade, n_total_decade_species, color = species), #size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale()),
+                     breaks = c(5000, 10000)) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Most common species: Encounters each decade",
+       subtitle = "Each encounter (sighted or struck) may have involved multiple whales",
+       x = NULL,
+       y = "Number of encounters in the decade",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Less common species {#sec-less-common-species}
+
+Finback whales were not hunted much, and their period of most hunting in the time frame of this data set occurred in the peak decades of American whaling; as seen in *@fig-pct-sighted-struck-by-decade-less-common* consistently through the decades whaling crews declined to hunt Finbacks. The most Bowhead whales were hunted in the 1860s and 1870s.
+
+```{r}
+#| label: fig-sighted-or-struck-encounters-less-common
+#| fig-cap: "Number of encounters by species each decade (less common species)"
+
+whale_species_for_plot %>% 
+  filter(species %in% species_to_plot_set2) %>%
+  ggplot(aes(decade, n_total_decade_species, color = species), #size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = comma_format()) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Less common species: Encounters each decade",
+       subtitle = "Each encounter (sighted or struck) may have involved multiple whales",
+       x = NULL,
+       y = "Number of encounters in the decade",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Where and when encounters occurred
+
+The plots below record where and in which years American whalers encountered whales (both sightings and strikes). This is not representative of where whales could be found at the time. Why? Consider the following:
+
+1.  There are no recorded encounters near Europe and no tracks in the Norwegian, Greenland or Barents Seas. Why? Because Europeans, especially Norwegians, hunted whales there [@FR2015]. American whalers presumably sought less contested hunting grounds.
+2.  Why are there horizontal bands of Sperm whale encounters in the Pacific west of Ecuador and the Galapagos at the equator and about 5° South: prevailing winds? Currents?
+3.  There is a similar band at about 30° North southeast of Japan. Same question.
+
+```{r}
+#| label: fig-plot-species-encounters-sperm
+#| fig-cap: "Sperm whale encounters"
+#| column: page-right
+
+plot_whale_sightings_species(spec = "Sperm",
+                             file_name = "./figure-output/fig-plot-species-encounters-sperm-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-sperm-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-right
+#| fig-cap: "Right whale encounters"
+#| column: page-right
+
+plot_whale_sightings_species(spec = "Right",
+                             file_name = "./figure-output/fig-plot-species-encounters-right-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-right-manual.png")
+
+```
+
+<br>
+
+Considering the ranges of sperm and right whales shown in the the plots above, the it seems the encounters recording the species as "whale" were mostly right whales and a minority of sperm whales:
+
+```{r}
+#| label: fig-plot-species-encounters-whale
+#| fig-cap: "Unspecified 'Whale' (mostly right and sperm whale) encounters"
+#| column: page-right
+
+plot_whale_sightings_species(spec = "Whale",
+                             file_name = "./figure-output/fig-plot-species-encounters-whale-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-whale-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-fin
+#| fig-cap: "Finback whale encounters"
+#| column: page-right
+
+plot_whale_sightings_species(spec = "Finback",
+                             file_name = "./figure-output/fig-plot-species-encounters-finback-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-finback-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-other
+#| fig-cap: "Other whale encounters"
+#| column: page-right
+
+plot_whale_sightings_species(spec = "Pilot|Bowhead|Humpback|Orca|Gray|Blue|Dolphin",
+                             file_name = "./figure-output/fig-plot-species-encounters-other-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-other-manual.png")
+
+```
+
+<br>
+
+### Encounters over the years
+
+Animations by year reveal productive hunting areas being discovered and then exploited. Where there were no encounters in the later years, it's likely the whales were fished out or it was not economical to pursue them in those places.
+
+```{r}
+#| label: fig-plot-species-encounters-sperm-whale-animation-by-year
+#| fig-cap: "Sperm whale encounters - yearly animation"
+#| column: page-right
+
+my_video <- make_whale_yearly_video("Sperm")
+
+knitr::include_graphics(my_video)
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-right-whale-animation-by-year
+#| fig-cap: "Right whale encounters - yearly animation"
+#| column: page-right
+
+my_video <- make_whale_yearly_video("Right")
+
+knitr::include_graphics(my_video)
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-finback-whale-animation-by-year
+#| fig-cap: "Finback whale encounters - yearly animation"
+#| column: page-right
+
+my_video <- make_whale_yearly_video("Finback")
+
+knitr::include_graphics(my_video)
+
+```
+
+<br>
+
+## Seasonality
+
+Northern [@NOAANRW2022] and Southern [@NOAASRW2022] Right and Finback [@NOAAFW2022] whales migrate with the season to reach feeding and calving grounds. Sperm whale movements are less understood: "Some populations appear to have different migration patterns by life history status, with adult males making long oceanographic migrations into temperate waters whereas females and young staying in tropical waters year-round." [@NOAASW2022]. Bowhead whales don't migrate but do move north and south in Arctic waters as the edge of the pack ice grows and recedes.
+
+Whalers learned where and when to find the species they sought. This seasonality is visible when coloring encounters by season. I used the following categories:
+
+-   Northern winter: December, January, and February
+-   Northern spring: March, April, and May
+-   Northern summer: June, July, and August
+-   Northern autumn: September, October, and November
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-sperm
+#| fig-cap: "Sperm whale encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Sperm",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-sperm-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-sperm-manual.png")
+
+```
+
+<br>
+
+Northern and Southern Right Whales are considered separate species, since they don't mix.
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-right
+#| fig-cap: "Right whale encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Right",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-right-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-right-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-whale
+#| fig-cap: "'Whale' (right and sperm) whale encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Whale",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-whale-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-whale-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-finback
+#| fig-cap: "Finback whale encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Finback",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-finback-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-finback-manual.png")
+
+```
+
+<br>
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-other
+#| fig-cap: "Other whale encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Pilot|Bowhead|Humpback|Orca|Gray|Blue|Dolphin",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-other-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-other-manual.png")
+
+```
+
+<br>
+
+And with all of the above species in one plot:
+
+```{r}
+#| label: fig-plot-species-encounters-seasonality-all-species
+#| fig-cap: "All whale species encounters by season"
+#| column: page-right
+
+plot_whale_seasonal_encounter_species(spec = "Sperm|Right|Whale|Pilot|Bowhead|Humpback|Orca|Gray|Blue|Dolphin",
+                             file_name = "./figure-output/fig-plot-species-encounters-seasonality-all-manual.png")
+
+knitr::include_graphics("./figure-output/fig-plot-species-encounters-seasonality-all-manual.png")
+
+```
+
+<br>
+
+## Effectiveness over time
+
+Sightings did not pay the bills. Whalers sought strikes--and ones that resulted in tries. Did the percentage of strikes improve over time? Looking at the decades 1800-1900 one can see that after the 1840s whaling crews sighting sperm whales were more likely to strike, and when species could not be identified (logged as "Whale"), the crews were less likely to strike.
+
+```{r}
+#| label: fig-pct-sighted-struck-by-decade-most-common
+#| fig-cap: "Percentage of whales sighted and struck during in the decade - most common species"
+#| fig-height: 10
+#| fig-width: 10
+
+whale_species_for_plot %>% 
+  filter(#n_species_total > 10000,
+         # decade >= 1800,
+         # decade <= 1900
+         species %in% species_to_plot_set1
+         ) %>%
+ select(decade, species, pct_sight_decade_species, pct_strike_decade_species, n_total_decade_species, n_species_total) %>%
+ mutate(#species = fct_lump_n(species, n = 7, w = n_species_total),
+         species = glue("{species}: {comma(n_species_total)}"),
+         species = fct_reorder(species, -n_species_total)) %>% 
+  pivot_longer(cols = c(starts_with("pct_")), names_to = "metric", values_to = "value") %>%
+  ggplot(aes(decade, value, color = metric, size = n_total_decade_species), #size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format()) + #labels = comma_format()) +
+  #scale_y_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  #scale_size_continuous(range = c(1, 20)) +
+  facet_wrap( ~species, ncol = 2) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Sight or strike? Percentages by decade",
+       subtitle = "Most common species",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+The huge finback whales were not pursued during the nineteenth century, because they were too fast and dangerous to the crews. In the twentieth century they were hunted to the point of being endangered, and the International Whaling Commission issued a moratorium on hunting them in 1971 [@FB2022].
+
+Pilot and bowhead whales were typically struck when identified.
+
+```{r}
+#| label: fig-pct-sighted-struck-by-decade-less-common
+#| fig-cap: "Percentage of whales sighted and struck during in the decade - less common species"
+#| fig-height: 10
+#| fig-width: 10
+
+whale_species_for_plot %>% 
+  filter(#n_species_total > 10000,
+         # decade >= 1800,
+         # decade <= 1900
+         species %in% species_to_plot_set2
+         ) %>%
+ mutate(#species = fct_lump_n(species, n = 7, w = n_species_total),
+         species = glue("{species}: {comma(n_species_total)}"),
+         species = fct_reorder(species, -n_species_total)) %>% 
+   pivot_longer(cols = c(starts_with("pct_")), names_to = "metric", values_to = "value") %>%
+  ggplot(aes(decade, value, color = metric, size = n_total_decade_species), #size = n_voyages),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format()) +
+  #scale_y_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  #scale_size_continuous(range = c(1, 20)) +
+  facet_wrap( ~species, ncol = 2) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Sight or strike? Percentages by decade",
+       subtitle = "Less common species",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Species mix per decade - encounters {#sec-relative-portion-species-decade}
+
+While sperm whales were always preferred, only after the 1880s were Sperm whales the majority of whales encountered. As one can see in *@fig-sighted-or-struck-encounters-most-common* the number of Sperm whale encounters were generally similar from the 1860s onward while the other species' encounters collapsed, likely due to population collapse or species becoming unprofitable to hunt.
+
+```{r}
+#| label: fig-species-proportion-sighted-struck-decade
+#| fig-cap: "Species proportion sighted or struck in the decade"
+
+whale_species_for_plot %>% 
+  filter(species != "Dolphin") %>%
+  mutate(species = factor(species),
+         species = fct_reorder(species, n_total_decade_species, sum)) %>% 
+  droplevels() %>%
+  complete(decade, species, fill = list(n_species_pct_decade = 0)) %>%
+  ggplot(aes(decade, n_species_pct_decade, fill = species)) +
+  geom_area(alpha = 0.8) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format()) +
+  coord_cartesian(xlim = c(1800, 1910)) +
+  dark_mode() +
+  labs(title = "Species encounter mix each decade",
+       subtitle = "Each encounter (sighted or struck) may have involved multiple whales",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Decade mix per species - encounters
+
+Some species were encountered mostly during a brief period of one to three decades (Right, Bowhead, Humpback); presumably these species were over-fished or their product wasn't valuable enough to pursue.
+
+```{r}
+#| label: fig-pct-species-sightings-strikes-decade
+#| fig-cap: "Percentage of species' sightings or strikes that occurred in the decade"
+
+whale_species_for_plot %>% 
+  mutate(species = fct_reorder(species, -n_total_decade_species, max)) %>% 
+  filter(#n_species_total > 1000
+         species %in% species_to_plot
+         ) %>%
+  ggplot(aes(decade, n_species_pct_species, color = species, size = n_total_decade_species),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, #span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format(),
+                     expand = expansion(mult = c(0, .1))) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1910), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Percentage of species' encounters\nthat occurred in the decade",
+       subtitle = "Each encounter (sighted or struck) may have involved multiple whales",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Tries
+
+```{r}
+whale_tried_voyage_counts <- df_log_all_whale_strikes %>%
+  #st_drop_geometry() %>%
+  filter(n_tried > 0) %>%
+  count(voyage_id, wt = n_tried, sort = TRUE, name = "n_tried")
+
+tries_med <- median(whale_tried_voyage_counts$n_tried)
+tries_avg <- mean(whale_tried_voyage_counts$n_tried)
+tries_sum <- sum(whale_tried_voyage_counts$n_tried)
+n_voyages_tried <- nrow(whale_tried_voyage_counts)
+
+f_ecdf <- ecdf(whale_tried_voyage_counts$n_tried)
+
+```
+
+How many whales were tried out on a whaling venture? In the data set the median whales tried per voyage was `r tries_med` in `r comma(n_voyages_tried)` voyages. A small minority of voyages (`r percent(1 - f_ecdf(100), accuracy = 0.1)`) recorded more than 100 whales tied.
+
+```{r}
+#| label: fig-whales-tried-per-voyage
+#| fig-cap: "Number of whales tried per voyage"
+
+my_binwidth <- 5
+
+whale_tried_voyage_counts %>%
+  mutate(voyage_id = fct_reorder(voyage_id, -n_tried)) %>%
+  ggplot(aes(n_tried)) +
+  geom_histogram(binwidth = my_binwidth, fill = my_color_red) +
+  geom_vline(xintercept = tries_avg + my_binwidth/2 , lty = 2, color = "blue") +
+  geom_vline(xintercept = tries_med + my_binwidth/2 , lty = 2, color = "white") +
+  dark_mode() +
+  labs(title = "Number of whales tried per voyage",
+       subtitle = glue("{comma(tries_sum)} tried in {comma(n_voyages_tried)} voyages", 
+                       "; all species; bin is {my_binwidth} whales tried",
+                       "\nmedian: {tries_med} (white); average: {round(tries_avg, 0)} (blue)")
+  )
+
+```
+
+<br>
+
+Voyages with more than 100 tries:
+
+```{r}
+#| label: define-tries-100-plus
+#| fig-cap: "Table of voyages recording at least 100 tries"
+
+voyages_100_tried <- whale_tried_voyage_counts |>
+  filter(n_tried >= 100) |>
+  left_join(df_voyage_distinct |>
+              select(year_in, voyage_name, voyage_id),
+            by = "voyage_id") %>%
+  arrange(year_in, voyage_name) %>%
+  select(voyage_id, voyage_name, n_tried, year_in)
+
+voyages_100_tried %>%
+  select(-year_in) |>
+  gt() |>
+  tab_header(md(glue("***{nrow(voyages_100_tried)} voyages recorded at least 100 whales tried***")))
+
+```
+
+<br><br>
+
+```{r}
+#| label: fig-tries-100-plus
+#| fig-cap: "Voyages recording at least 100 tries"
+
+voyages_100_tried |>
+  ggplot(aes(year_in, n_tried),
+         alpha = 0.8) +
+  geom_point(color = my_color_red, size = 3) +
+  geom_smooth(se = FALSE, color = "white") +
+  expand_limits(y = 0) +
+  dark_mode() +
+  labs(title = "Voyages recording at least 100 tries",
+       caption = my_caption)
+```
+
+<br>
+
+## Tries per strike
+
+As noted above, an encounter sometimes involved more than one whale. Strikes sometimes included multiple tries (harvests).
+
+```{r}
+#| label: fig-tries-per-strike
+#| fig-cap: "Average whales tried per strike"
+
+df_log |>
+  filter(n_tried > 0) |>
+  mutate(decade = 10 * floor(year(log_date) / 10 )) |>
+  group_by(decade, species) |>
+  summarize(n_tried = sum(n_tried),
+            n_strikes = n()) |>
+  ungroup() %>%
+  mutate(tries_per_strike = n_tried / n_strikes) |>
+  filter(species %in% species_to_plot_set1, #c("Right", "Sperm", "Whale (unspecified)"), #
+         n_strikes >= 10
+         ) |> # need enough in the decade to be interesting
+  ggplot(aes(x = decade, y = tries_per_strike, color = species)) +
+  geom_point() +
+  geom_smooth(se = FALSE, #span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1900), ylim = c(0.95, NA)) +
+  dark_mode() +
+  labs(title = "Average whales tried per strike",
+       subtitle = "Most common species; showing decades with at least 10 strikes ",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Species mix per decade - tries
+
+```{r}
+#| label: fig-pct-tried-species-decade
+#| fig-cap: "Species proportion tried out in the decade"
+
+whale_species_tried_for_plot %>% 
+  filter(species != "Dolphin") %>%
+  mutate(species = factor(species),
+         species = fct_reorder(species, n_tried_decade_species, sum)) %>% 
+  droplevels() %>%
+  complete(decade, species, fill = list(n_species_pct_decade = 0)) %>%
+  ggplot(aes(decade, pct_tried_decade, fill = species)) +
+  geom_area(alpha = 0.8) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format()) +
+  coord_cartesian(xlim = c(1800, 1910)) +
+  dark_mode() +
+  labs(title = "Species try mix each decade",
+       subtitle = "Percent of whales tried each decade",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+The plot below shows the portion of tries for each species that occurred each decade. Harvensting right and sperm whales peaked in the 1840s, pilot and bowhead whales in the 1850s, and the other less common species in the 1860s and 1870s.
+
+```{r}
+#| label: fig-species-pct-tries-in-decade
+#| fig-cap: "Percentage of species' tries that occurred in the decade"
+
+whale_species_tried_for_plot %>% 
+  mutate(species = fct_reorder(species, -n_tried_decade_species, max),
+         species = fct_lump(species, 5)
+         ) %>%
+  filter(between(decade, 1790, 1910),
+         "Other" != as.character(species)#,
+         #species %in% species_for_plot
+         ) %>%
+  ggplot(aes(decade, pct_tried_species, color = species, size = n_tried_decade_species),
+         alpha = 0.8) +
+  geom_point() +
+  geom_smooth(se = FALSE, #span = 0.4,
+              show.legend = FALSE) +
+  scale_x_continuous(breaks = c(1780 + seq(0, 140, 20))) +
+  scale_y_continuous(labels = percent_format()) +
+  scale_size_continuous(breaks = c(100, 1000, 5000)) +
+  guides(color = guide_legend(override.aes = list(size = 3))) +
+  coord_cartesian(xlim = c(1800, 1910), ylim = c(0, NA)) +
+  dark_mode() +
+  labs(title = "Species' percent of all tries in the decade",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Whale species today
+
+As with many other kinds natural resources, the common mentality in eighteen, nineteenth, and early twentieth centuries was that whales were there for the taking, and as one species became rare whalers moved on to others. The long shadow of commercial whaling is the near extinction of many whale species.
+
+<br>
+
+### Right whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAANRW2022] [@NOAASRW2022]
+
+> North Pacific right whales are one of the rarest of all large whale species and among the rarest of all marine mammal species. Two other species of right whale exist in the world's oceans: the North Atlantic right whale, which is found in the North Atlantic Ocean, and the southern right whale, which is found in the southern hemisphere. North Pacific right whales are baleen whales, which feed by straining huge volumes of ocean water through their comb-like baleen plates that trap copepods and other zooplankton.
+>
+> Commercial whaling greatly reduced right whale populations in the Pacific Ocean. Whaling is no longer a threat, but human activity such as entanglement in fishing gear and marine debris, vessel strikes, impacts from climate change, Oil and gas development, and ocean noise, continue to endanger this species.
+>
+> There are no reliable estimates of current abundance or trends for right whales in the North Pacific. There are likely fewer than 500 North Pacific right whales remaining, and most sightings have been of single whales, though small groups have been sighted. Only about 30 individuals are estimated to remain of the Eastern stock that visits Alaskan waters.
+
+<br>
+
+### Sperm whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAASW2022]
+
+> Sperm whales are the largest of the toothed whales and have one of the widest global distributions of any marine mammal species. They are found in all deep oceans, from the equator to the edge of the pack ice in the Arctic and Antarctic.
+>
+> They are named after the waxy substance---spermaceti---found in their heads. The spermaceti is an oil sac that helps the whales focus sound. Spermaceti was used in oil lamps, lubricants, and candles. Sperm whales were a primary target of the commercial whaling industry from 1800 to 1987, which nearly decimated all sperm whale populations. While whaling is no longer a major threat, sperm whale populations are still recovering. The sperm whale is listed as endangered under the Endangered Species Act and depleted under the Marine Mammal Protection Act... The International Whaling Commission placed a moratorium on commercial whaling in 1986. The species is still recovering, and its numbers are likely increasing.
+
+<br>
+
+### Finback (fin) whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAAFW2022]
+
+> The fin whale is the second-largest whale species on earth, second only to the blue whale. It is found throughout the world's oceans. It gets its name from an easy-to-spot fin on its back, near its tail.
+>
+> Like all large whales, fin whales were hunted by commercial whalers, which severely lowered their populations. Whalers did not target them at first, because they were fast swimmers and lived in open ocean habitats. But, as whaling methods modernized with steam-powered ships and explosive harpoons, and whalers decimated other easy-to-catch species, whaling turned to fin whales. This industry killed a huge number during the mid-1900s---nearly 725,000 in the Southern Hemisphere alone.
+>
+> Whaling is no longer a threat for fin whales (commercial whaling ended in the 1970s and 1980s, though some subsistence hunting continues today in Greenland under sustainable quotas allowed by the International Whaling Commission). Currently, the major threat to this species comes from vessel strikes. The fin whale is listed as endangered under the Endangered Species Act and depleted under the Marine Mammal Protection Act.
+
+<br>
+
+### Pilot whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAAPW2022]
+
+> Long-finned pilot whales are very social, living in large schools of hundreds of animals separated into close-knit pods of 10 to 20 individuals. This structure made them easy targets for whaling in the 19th and 20th centuries. Whalers would drive and herd pilot whales together into tight groups to harpoon them, hunting them for their meat, oil, and blubber.
+>
+> Long-finned pilot whales are one of two species of pilot whale, along with short-finned pilot whales. In the field and at sea, it is very difficult to distinguish the two species, which differ only slightly in physical size, features, coloration, and pattern.
+
+<br>
+
+### Bowhead whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAABHW2022]
+
+> Bowhead whales are one of the few whale species that reside almost exclusively in Arctic and subarctic waters experiencing seasonal sea ice coverage, primarily between 60° and 75° north latitude. Of all large whales, the bowhead is the most adapted to life in icy water. Adaptations to this environment include an insulating layer of blubber that can be up to 1.6 feet thick.
+>
+> Commercial whaling for bowheads off Alaska began in the early 1800s, and lasted until the early 1900s. The economic value of the bowheads' oil and baleen, combined with their slow swimming speeds and tendency to float when killed, made them a prime target for whalers. By the time commercial whaling of bowheads effectively ended in 1921, the worldwide bowhead abundance had declined to less than 3,000 whales. Today, bowhead whales may still be threatened by loss of food sources, climate change, vessel strikes, entanglement in fishing gear, ocean noise, offshore oil and gas development, pollution, and predation.
+>
+> Commercial whaling severely reduced bowhead whale numbers from historical levels. The worldwide number of bowheads prior to commercial exploitation is estimated at a minimum of 50,000, including an estimated 10,400 to 23,000 whales in the Western Arctic stock, the stock found in U.S. waters. Commercial whaling drove global abundance down to less than 3,000 by the 1920s.
+>
+> The United States listed all bowhead whales as endangered under the Endangered Species Conservation Act in 1970 and the Endangered Species Act in 1973. Bowhead whales are also listed as depleted under the Marine Mammal Protection Act.
+>
+> Western Arctic bowheads have shown considerable recovery since the end of commercial whaling in the early 1900s, and they now comprise the largest population of bowheads in the world. The most recent abundance estimate for the Western Arctic bowhead stock, collected during spring 2019, indicates there are approximately 12,505 Western Arctic bowheads, with a 95 percent confidence interval ranging from 7,994 to 19,560 whales.
+>
+> However, the smaller Okhotsk Sea population, more heavily exploited in the past, remains at a dangerously low population of only a few hundred individuals. Genetic research has shown that these two North Pacific populations are distinct, indicating that movement of individuals between the two populations is rare.
+
+<br>
+
+### Humpback whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAAHW2022]
+
+> Before a final moratorium on commercial whaling in 1985, all populations of humpback whales were greatly reduced, most by more than 95 percent. The species is increasing in abundance throughout much of its range but faces threats from entanglement in fishing gear, vessel strikes, vessel-based harassment, and underwater noise.
+>
+> Humpback whales live in all oceans around the world. They travel great distances every year and have one of the longest migrations of any mammal on the planet. Some populations swim 5,000 miles from tropical breeding grounds to colder, more productive feeding grounds. Humpback whales feed on shrimp-like crustaceans (krill) and small fish, straining huge volumes of ocean water through their baleen plates, which act like a sieve....
+>
+> Commercial whaling severely reduced humpback whale numbers from historical levels. The United States listed all humpback whales as endangered under the Endangered Species Conservation Act in 1970 and then under the Endangered Species Act in 1973. NOAA Fisheries worked worldwide to identify and apply protections for humpback whales. The International Whaling Commission's final whaling moratorium on commercial harvest, in effect since 1985, played a major role in the recovery of humpback whales. Currently, four out of the 14 distinct population segments are still protected as endangered, and one is listed as threatened (81 FR 62259, September 2016). Three humpback whale stocks in U.S. waters are designated as depleted under the Marine Mammal Protection Act.
+
+<br>
+
+### Orca (killer whale or grampus)
+
+As noted in the NOAA Fisheries Species Catalog [@NOAAKW2022]
+
+> The killer whale, also known as orca, is the ocean's top predator. It is the largest member of the Delphinidae family, or dolphins. Members of this family include all dolphin species, as well as other larger species, such as long-finned pilot whales and short-finned pilot whales, whose common names also contain "whale" instead of "dolphin."
+>
+> Found in every ocean in the world, they are the most widely distributed of all cetaceans (whales and dolphins). Scientific studies have revealed many different populations with several distinct ecotypes (or forms) of killer whales worldwide---some of which may be different species or subspecies. They are one of the most recognizable marine mammals, with their distinctive black and white bodies. Globally, killer whales occur in a wide range of habitats, in both open seas and coastal waters. Taken as a whole, the species has the most varied diet of all cetaceans, but different populations are usually specialized in their foraging behavior and diet. They often use a coordinated hunting strategy, working as a team like a pack of wolves.
+>
+> Hunters and fishermen once targeted killer whales. As a result, historical threats to killer whales included commercial hunting and culling to protect fisheries from killer whales. In addition, although live capture of killer whales for aquarium display and marine parks no longer occurs in the United States, it continues to remain a threat globally. Today, some killer whale populations face many other threats, including food limitations, chemical contaminants, and disturbances from vessel traffic and sound. Efforts to establish critical habitat, set protective regulations, and restore prey stocks are essential to conservation, especially for the endangered Southern Resident killer whale population....
+>
+> Several different populations and ecotypes of killer whales are found throughout the world. NOAA Fisheries estimates population size in our stock assessment reports. It is estimated that there are around 50,000 killer whales globally. Approximately 2,500 killer whales live in the eastern North Pacific Ocean---home to the most well-studied killer whale populations.
+>
+> In recent decades, several populations of killer whales have declined and some have become endangered. The population of AT1 Transients, a stock of Transient killer whales in the eastern North Pacific, has been reduced from 22 to 7 whales since the 1989 Exxon Valdez oil spill. In 2004, NOAA Fisheries designated this stock as depleted under the MMPA based on the results of the status review (PDF, 25 pages).
+>
+> Scientists estimate the minimum historical population size of Southern Residents in the eastern North Pacific was about 140 animals. Following live-capture in the 1960s for use in marine mammal parks, 71 animals remained in 1974. Although there was some growth in the population in the 1970s and 1980s, with a peak of 98 animals in 1995, the population experienced a decline of almost 20 percent in the late 1990s, leaving 80 whales in 2001. The 2020 population census counted only 72 whales, and three new calves have been born following the census bringing the total of this struggling population to 75. In 2003, NOAA Fisheries began a research and conservation program with congressional funding to address the dwindling population. Southern Residents were listed as Endangered in 2005 under the ESA and a recovery plan was completed in 2008.
+
+<br>
+
+### Gray whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAAGW2022]
+
+> Once common throughout the Northern Hemisphere, gray whales are now only regularly found in the North Pacific Ocean where there are two extant populations, one in the eastern and one in the western North Pacific.
+>
+> Gray whales earned the nickname "devil fish" because of their aggressive reactions when harpooned. Commercial whaling rapidly brought both Pacific populations to near extinction. International conservation measures were enacted in the 1930s and 1940s to protect whales from over-exploitation, and in the mid-1980s the International Whaling Commission instituted a moratorium on commercial whaling.
+>
+> Gray whales are known for their curiosity toward boats in some locations and are the focus of whale watching and ecotourism along the west coast of North America. Gray whales make one of the longest annual migrations of any mammal, traveling about 10,000 miles round-trip and in some cases upwards of 14,000 miles. On their migration routes they face threats from vessel strikes, entanglement in fishing gear, and other sources of disturbance....
+>
+> NOAA Fisheries estimates the population size (also called a stock) for gray whales in its stock assessment reports. Shore-based observers have conducted systematic counts of eastern North Pacific gray whales migrating south along the central California coast in most years since 1967. All gray whale stocks are protected under the Marine Mammal Protection Act. The eastern stock or Distinct Population Segment (DPS) was once listed as endangered under the Endangered Species Act but successfully recovered and was delisted in 1994. The western stock or DPS remains very low in number and is listed as endangered under the ESA and depleted under the Marine Mammal Protection Act. The western stock is estimated to include fewer than 300 individuals based on photo-identification data collected off Sakhalin Island and southeastern Kamchatka, Russia.
+
+<br>
+
+### Blue whales
+
+As noted in the NOAA Fisheries Species Catalog [@NOAABW2022]
+
+> Blue whales are the largest animals ever to live on our planet. They feed almost exclusively on krill, straining huge volumes of ocean water through their baleen plates (which hang from the roof of the mouth and work like a sieve). Some of the biggest individuals may eat up to 6 tons of krill a day.
+>
+> Blue whales are found in all oceans except the Arctic Ocean. There are five currently recognized subspecies of blue whales.
+>
+> The number of blue whales today is only a small fraction of what it was before modern commercial whaling significantly reduced their numbers during the early 1900s, but populations are increasing globally. The primary threats blue whales currently face are vessel strikes and entanglements in fishing gear....
+>
+> Blue whales were significantly depleted by commercial whaling activities worldwide. Today, blue whales are listed as endangered under the Endangered Species Act and protected under the Marine Mammal Protection Act. The latest [stock assessment reports](https://www.fisheries.noaa.gov/national/marine-mammal-protection/marine-mammal-stock-assessment-reports-species-stock#cetaceans---large-whales) of blue whales include data for various stocks, including areas of the North Pacific and western North Atlantic Oceans.
+
+<br><br>

@@ -1,0 +1,60 @@
+---
+number-sections: false
+---
+
+# Introduction
+
+```{r}
+#| label: setup-vessels
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+#source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+# Instructions for running this analysis
+
+## From the R console, from the project directory, run: targets::tar_make()
+# TODO: explore using tar_quarto()
+
+## In a terminal session, from the project directory, run: quarto render
+
+```
+
+
+```{r installed-packages, eval=FALSE}
+library(tidyverse)
+library(gt)
+library(glue)
+library(lubridate)
+
+ip <- installed.packages() |>
+  as.data.frame() |>
+  janitor::clean_names() |>
+  select(package, version) |>
+  mutate(id = row_number()) |>
+  relocate(id, .before = package)
+
+row.names(ip) <- NULL
+  
+gt(ip) |>
+  tab_header(md(glue("**Installed packages**<br>(not necessarily loaded)<br>as of {today()}")))
+
+```
+
+Large scale whale hunting became big business in the mid nineteenth century and continued into the twentieth. In North America, New England's ports and shipyards were busy with the business of whaling: financing, building, and provisioning ships, hiring crews, and buying whale products when the ships returned.
+
+How big was whaling in America? How many ships were involved? Where did they go, and how long were their voyages? What products did they bring back? What kinds of whales did they hunt? How much money did investors make? Thanks to <https://whalinghistory.org/>, a collaboration of New Bedford Museum and Mystic Seaport Museum, it's possible to paint a picture of American whaling from historical data. Less visible here is the repeated pattern of over-fishing whale species and the decline of whale populations worldwide, though I will make some observations and inferences where I can.
+
+# License
+
+<img src="https://i.creativecommons.org/l/by/4.0/88x31.png" alt="CC-BY" /> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a></p>

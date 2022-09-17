@@ -1,0 +1,151 @@
+# Overview  {#sec-overview}
+
+```{r}
+#| label: setup-introduction
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-introduction
+
+df_whale_species <- count(tar_read(log_all), species) %>%
+  filter(!is.na(species))
+
+df_voyages_for_plot <- tar_read(voyages_for_plot)
+df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+```
+
+```{r}
+#| label: fig-image-mosaic-ships
+#| fig-cap: "Left to right: (1) Arctic with Boats Fastened to a Fish, 1875 [@JTJ1921]; (2) American-built Brigitine Karluk in Her Whaling Years (before 1913)[@RB1916]; (3) Modern Whaling Cannon Loaded with Harpoon, and Ready to Fire, 1921 [@JTJ1921b]."
+#| column: page-right
+
+knitr::include_graphics(here("images", "whaling-ship-mosaic.png"))
+
+```
+
+<br>
+
+## The data
+
+This historical data comes in the form of three tables, as noted on the whalinghistory.org [download page](https://whalinghistory.org/participate/download/) and [Crew List page](https://whalinghistory.org/av/crew/about/):
+
+1. American Offshore Whaling Voyages database [@AOWV2021]
+
+    >containing one or more records for each American voyage for which evidence was found---at the least, the name of the vessel and/or master, the port and the approximate date of starting and ending. A basic suite of information is included for most voyages, and usually substantial additional information is included on the ship's capacity and rig, declared destination, and amount of whale products. Basic biographical information about the master is included where known.
+
+2. American Offshore Whaling Logbook database [@AOWLD2018]
+
+    >containing records transcribed from whaling log books giving information on the whales seen and captured, and the date and the location of the vessel. These data were extracted from the original whaling logbooks during three separate scientific research projects, one conducted by Lt. Cmdr. Matthew Fontaine Maury in the 1850s, the second conducted by Charles Haskins Townsend in the 1930s, and the third conducted by a team from the Census of Marine Life project (CoML, www.coml.org) between 2000 and 2010. Data from each separate project is also available here.
+
+3. American Offshore Whaling Crew Lists [@AOWCL2020].
+
+    >Crew lists for whaling voyages recorded at the customs houses in New Bedford, Fall River, and Salem, Massachusetts, and in New London, Connecticut, have been compiled as part of various projects and from various sources over the years. We have gathered these crew lists in a single searchable, sortable database.  
+
+<br>
+
+I make two simplifying assumptions without attempting to justify them:
+
+1. The voyages in this dataset are a sufficiently good representation of all American whaling voyages to make general statements about the rise, decline, and some characteristics of the American whaling industry
+2. Data quality issues do not overly compromise this purpose, particularly after using the techniques summarized in *@sec-dealing-with-errors Dealing with errors, duplicates, and omissions.*
+
+<br>
+
+## Why whaling?
+
+Prior to the industrial revolution, products derived from whales included oils for lanterns, candles and other purposes, high-quality wax, and strong rods and plates that today would be made of plastic or metal. See the good [Whales and hunting](https://www.whalingmuseum.org/learn/research-topics/whaling-history/whales-and-hunting) overview at www.whalingmuseum.org .
+
+### The whales and the products derived from them
+
+```{r}
+pct_whale_species_not_identified <- df_whale_species %>%
+  filter(species == "Whale") %>%
+  pull(n) / sum(df_whale_species$n)
+
+```
+
+Sperm and right whales were most commonly hunted for sperm oil (a liquid wax) and whale oil respectively. Species hunted for their baleen included humpback, bowhead, right, and gray. The records include a relatively small number of non-whales: pilot whales, orca (killer whales; formerly called grampus whales), and dolphins. Fin whales (also called finback whales), though large and having baleen, were not hunted much when whalers used open boats. Once steam-powered ships and explosive harpoons made it safer for crews, and once other species became rarer, harvesting fin whales became more common. In this data set one does not see this significant, later trend. See *@sec-most-common-species Most Common Species* and *@sec-less-common-species Less Common Species.*
+
+Whaling crews logged encounters with whales in their logbooks. The `logbook` table standardizes these encounters into *sightings* and *strikes* (harpooning). Each encounter may have included more than one whale. *Tries* indicate the number of whales that were processed by the crew after a recorded *strike*. Sometimes the logs recorded "whale" without identifying the species. In the dataset this occurred in `r percent(pct_whale_species_not_identified)` of the encounters. Looking at where "whale" encounters occurred, they seem to be a mix of Sperm and Right whales. In total the data set includes the following:
+
+<br>
+
+```{r}
+#| label: tbl-whale-species-encounter-summary-table
+#| tbl-cap: "Summary of whale species encountered"
+
+df_whale_species %>%
+  arrange(-n) %>%
+  mutate(pct = n / sum(n)) %>%
+  adorn_totals(where = "row") %>%
+  gt() %>%
+  tab_header(md("***Encounters***<br>(sightings or strikes)")) %>%
+  fmt_number(columns = n,
+             decimals = 0) %>%
+  fmt_percent(columns = pct,
+             decimals = 1) %>%
+  tab_footnote(md("A sighting or strike involved one or more (sometimes many more) animals"),
+               locations = cells_column_labels(n))
+```
+
+Whale names have changed over the years. Finback are more commonly called fin whales today; orca are also known as killer whales and previously were known as grampus whales.
+
+As seen in @fig-species-pct-tries-in-decade, harvesting right and sperm whales peaked in the 1840s, pilot and bowhead whales in the 1850s, and the other less common species in the 1860s and 1870s. See *@sec-whales Whales* and *@sec-products Products.*
+
+<br>
+
+## Where did American whaling vessels go to find whales?
+
+In short: they went where the whales were. For example:
+
+* In the south Atlantic near Argentina: Maria Theresa (AV09015)
+* In the north Pacific near the coast of Russia: Mary and Susan (AV09260) and near Alaska: Coral (AV03337)
+* Near Australia: Rodman (AV12459)
+* North to the Husdon Bay: Glacier (AV05786)
+* In the mid Atlantic: Acycone (AV00433)
+
+For details see *@sec-voyages Voyages*, *@sec-vessels Vessels*, and *@sec-voyage-tracks Voyage Tracks.*
+
+```{r}
+#| label: fig-six-voyage-tracks
+#| fig-cap: "Six voyage tracks illustrating the worldwide nature of American Whaling"
+#| column: page-right
+
+## fig-height: 6.7
+## fig-width: 15
+
+## 8.75
+## out.width="100%"
+
+plot_voyages(df_voyages = df_voyages_for_plot,
+             #df_voyages_for_plot_strikes = voyages_for_p lot_strikes,
+             df_voyage_ids = df_voyages_for_plot_nolargegaps %>% 
+               filter(voyage_id %in% c("AV05786", "AV00433", "AV09015", "AV03337", "AV09260", "AV12459")),
+             title = "Whaling voyage tracks with strikes - some examples",
+             file_name = "./figure-output/fig-six-voyage-tracks-manual.png"
+)
+
+knitr::include_graphics("./figure-output/fig-six-voyage-tracks-manual.png")
+
+```
+
+<br>
+
+## Financial returns
+
+The mix of product sold at the end of whaling voyages varied by voyage and decade. Crews were paid according to the lay system: a portion of net profits after expenses. The financial returns for investers and crew of the higher ranks (positions) were uncertain but overall very attractive in the mid nineteenth century, declining over the decades until the industrial revolution offered better return on investment for those with capital and more attractive options for crew, including more certain wages that did not require them to be away from home for months or years at a time. The center of the whaling business moved to Norway and other nations as American involvement declined. See *@sec-masters Masters*, *@sec-crew Crew* and *@sec-financial Financial returns.*
+
+<br><br>

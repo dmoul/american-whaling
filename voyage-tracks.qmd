@@ -1,0 +1,177 @@
+# Voyage Tracks {#sec-voyage-tracks}
+
+```{r}
+#| label: setup-voyage-tracks
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-voyage-tracks
+
+df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+df_log_all <- tar_read(log_all)
+# df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+df_voyages_for_plot <- tar_read(voyages_for_plot)
+df_voyages_for_plot_sightings <- tar_read(voyages_for_plot_sightings)
+df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+# df_crew <- tar_read(crew)
+
+# df_cwm <- tar_read(cwm)
+
+```
+
+```{r}
+#| label: define-voyage-tracks-data
+
+n_voyages_for_plot_nolargegaps <- nrow(df_voyages_for_plot_nolargegaps)
+n_voyage_distinct <- nrow(df_voyage_distinct)
+
+cwm_voyages <- df_voyage %>%
+  filter(vessel_id == "AS0089") %>%
+  arrange(year_out)
+
+cwm_log <- df_log_all %>%
+  filter(voyage_id %in% cwm_voyages$voyage_id) %>%
+  arrange(log_date) %>%
+  distinct(voyage_id, .keep_all = TRUE)
+  
+cwm_track <- df_voyages_for_plot %>%
+  filter(voyage_id %in% cwm_voyages$voyage_id)
+
+```
+
+So where did whalers actually go to find whales? They went wherever they needed to find whales. Over time people learned whaling migration patterns and knew when and where to find the whales they were hunting.
+
+Ships' tracks below rely on the latitude and longitude measurements noted in the logbooks. I filtered out voyages with lower-quality data (see @sec-dealing-with-errors *Dealing with errors, duplicates, and omissions*), leaving `r comma(n_voyages_for_plot_nolargegaps)` of `r comma(n_voyage_distinct)` (about `r percent(n_voyages_for_plot_nolargegaps / n_voyage_distinct, accuracy = 0.1)`) of the voyages fit to be plotted.
+
+<br>
+
+## Voyages of the Charles W. Morgan {#sec-cwm-voyage-tracks}
+
+@sec-case-cwm *in Financial returns* laid out the revenue, estimated costs, and estimated profit of the 37 voyages of the Charles W. Morgan. The voyage summary data includes `r nrow(cwm_log)` voyages of the Charles W Morgan with log data for `r nrow(cwm_track)` of them. Since most of these tracks are not complete enough for plotting, below are the recorded whale encounters (sightings and strikes) without voyage tracks. See the summary table in the Appendix @sec-cwm-voyages *Charles W. Morgan's voyages* for more information.
+
+```{r}
+#| label: fig-cwm-sightings-strikes
+#| fig-cap: "Whale sightings and strikes recorded in the Charles W Morgan's logs (15 of 37 voyages)"
+#| column: page-right
+
+plot_whale_sightings_strikes(df_voyage_ids = cwm_track %>% 
+                               filter(voyage_id %in% cwm_voyages$voyage_id),
+                             title = "Whale sightings and strikes noted in the Charles W. Morgan's logs",
+                             file_name = "./figure-output/fig-cwm-sightings-strikes-manual.png",
+                             plot_height = 7.5)
+
+knitr::include_graphics("./figure-output/fig-cwm-sightings-strikes-manual.png")
+
+```
+
+<br>
+
+## Voyages without gaps of `r spell_out(max_obs_gap)` days or more in observations
+
+```{r}
+n_vessels_voyages_for_plot_nolargegaps <- df_voyages_for_plot_nolargegaps %>%
+  distinct(vessel) %>%
+  nrow()
+```
+
+Below are `r nrow(df_voyages_for_plot_nolargegaps)` voyages of `r n_vessels_voyages_for_plot_nolargegaps` vessels with tracks good for plotting.
+
+```{r}
+#| label: fig-batch-voyage-tracks-all
+#| fig-cap: "All good voyage tracks"
+#| column: page-right
+
+plot_voyages_all(df_voyage_ids = df_voyages_for_plot_nolargegaps,
+                 title = glue("Whaling voyages ({nrow(df_voyages_for_plot_nolargegaps)} good tracks)"),
+                 file_name = "./figure-output/fig-batch-voyage-tracks-all-manual.png",
+                 plot_height = 7.5)
+
+knitr::include_graphics("./figure-output/fig-batch-voyage-tracks-all-manual.png")
+
+```
+
+<br>
+
+Below is the same information in batches of `r spell_out(voyage_set_batch)` so they are easier to follow. Voyages are sorted by date of first logbook entry so changes in the pattern of voyages over the years is more visible. White dots indicate one or more *strikes* (harpoonings). More information can be found in the Appendix @sec-good-voyage-tracks *All good voyage tracks.*
+
+```{r}
+#| label: fig-batch-voyage-tracks
+#| fig-cap: "Batch of voyage tracks"
+#| column: page-right
+#| fig-height: 6.7 #8.75
+#| fig-width: 15
+#| eval: true
+
+walk(1:max(df_voyages_for_plot_nolargegaps$batch), 
+     ~ {
+       #writeLines("\n")
+       plot_voyages(df_voyage_ids = df_voyages_for_plot_nolargegaps %>% 
+                      filter(batch == .x),
+                    title = paste0("Whaling voyage tracks (batch ", .x, ")"),
+                    file_name = paste0("./figure-output/fig-batch-voyage-tracks-", .x, "-manual.png"),
+                    plot_height = 6.7
+       )
+       # include_graphics() doesn't work in a loop or other non-top environment
+       #knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", .x, "-manual.png"))
+     }
+)
+
+# include_graphics() doesn't work in a loop or other non-top environment, so I must list them individually
+# known issue: https://github.com/yihui/knitr/issues/1260
+
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 1, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 2, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 3, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 4, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 5, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 6, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 7, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 8, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 9, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 10, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 11, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 12, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 13, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 14, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 15, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 16, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 17, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 18, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 19, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 20, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 21, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 22, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 23, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 24, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 25, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 26, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 27, "-manual.png"))
+knitr::include_graphics(paste0("./figure-output/fig-batch-voyage-tracks-", 28, "-manual.png"))
+
+```
+
+<br><br>
+
+

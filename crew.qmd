@@ -1,0 +1,1487 @@
+# The crew {#sec-crew}
+
+<br>
+
+```{r}
+#| label: setup-crew
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-crew
+
+# df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+# df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+# df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+# df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+df_crew <- tar_read(crew)
+
+# df_crew_per_voyage <- df_crew |>
+#   count(voyage_id)
+
+```
+
+```{r}
+#| label: fig-image-crew
+#| fig-cap: "Whaling crew flensing (stripping the blubber from) a whale. [@DAL1911]"
+#| out-width: "70%"
+
+knitr::include_graphics(here("images", "34363-flensing.jpg"))
+
+```
+
+<br><br>
+
+What of the men who crewed the whaling vessels? At [whalinghistory.org](https://whalinghistory.org/av/crew/about/) there is a crew list data set[@WH2022cl] encompassing a subset of voyages that mostly set out between 1840 and 1860.
+
+> Crew Lists
+>
+> The Act of 28 February 1803 contained the first legal mention and requirements for keeping a Crew List as part of the ship's papers. Before a vessel could depart on a foreign voyage, the master had to deliver a list of the crew, verified by his oath, to the customs collector at that port. The collector then supplied the master with a certified copy of the list, copied in a uniform hand, along with a Clearance Certificate, at which time the master entered into a four-hundred-dollar bond to exhibit the Crew List to the first boarding officer he encountered upon his return to a U.S. port. There he was required to produce the persons named and described in the Crew List to give account for any crew members who were not present. Notes certifying sickness, discharge or desertion, usually signed by a consular official, were often included with the original list in order to prove that individuals not present were legally accounted for. (From Stein, Douglas L., American Maritime Documents 1776-1860, 1992.)
+
+Name, age, height, and description of skin and hair were used to identify a person.
+
+<br>
+
+## Number of crew {#sec-number-of-crew}
+
+There seems to have been three common crew configurations in the data set, presumably corresponding to ship size and rig:
+
+```{r}
+#| label: define-crew-for-plot
+
+# min_crew_size_cutoff is defined in constants.R
+
+crew_for_plot <- df_crew %>%
+  mutate(vessel = str_extract(voyage, "(\\w([\\.]?[ ])?)+"),
+         voyage_label = glue("{voyage_id} {voyage}"),
+         year_out = as.double(str_extract(voyage, "\\d{4}")),
+         decade = 10 * floor(year_out / 10)) %>%
+  group_by(voyage_id, vessel, voyage_label, year_out, decade) %>%
+  summarize(n = n()) %>%
+  ungroup()
+
+n_voyages_with_crew_data <- nrow(distinct(crew_for_plot, voyage_id))
+
+n_voyages_with_crew_data_min_cutoff <- crew_for_plot %>%
+  filter(n >= min_crew_size_cutoff) %>%
+  nrow()
+
+n_voyages_with_crew_data_distinct_vessels <- crew_for_plot %>%
+  distinct(vessel, .keep_all = TRUE) %>%
+  #filter(n >= min_crew_size_cutoff) %>%
+  nrow()
+
+n_voyages_with_crew_data_distinct_vessels_min_cutoff <- crew_for_plot %>%
+  filter(n >= min_crew_size_cutoff) %>%
+  distinct(vessel, .keep_all = TRUE) %>%
+  nrow()
+```
+
+```{r}
+#| label: define-df-crew-rank
+
+df_crew_rank <- df_crew %>%
+  filter(!is.na(rank_clean)) %>%
+  mutate(#rank_original = rank,
+         # rank = str_to_lower(rank),
+         # rank = str_remove_all(rank, "\\(|\\)"),
+         # rank = str_replace_all(rank, c("first" = "1st",
+         #                                "second" = "2nd",
+         #                                "third" = "3rd",
+         #                                "fourth" = "4th",
+         #                                "fifth" = "5th",
+         #                                "1 " = "1st ",
+         #                                "2 |2d(\\.)? " = "2nd ",
+         #                                "3 " = "3rd ",
+         #                                "4tn" = "4th",
+         #                                "\\?" = "",
+         #                                "\\[|\\]" = "",
+         #                                "[[[:punct:]]']$" = "",
+         #                                "ass't" = "assistant")
+         # ),
+         # rank = str_trim(rank),
+         # rank = case_when(
+         #   str_detect(rank, "assistant")                          ~ "assistant",
+         #   str_detect(rank, "apprentice")                         ~ "apprentice",
+         #   str_detect(rank, "^g") & str_detect(rank, "hand")      ~ "greenhand/landsman",
+         #   str_detect(rank, "^o") & str_detect(rank, "seaman")    ~ "ordinary seaman",
+         #   rank == "ordinary"                                     ~ "ordinary seaman",
+         #   str_detect(rank, "boy")                                ~ "boy (various)",
+         #   rank == "3rd mate & boat steerer"                      ~ "3rd mate",
+         #   rank == "2nd/3rd mate"                                 ~ "2nd mate",
+         #   !str_detect(rank, "^(1st|2nd|3rd|4th)") & str_detect(rank, "mate")    ~ "mate (other)",
+         #   str_detect(rank, "offiver")                            ~ "officer",
+         #   str_detect(rank, "cook")                               ~ "cook",
+         #   str_detect(rank, "engineer")                           ~ "engineer",
+         #   str_detect(rank, "carpenter")                          ~ "carpenter",
+         #   str_detect(rank, "cooper")                             ~ "cooper",
+         #   str_detect(rank, "blacksmith")                         ~ "blacksmith",
+         #   str_detect(rank, "sail( )?maker")                      ~ "sailmaker",
+         #   str_detect(rank, "ship(s)?( )?(-)?keeper")             ~ "shipkeeper",
+         #   rank == "ship"                                         ~ "shipkeeper",
+         #   str_detect(rank, "steward")                            ~ "steward",
+         #   str_detect(rank, "boat( )?ste")                        ~ "boatsteerer",
+         #   str_detect(rank, "boathead")                           ~ "boatheader",
+         #   str_detect(rank, "ste.*man")                           ~ "steersman",
+         #   str_detect(rank, "able")                               ~ "able seaman/seaman",
+         #   str_detect(rank, "seaman|[-]man")                      ~ "able seaman/seaman",
+         #   #str_detect(rank, "passenger|supercargo")               ~ "passenger/supercargo",
+         #   str_detect(rank, "physician|surgeon")                  ~ "physician/surgeon",
+         #   str_detect(rank, "captain")                            ~ "master",
+         #   str_detect(rank, "landsm")                             ~ "greenhand/landsman",
+         #   str_detect(rank, "light hand")                         ~ "light hand",
+         #   str_detect(rank, "sailor")                             ~ "seaman",
+         #   str_detect(rank, "kanaka")                             ~ "other",
+         #   TRUE                                                   ~ rank
+         # ),
+         rank_clean = fct_lump_min(rank_clean, min = 5, other_level = "other"),
+         lay_original = lay,
+         lay = str_replace_all(lay, c("Jan-" = "1/",
+                                      "(\\d{2})-Jan" = "1/\\1", # using capture group
+                                      "(\\d+)[-](\\d+)" = "\\1/\\2",
+                                      "(\\d{1,2})O" = "(\\1)0",
+                                      "(\\d{1,2})OO" = "(\\1)00"
+                                      )
+                               ),
+         lay = case_when(
+           str_detect(lay, "FD|FOOD|BRD|BOARD|CLTH|CTH|CLT")     ~ "food & clothing",
+           TRUE                                                  ~ lay
+         ),
+         # TODO: stop ignoring lays in form nn (no fraction)
+         lay_portion = str_extract(lay, "(?<=1/)\\d+"),
+         portion = as.double(str_extract(lay_portion, "\\d+$")),
+         portion = case_when(
+           portion == 10 & str_detect(rank_clean, "seaman")            ~ 100,
+           portion < 10 & !str_detect(rank_clean, "master")            ~ NA_real_,
+           lay == "food & clothing"                              ~ 0,
+           TRUE                                                  ~ portion
+         ),
+         pct_of_profit = 100 * 1 / portion,
+         pct_of_profit = ifelse(is.infinite(pct_of_profit), 0, pct_of_profit)
+  )
+
+# Let's separately express lays in the from "x/M"
+crew_rank_per_m <- df_crew_rank %>%
+  filter(str_detect(lay_original, "M")) %>%
+  mutate(
+    lay_fixed = case_when(
+      rank_clean == "seaman" & str_detect(lay_original, "\\.50/M")           ~ "5/M",
+      rank_clean == "seaman" & str_detect(lay_original, "\\.01c/M")          ~ "1/M",
+      rank_clean == "carpenter" & str_detect(lay_original, "\\.50/M")        ~ "5/M", # 5 or 50? Both are outliers, but 5 is less so
+      rank_clean == "cooper" & str_detect(voyage, "Endeavor : 1843-1845") & lay_original == "45/M"  ~ "15/M", # to match other coopers on that voyage
+      rank_clean == "cooper" & str_detect(voyage, "Dunbarton : 1850-1852") & lay_original == "35/M"   ~ "15/M", # let's at least get in the ballpark
+      TRUE                                                             ~ lay_original
+    ),
+    lay_fixed = str_replace_all(lay_fixed, c("1M" = "M",
+                                             "(\\.)?(\\d{1,2})(c)?[/-]\\M" = "\\2/M"),
+    )
+  ) %>%
+  arrange(rank_clean, lay_fixed)
+
+rank_most_common <- df_crew_rank %>%
+  count(rank_clean, sort = TRUE) %>%
+  filter(n > 1000)
+
+df_crew_rank_portion <- df_crew_rank %>%
+  filter(!is.na(portion)) %>%
+  select(voyage_id, voyage, name_first, name_last, rank_clean, portion, pct_of_profit)
+
+df_crew_rank_portion_m <- crew_rank_per_m %>%
+  filter(!is.na(lay_fixed)) %>%
+  mutate(portion = parse_number(lay_fixed)) %>%
+  select(voyage_id, voyage, name_first, name_last, rank_clean, lay_fixed, portion, pct_of_profit)
+  
+min_crew <- 5
+
+rank_number_and_portion <- df_crew_rank_portion %>%
+  filter(rank_clean != "been coasting") |> # not sure what these 5 are
+  mutate(rank_clean = fct_lump_min(rank_clean, min = min_crew, other_level = "other"),
+         ) |>
+  group_by(rank_clean) %>%
+  summarize(med_pct_of_profit = median(pct_of_profit),
+            n_crew = n()) %>%
+  ungroup()
+
+```
+
+```{r}
+#| label: fig-crew-size-histogram
+#| fig-cap: "Crew list size"
+
+crew_for_plot %>%
+  filter(n >= min_crew_size_cutoff) %>%
+  ggplot(aes(n)) +
+  geom_histogram(binwidth = 1,
+                 fill = my_color_red,
+                 alpha = 0.8) +
+  dark_mode() +
+  labs(title = "Number of crew",
+       subtitle = glue("{comma(n_voyages_with_crew_data)} voyages of {n_voyages_with_crew_data_distinct_vessels} vessels",
+                       " with at least {min_crew_size_cutoff} crew"),
+       x = "Number of crew on crew list",
+       #y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+In the peak period mid-century some crews were much larger, likely due to larger ships, relatively longer voyages, or more crew were replaced along the way. In the twilight decades crews were smaller; perhaps technological advances in (1) propulsion (steam and diesel engines) and (2) more effective harpoons reduced the need for crew, or perhaps the lower profits enforced economies in crew size. See @sec-financial *Financial returns.*
+
+```{r}
+#| label: fig-crew-side-by-decade
+#| fig-cap: "Number of crew by decade"
+
+factor_levels_decade = rev(sort(unique(crew_for_plot$decade)))
+
+crew_for_plot_median <- crew_for_plot %>%
+  filter(decade >= 1800,
+         n >= min_crew_size_cutoff) %>% # earlier data not good enough
+  count(decade, voyage_id, voyage_label, wt = n) %>%
+  group_by(decade) %>%
+  summarize(n_med = median(n),
+            n = sum(n)) %>%
+  ungroup() %>%
+  mutate(decade = factor(decade, levels = rev(factor_levels_decade)))
+
+crew_for_plot %>%
+  filter(decade >= 1800,
+         n >= min_crew_size_cutoff) %>% # earlier data not good enough
+  mutate(decade = factor(decade, levels = rev(factor_levels_decade))) %>%
+  ggplot(aes(n, decade, color = decade)) +
+  geom_jitter(size = 0.5, alpha = 0.8, color = my_color_yellow,
+              show.legend = FALSE) +
+  geom_point(data = crew_for_plot_median,
+             aes(x = n_med, y = decade, size = n),
+             shape = 18, color = my_color_red) +
+  #scale_fill_discrete(direction = -1) +
+  scale_size_continuous(breaks = c(1000, 10000, 20000, 40000),
+                        range = c(3, 10),
+                        labels = label_number(scale_cut = cut_short_scale())) +
+  dark_mode() +
+  theme(legend.position = "right") +
+  labs(title = "Number of crew - by decade",
+       subtitle = glue("{comma(n_voyages_with_crew_data)} voyages of {n_voyages_with_crew_data_distinct_vessels} vessels",
+                       "\ndiamond is median crew size"),
+       x = "Number of crew on crew list",
+       y = NULL,
+       size = "n crew\nin decade",
+       caption = my_caption)
+
+```
+
+<br>
+
+Multiple crew configurations are visible in scatterplots of number of crew by vessel tonnage. The smallest vessels were schooner or brig rigged, and the largest vessels were shipped rigged.
+
+```{r}
+#| label: define-crew-and-tonnage
+ 
+crew_and_tonnage <- df_crew %>%
+  count(voyage_id, name = "n_crew") %>%
+  inner_join(.,
+             df_voyage_distinct %>%
+               filter(!is.na(tonnage)) %>%
+               mutate(tonnage = str_remove(tonnage, "c\\."),
+                      decade = 10 * floor(year_out / 10)) %>% 
+               separate(tonnage, sep = "/", into = c("x1", "x2", "x3", "x4", "x5"), 
+                        extra = "merge", fill = "right", convert = TRUE) %>%
+               mutate(across(x1:x5, ~ ifelse(is.na(.x), "0", .x))) %>%
+               mutate(across(x1:x5, ~ readr::parse_number(.x))) %>%
+               rowwise() %>%
+               mutate(tonnage_max = max(c_across(x1:x5), na.rm = TRUE)) %>%
+               select(-(x1:x5)),
+             by = "voyage_id") %>%
+  filter(!is.na(rig)) %>%
+  mutate(rig = str_remove(rig, " ?[?]"),
+         rig = str_trim(rig),
+         rig = case_when(
+           rig %in% xfun::raw_string(c("Ship / Ship Don’T", "Ship New", "Ship / Ship", "Ship / Ship 7 Says")) ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Bark", "Bark / Sbark", "Sbark"))         ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Brig", "Bark / Brig Or Bark", "Brig / Brig Or Bark",
+                      "Brig / Sbark", "Bark / Bark Or Brig"))                           ~ "Bark / Brig",
+           rig %in% xfun::raw_string(c("Bark / Ship", "Ship / Ship Or Bark", "Bark / Bark Or Ship",
+                      "Bark / Bark Or Sh", "Ship / Ship Or Bk"))                        ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Brig To Ship"))                          ~ "Bark / Brig / Ship",
+           rig %in% xfun::raw_string(c("Schr / Schr", "Dschr", "Dschr / Schr", "Gschr", "Gschr / Schr", "SSchr")) ~ "Schr",
+           rig %in% xfun::raw_string(c("Brig / Brig", "Bark / Sbark", "Sbark"))         ~ "Brig",
+           rig %in% xfun::raw_string(c("Sloop / Sloop"))                                ~ "Sloop",
+           rig %in% xfun::raw_string(c("Sloop / Sloop Or Schr"))                        ~ "Schr / Sloop",
+           rig %in% xfun::raw_string(c("Sloop / Sloop (Brig)"))                         ~ "Brig / Sloop",
+           rig %in% xfun::raw_string(c("Brig / Schr", "Brig/Schr", "Schr / Brig",
+                                       "Brig / Brig Or Schr", "Schr Or Brig"))          ~ "Brig / Schr",
+           rig %in% xfun::raw_string(c("Schr / Ship", "Ship Or Schr"))                  ~ "Schr / Ship",
+           rig %in% xfun::raw_string(c("Str", "Sbgtn", "Sbktn"))                        ~ "Str / Sbgtn / Sbktn",
+           rig %in% xfun::raw_string(c("Dschr / Sbktn"))                                ~ "Schr / Sbktn",
+           TRUE                                                                         ~ rig
+         ),
+         rig = fct_lump_min(rig, min = 11),
+         rig = str_remove_all(rig, " ")
+  )
+
+```
+
+```{r}
+#| label: fig-crew-by-decade-tonnage-vessel
+#| fig-cap: "Number of crew by tonnage by decade colored by vessel rig"
+
+crew_and_tonnage %>%
+  ggplot() +
+  geom_jitter(aes(tonnage_max, n_crew, color = rig), size = 1, alpha = 0.5) +
+  guides(color = guide_legend(override.aes = list(size = 2))) +
+  dark_mode() +
+  labs(title = "Number of crew by vessel tonnage - all decades",
+       caption = my_caption)
+
+```
+
+<br>
+
+These patterns are visible when faceting by decade, particularly before the 1860s.
+
+```{r}
+#| label: fig-crew-by-decade-tonnage-vessel-rig
+#| fig-cap: "Number of crew by tonnage faceted by decade colored by vessel rig"
+#| fig-height: 6
+
+crew_and_tonnage %>%
+  mutate(decade_string = paste0(decade, "s"),
+         decade_string = case_when(
+           decade_string %in% c("1780s", "1790s", "1800s", "1810s", "1820s", "1830s")    ~ "1780s-1830s",
+           decade_string %in% c("1880s" ,"1890s", "1900s", "1910s", "1920s")    ~ "1880s-1920s",
+           TRUE                                                                          ~ decade_string
+         )) %>%
+  ggplot() +
+  geom_jitter(aes(tonnage_max, n_crew, color = rig), size = 1, alpha = 0.5) +
+  guides(color = guide_legend(override.aes = list(size = 2))) +
+  #facet_grid(decade_string ~ .) +
+  facet_wrap(decade_string ~ ., ncol = 2) +
+  dark_mode() +
+  labs(title = "Number of crew by vessel tonnage - by decade",
+       caption = my_caption)
+  
+```
+
+<br>
+
+## Age
+
+The majority of the crew were in their twenties.
+
+```{r}
+#| label: fig-crew-age-histogram
+#| fig-cap: "Crew age"
+
+crew_for_plot <- df_crew %>%
+  filter(!is.na(age))
+
+n_crew_records_with_age <- nrow(crew_for_plot)
+n_crew_records <- nrow(df_crew)
+
+crew_age_med = median(crew_for_plot$age)
+crew_age_avg = mean(crew_for_plot$age)
+
+f_ecdf <- ecdf(crew_for_plot$age)
+pct_in_20s <- f_ecdf(29) - f_ecdf(20)
+
+crew_for_plot %>%
+  ggplot(aes(age)) +
+  geom_histogram(binwidth = 1,
+                 fill = my_color_red, alpha = 0.8) +
+  geom_vline(xintercept = c(20, 30), lty = 2, color = "blue") +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  dark_mode() +
+  labs(title = "Whaling was a young man's venture",
+       subtitle = glue("Age of crew when joining voyage; {percent(pct_in_20s)} were in their twenties",
+                       "\n{comma(n_crew_records_with_age)} of {comma(n_crew_records)} ({percent(n_crew_records_with_age / n_crew_records)})",
+                       " records include age"),
+       caption = my_caption)
+```
+
+<br>
+
+Looking at the same data in a cumulative density plot:
+
+```{r}
+#| label: fig-crew-age-ecdf
+#| fig-cap: "Crew age cumulative density plot"
+
+crew_for_plot %>%
+  ggplot(aes(age)) +
+  stat_ecdf(color = my_color_red, alpha = 0.8) +
+  geom_vline(xintercept = median(crew_for_plot$age, na.rm = TRUE), color = "white", lty = 2) +
+  scale_y_continuous(labels =  percent_format()) +
+  coord_cartesian(xlim = c(15, 60)) +
+  dark_mode() +
+  labs(title = "Another view: Crew age cumulative density plot",
+       subtitle = glue("Age of crew when joining voyage",
+                       "\n{comma(n_crew_records_with_age)} of {comma(n_crew_records)} ({percent(n_crew_records_with_age / n_crew_records)})",
+                       " records include age",
+                       "\nvertical line is median: {crew_age_med} years old"),
+       y = "Pct of all crew records that include age",
+       caption = my_caption)
+```
+
+<br>
+
+There were some non-adults on board. The ranks that included "boy" mostly applied to adolescents rather than to adult assistants in subservient roles. See @fig-crew-ranks-histogram. Crew age 10 or less were likely children of other crew.
+
+```{r}
+df_crew_rank |>
+  mutate(rank_clean = as.character(rank_clean)) |>
+  filter(str_detect(rank_clean, "boy"),
+         !is.na(age)) %>%
+  ggplot(aes(age)) +
+  geom_histogram(fill = my_color_red,
+                 binwidth = 1) +
+  dark_mode() +
+  labs(title = "Most 'boys' really were adolescents",
+       subtitle = glue("Age of crew with rank including 'boy'",
+                       "\n(boy, cabin boy, steerage boy, ordinary boy)"),
+       caption = my_caption)
+```
+
+<br>
+
+## Skin color
+
+```{r}
+#| label: define-crew-skin
+
+df_crew_skin <- df_crew %>%
+  mutate(skin = str_to_lower(skin),
+         skin = case_when(
+           str_detect(skin, "light|fair|fare|freck|white")              ~ "white, light, fair",
+           str_detect(skin, "black|blk|negro|colo|african|coulered|collourd|sable|dark|lite")      
+                                                                        ~ "negro, black, colored",
+           skin == "b"                                                  ~ "negro, black, colored",
+           str_detect(skin, "indian|swarthy|copper|tawny|brown|coffee|mixed|native")    
+                                                                        ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "tto|mullato|mulato|sepia|seppia|sambo")    ~ "mulatto, swarthy, tawny, brown",
+           str_detect(skin, "olive|portuguese|portguguese|portugues|portugese")             
+                                                                        ~ "olive, portuguese",
+           str_detect(skin, "yellow")                                   ~ "yellow, yellowish",
+           str_detect(skin, "ruddy|rudy|red")                           ~ "ruddy, red",
+           is.na(skin)                                                  ~ "unknown",
+           TRUE                                                         ~ skin
+           ),
+         skin = fct_lump_min(skin, min = 3000, other_level = "other")
+         )
+
+df_crew_skin_pct_all <- df_crew_skin %>%
+  count(voyage_id, voyage, skin) %>%
+  complete(voyage_id, skin, fill = list(n = 0)) %>%
+  group_by(voyage_id) %>%
+  summarize(skin = skin,
+            n = n,
+            pct = n / sum(n),
+            pct_label = percent(pct)
+  ) %>%
+  ungroup() %>%
+  inner_join(.,
+            df_crew_skin %>%
+              distinct(voyage_id, voyage),
+            by = "voyage_id") %>%
+  relocate(voyage, .after = voyage_id)
+
+df_crew_voyage_skin_voyage_unknown <- df_crew_skin_pct_all %>%
+  filter(skin == "unknown" & pct == 1) %>%
+  select(voyage_id, n)
+
+n_crew_voyage_skin_voyage_unknown = nrow(df_crew_voyage_skin_voyage_unknown)
+
+n_crew_skin_voyage_unknown = sum(df_crew_voyage_skin_voyage_unknown$n)
+
+df_crew_skin_pct <- df_crew_skin_pct_all %>%
+  anti_join(.,
+            df_crew_voyage_skin_voyage_unknown,
+            by = "voyage_id")
+
+n_crew_voyage_some_skin_description <- df_crew_skin_pct %>%
+  #filter(skin != "unknown") %>%
+  pull(n) %>%
+  sum()
+
+n_voyage_crew_some_skin_description <- df_crew_skin_pct %>%
+  distinct(voyage_id) %>%
+  nrow()
+
+n_crew_with_skin_description <- df_crew_skin_pct %>%
+  filter(skin != "unknown") %>%
+  pull(n) %>%
+  sum()
+
+```
+
+Crew records in the years 1840-1860 typically include skin color. Perhaps surprising for voyages from New England ports, white crew were a minority, assuming, as noted in @fig-crew-skin-by-decade-pct, negro crew were under-reported.
+
+```{r}
+#| label: fig-crew-skin1
+#| fig-cap: "Skin color of the crew"
+
+df_crew_skin_pct %>%
+  group_by(skin) %>%
+  summarize(n = sum(n)) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n),
+         pct_label = percent(pct),
+         skin = fct_reorder(skin, n)
+         ) %>%
+  ggplot() +
+  geom_col(aes(n, skin), fill = my_color_red, alpha = 0.8) +
+  geom_text(aes(n + 1e3, skin, label = pct_label), hjust = 0) +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  expand_limits(x = c(0, 52000)) +
+  dark_mode() +
+  labs(title = "Skin color recorded in crew records",
+       subtitle = glue("Data available for {comma(n_crew_with_skin_description)} of {comma(n_crew_voyage_some_skin_description)}", 
+                       " crew records ({percent(n_crew_with_skin_description / n_crew_voyage_some_skin_description)})",
+                       " in {comma(n_voyage_crew_some_skin_description)} voyages",
+                       ";\nExcluding {comma(n_crew_skin_voyage_unknown)} crew in {comma(n_crew_voyage_skin_voyage_unknown)}", 
+                       " voyages with missing skin description"),
+       x = "Number of crew",
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+How much did the racial composition vary in crews? Quite a lot.
+
+```{r}
+#| label: fig-crew-skin2
+#| fig-cap: "Distribution of skin color in crews"
+
+df_crew_skin_pct %>%
+  group_by(skin) %>%
+  mutate(skin_label = glue("{skin} (n={comma(sum(n))})")) %>%
+  ungroup() %>%
+  mutate(skin_label = fct_reorder(skin_label, n, sum)) %>%
+  #ungroup() %>%
+  ggplot() +
+  geom_density_ridges(aes(pct, skin_label), 
+                      quantile_lines = TRUE, quantiles = c(0.25, 0.5, 0.75),
+                      rel_min_height = 0.005,
+                      fill = my_color_red, color = my_color_yellow, alpha = 0.8, size = 0.15) + #my_color_yellow
+  scale_x_continuous(labels = percent_format()) +
+    dark_mode() +
+  labs(title = "Distribution of skin color in crews",
+       subtitle = glue("Vertical lines at 25%, 50% and 75% quantiles",
+                       "\nexcluding {comma(n_crew_skin_voyage_unknown)} crew in {comma(n_crew_voyage_skin_voyage_unknown)}", 
+                       " voyages with no skin descriptions"),
+       x = "Percent of crew",
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+```{r}
+#| label: define-crew-skin-dist-by-decade
+
+# skin color distribution by decade
+
+df_crew_skin_pct_decade <- df_crew_skin_pct %>%
+  select(-c(pct, pct_label)) %>%
+  mutate(skin = fct_reorder(skin, -n, sum),
+         year_out = as.double(str_extract(voyage, "\\d{4}")),
+         decade = 10 * floor(year_out / 10)
+         ) %>%
+  filter(decade >= 1800) %>% # earlier data not good enough
+  count(decade, skin, wt = n, name = "n_crew") %>%
+  group_by(decade) %>%
+  mutate(pct_decade = n_crew / sum(n_crew),
+         pct_decade_label = percent(pct_decade)
+         ) %>%
+  ungroup() %>%
+  mutate(pct_1800plus = n_crew / sum(n_crew),
+         pct_1800pluslabel = glue("{100 * round(pct_1800plus, 4)}%")
+         )
+```
+
+<br>
+
+A surprising number of the crews' skin color was not recorded in the 1840s and 1850s.
+
+```{r}
+#| label: fig-crew-skin-by-decade
+#| fig-cap: "Skin color in crews by decade"
+
+df_crew_skin_pct_decade %>%
+  ggplot(aes(decade, n_crew, fill = skin)) +
+  geom_col(position = position_stack()) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  dark_mode() +
+  labs(title = "Count of skin color in crews - by decade",
+       x = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+It's notable that the portion of crew with "unknown" skin color grew in the 1830s to the 1850s while crew noted as having skin color in categories summarized as "negro" or "mulatto" declined); then from the 1860s (the decade of the American civil war) the "unknown" portion declined significantly. Thus at least through the 1860s it's likely that the data set under-reports the number of negro crew. Is this a sign of abolitionist protest among the whaling masters or their syndicates? Or perhaps the employment of runaway slaves?
+
+```{r}
+#| label: fig-crew-skin-by-decade-pct
+#| fig-cap: "Percentage skin color in crews by decade"
+
+df_crew_skin_pct_decade %>%
+  ggplot(aes(decade, pct_decade, fill = skin)) +
+  geom_col(position = position_stack()) +
+  scale_y_continuous(labels = percent_format()) +
+  dark_mode() +
+  labs(title = "Percentage of skin color in crews - by decade",
+       x = NULL,
+       y = NULL,
+       caption = my_caption)
+  
+```
+
+<br>
+
+## Height of crew
+
+```{r}
+#| label: define-crew-height
+
+df_crew_minor <- df_crew |>
+  filter(age < 18) |>
+  distinct(crewentry_id_unique, .keep_all = TRUE)
+
+df_crew_adult <- df_crew |>
+  filter(age >= 18) |>
+  distinct(crewentry_id_unique, .keep_all = TRUE)
+
+crew_height_med <- median(df_crew_adult$height, na.rm = TRUE)
+crew_height_avg <- mean(df_crew_adult$height, na.rm = TRUE)
+
+```
+
+Average crew height of adults (5 foot 7 inches) is two inches smaller than the current average 5 ft 9 in for males in the USA[@FCGAO2021]. Part of this difference could be due crew being from ethnic groups that are on average shorter. Part likely is due to comparatively poorer nutrition during the growing years compared to children today. This average excludes the `r comma(nrow(df_crew_minor))` crew (`r percent(nrow(df_crew_minor) / (nrow(df_crew_minor) + nrow(df_crew_adult)))`) who were minors and thus might still be growing.
+
+```{r}
+#| label: fig-crew-height
+#| fig-cap: "Height of crew"
+
+df_crew_adult %>%
+  filter(!is.na(height)) %>%
+  ggplot(aes(height)) +
+  geom_histogram(binwidth = 1,
+                 fill = my_color_red, alpha = 0.8) +
+  geom_vline(xintercept = crew_height_avg, color = "white", lty = 2) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(xlim = c(48, 84)) +
+  dark_mode() +
+  labs(title = "Height of adult crew",
+       subtitle = glue('vertical line is average: {round(crew_height_avg, 1)} in ({floor(crew_height_avg / 12)} ft', 
+                       ' {round(crew_height_avg - 12 * floor(crew_height_avg / 12))} in)',
+                       '\nage 18 and older'),
+       x = "Height (in)",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Crew rank
+
+After data cleaning and consolidation of ranks, `r comma(sum(rank_number_and_portion$n_crew))` crew records in the data set include `r nrow(rank_number_and_portion)` ranks that have at least `r spell_out(min_crew)` instances each.
+
+```{r}
+#| label: fig-crew-ranks-histogram
+#| fig-cap: "Profit sharing percentages varied widely by job role"
+
+rank_number_and_portion %>%
+  mutate(rank_clean = fct_reorder(rank_clean, n_crew)) |>
+  ggplot(aes(n_crew, rank_clean)) +
+  geom_col(fill = my_color_red,
+           alpha = 0.8) +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(xlim = c(0, 21000)) +
+  dark_mode() +
+  labs(title = "Number of crew records by rank",
+       subtitle = glue("{comma(sum(rank_number_and_portion$n_crew))} crew records; ",
+                       " 'other' are ranks with less than {min_crew} instances"),
+       x = "number of crew",
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+## Profit sharing: the lay system
+
+As noted in @sec-financial *Financial Returns*, profit sharing motivated crew and investors alike. A crew member's share was determined by his rank and whatever special skills he had or considerations he could negotiate. In *Moby Dick*, Ishmael in his ignorance gets a laughably small share:
+
+> Peleg now threw open a chest, and drawing forth the ship's articles, placed pen and ink before him, and seated himself at a little table. I began to think it was high time to settle with myself at what terms I would be willing to engage for the voyage. I was already aware that in the whaling business they paid no wages; but all hands, including the captain, received certain shares of the profits called lays, and that these lays were proportioned to the degree of importance pertaining to the respective duties of the ship's company. I was also aware that being a green hand at whaling, my own lay would not be very large; but considering that I was used to the sea, could steer a ship, splice a rope, and all that, I made no doubt that from all I had heard I should be offered at least the 275th lay---that is, the 275th part of the clear net proceeds of the voyage, whatever that might eventually amount to. And though the 275th lay was what they call a rather LONG LAY, yet it was better than nothing; and if we had a lucky voyage, might pretty nearly pay for the clothing I would wear out on it, not to speak of my three years' beef and board, for which I would not have to pay one stiver.
+>
+> It might be thought that this was a poor way to accumulate a princely fortune---and so it was, a very poor way indeed. But I am one of those that never take on about princely fortunes, and am quite content if the world is ready to board and lodge me, while I am putting up at this grim sign of the Thunder Cloud. Upon the whole, I thought that the 275th lay would be about the fair thing, but would not have been surprised had I been offered the 200th, considering I was of a broad-shouldered make...[@HM1851]
+
+<br>
+
+### Ranks and lays
+
+The crew most skilled at running the ship and handling the cargo received the largest lays. Consider, for example, the relatively large share that went to the cooper: since whale and sperm oil (and baleen too?) were stored in barrels, an incompetent cooper could turn a successful voyage into a financial disaster.
+
+For the sake of clarity, below I use percentages instead of fractions (1/12th, 1/100th, etc.).
+
+```{r}
+#| label: fig-crew-proft-sharing-scatterplot
+#| fig-cap: "Profit sharing percentages by number of crew in each rank"
+
+rank_number_and_portion |>
+  ggplot(aes(n_crew, med_pct_of_profit)) +
+  geom_point() +
+  geom_text_repel(aes(label = rank_clean), color = my_color_yellow) +
+  scale_x_log10(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_y_log10(labels = label_number(suffix = "%")) +
+  expand_limits(x = c(1, 500000)) +
+  dark_mode() +
+  labs(title = "Profit sharing percentages by number of crew in each rank",
+       subtitle = glue("{comma(sum(rank_number_and_portion$n_crew))} crew records; ",
+                       " 'other' are ranks with less than {min_crew} instances"),
+       x = "Number of crew records log10 scale",
+       y = "Median pct of profits log10 scale",
+       caption = my_caption)
+```
+
+<br>
+
+There were a lot of relatively low-skilled crew who received very little payout. The linear scales below in Figure @fig-crew-proft-sharing-histogram make that more obvious:
+
+```{r}
+#| label: fig-crew-proft-sharing-histogram
+#| fig-cap: "Profit sharing percentages varied widely by job role"
+
+my_binwidth <- 0.1
+
+df_crew_rank_portion %>%
+  ggplot(aes(pct_of_profit)) +
+  geom_histogram(binwidth = my_binwidth,
+                 fill = my_color_red,
+                 alpha = 0.8) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_x_continuous(labels = label_number(accuracy = 1,
+                                           suffix = "%"),
+                     breaks = c(0, 2, 4, 6, 8, 10, 12)
+                     ) +
+  dark_mode() +
+  labs(title = "Profit sharing percentages varied widely by job role",
+       subtitle = glue("excluding shares consisting of food & clothing only; binwidth: {my_binwidth}%"),
+       x = "Share of profits",
+       y = "Count",
+       caption = my_caption)
+```
+
+<br>
+
+Looking at the same data as a cumulative density plot, it's easier to see that more than two-thirds of the crew received less than one percent of the profit.
+
+```{r}
+#| label: fig-crew-proft-sharing-ecdf
+#| fig-cap: "More than two thirds of the crew got less than 1% of profits each"
+
+f_ecdf <- ecdf(df_crew_rank_portion$pct_of_profit)
+crew_lt_1pct <- f_ecdf(.999)
+
+n_zero_share <- df_crew_rank_portion %>%
+  filter(pct_of_profit == 0) %>%
+  nrow()
+
+df_crew_rank_portion %>%
+  filter(pct_of_profit > 0) %>%
+  ggplot(aes(pct_of_profit)) +
+  stat_ecdf(color = my_color_red,
+           alpha = 0.8) +
+  annotate("segment", x = 0, xend = 1, y = crew_lt_1pct, yend = crew_lt_1pct,
+           color = "white", lty = 2) +
+  annotate("point", x = 1, y = crew_lt_1pct,
+           color = "white") +
+  # scale_x_continuous(labels = label_number(suffix = "%"),
+  #                    breaks = c(1, 2.5, 5, 7.5, 10, 12.5)) +
+  scale_x_log10(labels = label_number(suffix = "%"),
+                     breaks = c(0.3, 0.5, 1, 2, 3.3, 5, 10)) +
+  scale_y_continuous(labels = label_percent(accuracy = 1),
+                     breaks = c(0, .2, .4, .6, .8, 1)) +
+  coord_cartesian(xlim = c(0.3, NA)) +
+  dark_mode() +
+  theme(axis.text.x = element_text(hjust = 0)) +
+  labs(title = glue("More than two thirds ({percent(crew_lt_1pct)}) of the crew got less than 1% of profits each"),
+       subtitle = glue("{n_zero_share} crew had zero share ('food & clothing' only)"),
+       x = "Share of profits (log10 scale)",
+       y = "Percent of crew",
+       caption = my_caption)
+
+```
+
+<br>
+
+There was more variation in the shares of the higher-paying ranks:
+
+```{r}
+#| label: fig-crew-proft-sharing-ridge-plot
+#| fig-cap: "Profit sharing percentages varied widely - most common ranks"
+
+rank_portion_for_plot <- df_crew_rank_portion %>%
+  group_by(rank_clean) %>%
+  mutate(portion_med  = median(portion),
+         pct_of_profit_med = median(pct_of_profit) #round(100 * median(pct_of_profit), 1)
+         ) %>%
+  ungroup() %>%
+  mutate(rank_clean = fct_reorder(rank_clean, -portion, median),
+         pct_of_profit = round(pct_of_profit, digits = 1),
+         pct_of_profit = ifelse(pct_of_profit == 0, 1e-6, pct_of_profit) # avoid problems graphing on log scale
+  ) 
+
+n_rank_min <- 100
+
+rank_portion_for_plot_diamond <- rank_portion_for_plot %>%
+  count(rank_clean, pct_of_profit_med) %>%
+  filter(n >= n_rank_min)
+
+rank_portion_for_plot %>%
+  inner_join(., 
+             rank_portion_for_plot_diamond %>% select(-pct_of_profit_med),
+             by = "rank_clean") %>%
+  ggplot() +
+  geom_density_ridges(aes(pct_of_profit, rank_clean), 
+                      rel_min_height = 0.005,
+                      fill = my_color_yellow, color = my_color_yellow, alpha = 0.8, size = 0.15) + 
+  geom_point(aes(x = pct_of_profit_med, y = rank_clean, size = n), 
+             shape = 18, color = my_color_red) + #, size = 4
+  scale_x_continuous(labels = label_number(suffix = "%")) +
+  scale_size_continuous(breaks = c(1, 5, 10, 15) * 1000,
+                        range = c(3, 10),
+                        labels = label_number(scale_cut = cut_short_scale())) +
+  dark_mode() +
+  labs(title = "Profit sharing percentages varied widely - by rank",
+       subtitle = glue("\ndiamond is median share; excludes ranks with less than {n_rank_min} people",
+                       "\nand shares consisting of 'food & clothing' only"),
+       x = "Share of profits",
+       y = NULL,
+       size = "n_crew",
+       caption = my_caption)
+
+```
+
+<br>
+
+### Aside: some lays were expressed differently
+
+In `r nrow(df_crew_rank_portion_m)` crew records the lay is expressed in the form of $\frac{x}{M}$ rather than $\frac{1}{x}$. I am unsure what this means compared to lays expressed as simple fractions ($\frac{1}{x}$). So I look at them separately below.
+
+I treat each of the following as equivalent, assuming imprecision in how they were recorded rather than accepting that some crew of the same rank were paid 1,000 times more than others:
+
+$$\frac{.10c}{M},\  \frac{10c}{M},\  and\  \frac{10}{M}$$
+
+<br>
+
+```{r}
+#| label: fig-crew-proft-sharing-ridge-plot-m
+#| fig-cap: "Profit sharing expressed as x/M by rank"
+
+rank_portion_for_plot_m <- df_crew_rank_portion_m %>%
+  group_by(rank_clean) %>%
+  mutate(portion_med  = median(portion)#,
+         #pct_of_profit_med = median(pct_of_profit) #round(100 * median(pct_of_profit), 1)
+         ) %>%
+  ungroup() %>%
+  mutate(rank_clean = fct_reorder(rank_clean, portion_med)) 
+
+n_rank_min <- 100
+
+rank_portion_for_plot_diamond_m <- rank_portion_for_plot_m %>%
+  count(rank_clean, portion_med) #%>%
+  #filter(n >= n_rank_min)
+
+rank_portion_for_plot_m %>%
+  inner_join(.,
+             rank_portion_for_plot_diamond_m %>% select(-portion_med),
+             by = "rank_clean") %>%
+  ggplot() +
+  geom_density_ridges2(aes(portion, rank_clean), 
+                      rel_min_height = 0.005,
+                      fill = my_color_yellow, color = my_color_yellow, alpha = 0.8, size = 0.15) +
+  geom_point(aes(x = portion_med, y = rank_clean, size = n), 
+             shape = 18, color = my_color_red) + #, size = 4
+  scale_size_continuous(breaks = c(10, 100, 200)) +
+  dark_mode() +
+  labs(title = "Profit sharing expressed as x/M - by rank",
+       subtitle = glue("\n{nrow(rank_portion_for_plot_m)} crew records; diamond is median share",
+                       "\nexcludes shares consisting of 'food & clothing' only"),
+       x = "lay ('x/M')",
+       y = NULL,
+       caption = my_caption)
+```
+
+<br>
+
+## Change in lays over time
+
+Did the portions change over time? In general, the highest-paid ranks did better over this time period, and the lowest-paid ranks did a little worse.
+
+```{r}
+#| label: fig-crew-proft-sharing-scatterplot1
+#| fig-cap: "Portion size over time for the highest paying ranks"
+#| fig-height: 10
+#| fig-width: 12
+
+rank_portion_for_plot %>%
+  inner_join(., 
+             rank_portion_for_plot_diamond %>% select(-pct_of_profit_med),
+             by = "rank_clean") %>%
+  mutate(year_out = as.double(str_extract(voyage, "\\d{4}")),
+         decade = 10 * floor(year_out / 10),
+         rank_label = glue("{rank_clean}: {round(pct_of_profit_med, 1)}%"),
+         rank_label = fct_reorder(rank_label, -pct_of_profit_med)
+         ) %>%
+  filter(pct_of_profit_med > 1.3) %>%
+  ggplot(aes(year_out, pct_of_profit, color = rank_label)) +
+  geom_jitter(alpha = 0.5) +
+  geom_smooth(se = FALSE, color = "white") +
+  scale_y_continuous(breaks = 0:6 * 2,
+                     label = label_number(suffix = "%")) +
+  #scale_y_log10(label = label_number(suffix = "%")) +
+  coord_cartesian(xlim = c(1830, 1860)) +
+  facet_wrap(rank_label ~ ., ncol = 3) +
+  dark_mode() +
+  labs(title = "Portion size over time for the highest paying ranks",
+       subtitle = "Ranks with median share of 1.3% or more of profits",
+       y = "Percent of profit")
+```
+
+<br>
+
+```{r}
+#| label: fig-crew-proft-sharing-scatterplot2
+#| fig-cap: "Portion size over time for the intermediate paying ranks"
+#| fig-height: 10
+#| fig-width: 12
+
+rank_portion_for_plot %>%
+  inner_join(., 
+             rank_portion_for_plot_diamond %>% select(-pct_of_profit_med),
+             by = "rank_clean") %>%
+  mutate(year_out = as.double(str_extract(voyage, "\\d{4}")),
+         decade = 10 * floor(year_out / 10),
+         rank_label = glue("{rank_clean}: {round(pct_of_profit_med, 1)}%"),
+         rank_label = fct_reorder(rank_label, -pct_of_profit_med)
+         ) %>%
+  filter(pct_of_profit_med < 1.3,
+         pct_of_profit_med > 0.7
+         ) %>%
+  ggplot(aes(year_out, pct_of_profit, color = rank_label)) +
+  geom_jitter(alpha = 0.5) +
+  geom_smooth(se = FALSE, color = "white") +
+  coord_cartesian(xlim = c(1830, 1860), ylim = c(NA, 5.5)) +
+  #scale_y_log10(label = label_number(suffix = "%")) +
+  scale_y_continuous(breaks = 0:5,
+                     label = label_number(suffix = "%")) +
+  facet_wrap(rank_label ~ ., ncol = 3) +
+  dark_mode() +
+  labs(title = "Portion size over time for the intermediate paying ranks",
+       subtitle = "Ranks with median share between 0.7% and 1.3% of profits",
+       y = "Percent of profit")
+```
+
+<br>
+
+```{r}
+#| label: fig-crew-proft-sharing-scatterplot3
+#| fig-cap: "Portion size over time for the lowest paying ranks"
+#| fig-height: 10
+#| fig-width: 12
+
+rank_portion_for_plot %>%
+  inner_join(., 
+             rank_portion_for_plot_diamond %>% select(-pct_of_profit_med),
+             by = "rank_clean") %>%
+  mutate(year_out = as.double(str_extract(voyage, "\\d{4}")),
+         decade = 10 * floor(year_out / 10),
+         rank_label = glue("{rank_clean}: {round(pct_of_profit_med, 1)}%"),
+         rank_label = fct_reorder(rank_label, -pct_of_profit_med)
+         ) %>%
+  filter(pct_of_profit_med < 0.7,
+         pct_of_profit > .05) %>% # exclude mostly 0% profit crew so the y scale isn't too wide
+  ggplot(aes(year_out, pct_of_profit, color = rank_label)) +
+  geom_jitter(alpha = 0.5) +
+  geom_smooth(se = FALSE, color = "white") +
+  # scale_y_log10(label = label_number(suffix = "%")) +
+  scale_y_continuous(breaks = 0:4,
+                     label = label_number(suffix = "%")) +
+  coord_cartesian(xlim = c(1830, 1860), ylim = c(NA, 3.5)) +
+  facet_wrap(rank_label ~ ., ncol = 3) +
+  dark_mode() +
+  labs(title = "Portion size over time for the lowest paying ranks",
+       subtitle = "Ranks with median share smaller than 0.7% profits",
+       y = "Percent of profit")
+
+```
+
+<br>
+
+## Insights from remarks in the crew records
+
+```{r}
+df_remarks <- df_crew |>
+  filter(!is.na(remarks)) |>
+  select(-citizenship, -crewlist_id, -crewentry_id) |>
+  mutate(rank_clean = str_to_lower(rank_clean),
+         rem = str_to_lower(remarks),
+         bonus_desc = str_replace_all(rem, c("5\\$|5 dollars|five dollars" = "$5",
+                                             "four dollars" = "$4")
+                                      ),
+         bonus_desc = str_extract(bonus_desc, ".*slush.*|(plus|(\\d)?\\$).*"),
+         bonus_desc = str_squish(str_remove_all(bonus_desc, c("and|&|the|of|plus|on |all"))),
+         bonus_desc = str_replace_all(bonus_desc, c("one half ( )?slush" = "1/2 slush",
+                                                    "half.*slush" = "1/2 slush",
+                                                    "1/2 slush; ; ; ; h" = "1/2 slush",
+                                                    "1/2/ slush" = 	"1/2 slush",
+                                                    "one.*third.*slush" = "1/3 slush",
+                                                    "shipkeeper, 1/3 slush" = "1/3 slush",
+                                                    "one.*quarter.*slush" = "1/4 slush",
+                                                    "1.*quarter.*slush" = "1/4 slush",
+                                                    "1.*fourth.*slush" = "1/4 slush",
+                                                    "one fourth slush" = "1/4 slush",
+                                                    "to have " = "",
+                                                    ", also shipkeeper" = "",
+                                                    "per bbl|for bbl" = "per barrel",
+                                                    "per barrel for slush|per barrel on all slush" = "per barrel slush",
+                                                    "(?<=advance).*" = "",
+                                                    "\\." = "",
+                                                    "/m" = " per month",
+                                                    "for voyage" = "")
+                                      ),
+         bonus_desc = str_squish(bonus_desc),
+         bonus = !is.na(bonus_desc) & !str_detect(bonus_desc, "advance"),
+         advance = str_detect(bonus_desc, "advance"),
+         deserted = str_detect(rem, "desert|run|ran"),
+         died = str_detect(rem, "died|dead|lost|drowned|did not return") & !str_detect(rem, "desert|run|ran|came home"),
+         left_sick = str_detect(rem, "left.*sick|disch.*sick|put ashore sick|sent home sick|sick.*left|sick.*disch"),
+         second_role = str_squish(str_extract(rem, "(?<=and) [[:alpha:]]{7,20}|(?<=also) [[:alpha:]]{7,20}|[[:alpha:]]{7,20}(?= also)|(?<=&) [[:alpha:]]{7,20}")),
+         did_not_ship = str_detect(rem, "did not ship|did not sail|did not go|did not come aboard|did not render on board|deserted before sailing"),
+         joined_enroute = str_detect(rem, "^(on |joined|shipped)") & !str_detect(rem, "shipped but"),
+         joined_enroute_location = str_extract(rem, "(?<=(on at|joined at|shipped from|shipped at))[A-z \\.]+"),
+         year_out = str_extract(voyage, "\\d{4}")
+  ) %>%
+  replace_na(list(advance = FALSE))
+
+pct_remarks_in_crewlists <- nrow(df_remarks) / nrow(df_crew)
+
+crew_size_avg <- df_crew |>
+  count(voyage_id) %>%
+  filter(n >= min_crew_size_cutoff) |>
+  pull(n) |>
+  mean()
+  
+pct_voyages_with_crewlist <- n_voyages_with_crew_data / nrow(df_voyage_distinct)
+
+pct_remarks_all_crews_estimated <- nrow(df_remarks) / (crew_size_avg * nrow(df_voyage_distinct))
+
+```
+
+Transcribers of the logbooks included remarks in the crew records. These address contractual bonuses, notes when or where crew members joined or left a ship's roster, and other items of interest. In some cases they described how items were notated, for example:
+
+> '(run)' at left of name; between names appears an 'x' with 'his' atop it and 'mark' beneath it.
+
+`r comma(n_voyages_with_crew_data)` of `r comma(nrow(df_voyage_distinct))` voyages in this data set (`r percent(pct_voyages_with_crewlist)`) include crew records (`r comma(nrow(df_crew))` records); `r comma(nrow(df_remarks))` of these crew records (`r percent(pct_remarks_in_crewlists)`) include remarks. While there are not enough remarks to generalize to all voyages and crews[^crew-1], they provide a hint of the human experience that occurred a century or more ago.
+
+[^crew-1]: Assuming the average number of crew per voyage (`r round(crew_size_avg)`) generalizes to all voyages, the estimated percentage of all crew for which there are remarks is only `r percent(pct_remarks_all_crews_estimated)`.
+
+### Secondary roles
+
+Some crew had a secondary skillset, which was noted in the remarks:
+
+```{r}
+#| label: fig-tlb-second-roles
+#| fig-cap: Rank and secondary roles with at least 10 instances
+
+valid_roles <- c("boatsteerer", "shipkeeper", "carpenter", "blacksmith", "greenhand", "steward", "oarsman", "steersman", "painter", 
+                 "carpenter", "shipkeeper", "navigator", "blacksmith", "caulker", "mariner", "assistant")
+df_remarks |>
+  filter(!is.na(second_role),
+         second_role %in% valid_roles
+         ) |>
+  count(rank_clean, second_role, sort = TRUE) |>
+  filter(n >= 10) |>
+  gt() |>
+  tab_header(title = md("**Secondary roles**"))
+
+```
+
+<br>
+
+### Bonuses
+
+Some crew negotiated a bonus in addition to their lay. Among the lowest ranks, some received a small wage instead of a lay.
+
+```{r}
+#| label: tlb-joined-bonus
+#| tb-cap: Some crew got bonuses
+#| tbl-cap-location: bottom
+
+df_remarks |>
+  filter(bonus,
+         str_detect(bonus_desc, "\\$"),
+         !str_detect(bonus_desc, "slush")
+         ) |>
+  count(rank_clean, lay, bonus_desc, name = "n_crew") |>
+  arrange(rank_clean, lay, bonus_desc) |>
+  #arrange(year_out, voyage, rank_clean) |>
+  #select(voyage, rank_clean, lay, bonus_desc) |>
+  gt() |>
+  tab_header(title = md("**Bonus in addition to or instead of a lay**")) |>
+  sub_missing() |>
+  cols_label(bonus_desc = "bonus")
+
+```
+
+<br>
+
+Two ships in the data set provided advances to their crew:
+
+```{r}
+#| label: fig-tlb-joined-advances
+#| fig-cap: Two ship provided advances
+
+df_remarks |>
+  filter(advance) |>
+  mutate(bonus_desc = str_remove(bonus_desc, " advance")) |>
+  count(year_out, voyage, rank_clean, lay, bonus_desc, name = "n_crew") |>
+  arrange(year_out, voyage, rank_clean) |>
+  select(-year_out) |>
+  gt() |>
+  tab_header(title = md("**Advance in addition to a lay**")) |>
+  cols_label(bonus_desc = "advance")
+
+```
+
+<br>
+
+### Cooks' slush
+
+A common perquisite of cooks was a portion of the slush, a slurry of fat left in empty meat barrels. Some received it in barrels, others got cash instead.
+
+```{r}
+#| label: fig-tlb-cooks-slush
+#| fig-cap: "Cooks commonly received a bonus of some or all of the slush"
+#| fig-cap-location: bottom
+
+df_remarks |>
+  filter(bonus,
+         str_detect(bonus_desc, "slush")) |>
+  count(bonus_desc, sort = TRUE, name = "n_crew") |>
+  filter(n_crew >= 5 | bonus_desc == "no slush" | bonus_desc == "slush") |>
+  gt() |>
+  tab_header(title = md("**Receiving a share of the slush**")) |>
+  cols_label(bonus_desc = "slush perquisite")
+```
+
+<br>
+
+```{r}
+#| label: fig-tlb-cooks-slush2
+#| fig-cap: "Very infrequently cooks received cash instead"
+#| fig-cap-location: bottom
+
+df_remarks |>
+  filter(bonus,
+         str_detect(bonus_desc, "slush"),
+         str_detect(bonus_desc, "\\$")
+         ) |>
+  count(bonus_desc, sort = TRUE, name = "n_crew") |>
+  gt() |>
+  tab_header(title = md("**Receiving cash instead**")) |>
+  cols_label(bonus_desc = "slush perquisite")
+
+```
+
+<br>
+
+In some cases, conditions applied:
+
+```{r}
+#| label: fig-tlb-cooks-slush-conditions
+#| fig-cap: Sometimes there were conditions placed upon cooks receiving slush
+
+df_remarks |>
+  filter(bonus,
+         str_detect(bonus_desc, "slush"),
+         str_detect(bonus_desc, "if | but| at")
+         ) |>
+  arrange(year_out, voyage, bonus_desc) |>
+  select(voyage, bonus_desc) |>
+  gt() |>
+  tab_header(title = md("**Share of the slush: conditions apply**")) |>
+  cols_label(bonus_desc = "slush perquisite")
+
+```
+
+<br>
+
+Some cooks didn't live up to their part of the agreement ("crossed out" in the crew record `remarks` field):
+
+```{r}
+#| label: fig-tlb-cooks-slush-crossed-out
+#| fig-cap: Sometimes cooks lost their share of the slush
+
+df_remarks |>
+  filter(bonus,
+         str_detect(bonus_desc, "slush"),
+         str_detect(bonus_desc, "crossed out")
+         ) |>
+  arrange(year_out, voyage, bonus_desc) |>
+  select(voyage, bonus_desc) |>
+  gt() |>
+  tab_header(title = md("**Sometimes cooks lost their share of the slush**")) |>
+  cols_label(bonus_desc = "slush perquisite")
+
+```
+
+<br>
+
+### Leaving the ship
+
+Crew who were too ill left their ship in hopes that a more suitable environment would aid their convalescence, or if they were contagious, to avoid infecting the rest of the crew. The records note the following as the most common locations:
+
+```{r}
+illness <- df_remarks %>%
+  filter(left_sick) |>
+  mutate(rem = str_remove_all(rem, "[^A-z\\]\\[ ]"),
+         rem = str_remove_all(rem, "jan|feb|march|april|may|june|july|aug|sep(t)?|oct|nov|dec"),
+         rem = str_squish(rem)) |> #"\\.\\'"
+  select(year_out, name_first, name_last, age, height, skin, hair, rank_clean, lay, rem) |>
+  mutate(left_location = case_when(
+    str_detect(rem, "sandwich|maui|lahaina|lahiana|oahu|oahoo|honolulu|hawaii") ~ "hawaii (sandwich islands, maui, lahaina, oahu, honolulu)",
+    str_detect(rem, "hobart|sydney|sidney|australia|new holland|swan river")    ~ "australia (new holland, sydney, hobart, swan river, west austr.)",
+    str_detect(rem, "zealand|aukland|bay of islands|bay of islnads")      ~ "new zealand (bay of islands)",
+    str_detect(rem, "cape verde|brava|jago")                              ~ "cape verde islands (santiago, brava)",
+    str_detect(rem, "fayal|azores")                                       ~ "azores (fayal)",
+    str_detect(rem, "society|socieyt|tahiti")                             ~ "tahiti (society islands)",
+    str_detect(rem, "hong kong")                                          ~ "hong kong",
+    str_detect(rem, "maritius|maurituis|mauritius")                       ~ "maritius",
+    str_detect(rem, "cape town|simons town|good hope")                    ~ "south africa (cape town, simons town, good hope)",
+    str_detect(rem, "brazil|rio de janerio|rio de janeiro|rio")           ~ "brazil (rio, rio de janeiro, bahia, pernambuco)",
+    str_detect(rem, "pernambuco|pernanbuco|macumba|bahia")                 ~ "brazil",
+    str_detect(rem, "callao|paita|payta|peru")                            ~ "peru (callao, paita)",
+    str_detect(rem, "valparaiso|talcahuano|talcahauno|chile")             ~ "chile (valparaiso, talcahuano)",
+    str_detect(rem, "helena")                                             ~ "st helena",
+    str_detect(rem, "porto rico|naguabo|naquabo")                         ~ "puerto rico (naguabo)",
+    str_detect(rem, "tacomas|tacomes")                                    ~ "tacoma",
+    str_detect(rem, "orurute")                                            ~ "cook islands (orurute)",
+    str_detect(rem, "pemba|zanzibar")                                     ~ "tanzania (zanzibar, pemba)",
+    str_detect(rem, "pita")                                               ~ "guinea (pita)",
+    str_detect(rem, "newport|new bedford")                                ~ "new england (newport, new bedford)",
+    str_detect(rem, "left sick|discharged sick|sent home sick")           ~ "unspecified (left sick, discharged sick, sent home sick)",
+    TRUE                                                                  ~ rem
+  )
+  ) |>
+  #arrange(year_out) |>
+  count(left_location, sort = TRUE, name = "n_crew")
+```
+
+```{r}
+#| label: fig-tlb-locations-leaving-the-sick
+#| fig-cap: Most common places to discharge the sick
+
+illness |>
+  filter(n_crew >= 3) |>
+  gt() |>
+  tab_header(title = md("**The most common places to discharge the sick**")) |>
+  cols_label(left_location = "location")
+
+```
+
+<br>
+
+In was not uncommon for crew to die en route from sickness or injury.
+
+```{r}
+deaths <- df_remarks %>%
+  filter(died) %>%
+  select(year_out, voyage, name_first, name_last, age, rem) %>%
+  mutate(rem = str_remove_all(rem, "[^A-z\\]\\[ ]"),
+         rem = str_remove_all(rem, "jan|feb|march|april|may|june|july|aug|sep(t)?|oct|nov|dec"),
+         rem = str_squish(rem),
+         death_reason = case_when(
+           str_detect(rem, "scurvy")                     ~ "scurvy",
+           str_detect(rem, "drowned|lost")               ~ "drowned, lost overboard",
+           
+           str_detect(rem, "brain fever|consumption|small pox")    ~ "brain fever, tuberculosis, smallpox",
+           str_detect(rem, "whale")                      ~ "killed by whale",
+           str_detect(rem, "intoxicated")                ~ "alcohol poisoning",
+           str_detect(rem, "died in wreck")              ~ "died in wreck",
+           str_detect(rem, "mercury")                    ~ "mercury posioning (typcially treating syphilis)",
+           str_detect(rem, "died|dead|did not return")   ~ "unspecified (died, dead, did not return)",
+           TRUE                                          ~ rem
+         )
+  )
+
+```
+
+```{r}
+deaths |>
+  count(death_reason, sort = TRUE, name = "n_crew") |>
+  #filter(n_crew >= 10) |>
+  gt() |>
+  tab_header(title = md("**Causes of death**")) |>
+  cols_label(death_reason = "reason") |>
+  fmt_number(columns = n_crew, decimals = 0)
+```
+
+<br>
+
+In other cases, crew deserted. Life as a sailor was hard, and hard masters could make life harder still.
+
+```{r}
+desertions <- df_remarks %>%
+  filter(deserted) |>
+  mutate(rem = str_remove_all(rem, "[^A-z\\]\\[ ]"),
+         rem = str_remove_all(rem, "jan|feb|march|april|may|june|july|aug|sep(t)?|oct|nov|dec")) |> #"\\.\\'"
+  select(year_out, name_first, name_last, age, height, skin, hair, rank_clean, lay, rem) |>
+  #arrange(year_out) |>
+  mutate(desert_location = case_when(
+    str_detect(rem, "sandwich|maui|lahaina|lahiana|oahu|oahoo|honolulu|hawaii") ~ "hawaii (sandwich islands, maui, lahaina, oahu, honolulu)",
+    str_detect(rem, "hobart|sydney|sidney|australia|new holland|swan river")    ~ "australia (new holland, sydney, hobart, swan river, west austr.)",
+    str_detect(rem, "zealand|aukland|bay of islands|bay of islnads")      ~ "new zealand (bay of islands)",
+    str_detect(rem, "cape verde|brava|jago")                              ~ "cape verde islands (santiago, brava)",
+    str_detect(rem, "fayal|azores")                                       ~ "azores (fayal)",
+    str_detect(rem, "society|socieyt|tahiti")                             ~ "tahiti (society islands)",
+    str_detect(rem, "hong kong")                                          ~ "hong kong",
+    str_detect(rem, "maritius|maurituis|mauritius")                       ~ "maritius",
+    str_detect(rem, "cape town|simons town|good hope")                    ~ "south africa (cape town, simons town, good hope)",
+    str_detect(rem, "brazil|rio de janerio|rio de janeiro|rio")           ~ "brazil (rio, rio de janeiro, bahia, pernambuco)",
+    str_detect(rem, "pernambuco|pernanbuco|macumba|bahia")                 ~ "brazil",
+    str_detect(rem, "callao|paita|payta|peru")                            ~ "peru (callao, paita)",
+    str_detect(rem, "valparaiso|talcahuano|talcahauno|chile")             ~ "chile (valparaiso, talcahuano)",
+    str_detect(rem, "helena")                                             ~ "st helena",
+    str_detect(rem, "porto rico|naguabo|naquabo")                         ~ "puerto rico (naguabo)",
+    str_detect(rem, "tacomas|tacomes")                                    ~ "tacoma",
+    str_detect(rem, "orurute")                                            ~ "cook islands (orurute)",
+    str_detect(rem, "pemba|zanzibar")                                     ~ "tanzania (zanzibar, pemba)",
+    str_detect(rem, "pita")                                               ~ "guinea (pita)",
+    str_detect(rem, "newport|new bedford|fairhaven")                                ~ "new england (newport, new bedford, fairhaven)",
+    str_detect(rem, "deserted at this port")                              ~ "deserted at this port",
+    str_detect(rem, "run|run away|ran|ran away|^deserted$|deserted|deserted during (the )?voyage")  
+                                           ~ "unspecified (deserted, run, run away, ran, ran away, deserted during voyage)",
+    TRUE                                                                                       ~ rem
+  )
+  )
+
+```
+
+```{r}
+desertions |>
+  count(desert_location, sort = TRUE, name = "n_crew") |>
+  filter(n_crew >= 10) |>
+  gt() |>
+  tab_header(title = md("**The most common places to desert**")) |>
+  cols_label(desert_location = "location")
+
+```
+
+<br>
+
+Some remarks related to leaving the ship are brief pointers to human drama; we can imagine the details. Below are a sampling:
+
+```{r}
+#| label: fig-tlb-desertions-pointers-to-drama
+#| fig-cap: Some entries point to human drama
+
+desertions |>
+  count(rem, sort = TRUE, name = "n_crew") |>
+  mutate(rem = str_replace(rem, "sitness", "witness"),
+         rem = str_remove(rem, "^o "),
+         rem = str_squish(rem)
+         ) |>
+  filter(str_detect(rem, "witness|prisoner|mutual|before sailing|english mail|died in tasmania|bwi no wages due"),
+         !str_detect(rem, "those of this mark|nbedford"),
+         !str_detect(rem, "deserted before sailing deserted before sailing|at new bedford|name crossed out"),
+         rem != "deserted before sailing",
+         n_crew < 3) |>
+  arrange(rem) |>
+  select(rem) |>
+  gt()  |>
+  tab_header(title = md("**Some notable remarks**")) |>
+  cols_label(rem = "remark")
+
+```
+
+<br>
+
+### Joining en route
+
+Masters added to their crew en route, replacing crew lost to sickness, death, or desertion. The new crew came from these same ports:
+
+```{r}
+#| label: fig-tlb-joined-enroute
+#| fig-cap: Most common locations where crew joined en route (ten or more instances)
+
+df_remarks |>
+  filter(joined_enroute,
+         !is.na(joined_enroute_location)) |>
+  mutate(
+    joined_enroute_location2 = str_remove(joined_enroute_location, "sept|oct"),
+    joined_enroute_location2  = str_trim(str_remove(joined_enroute_location2, "\\.")),
+    joined_enroute_location2 = case_when(
+    str_detect(joined_enroute_location2, "sandwich|maui|lahaina|lahiana|oahu|oahoo|honolulu|hawaii") ~ "hawaii (sandwich islands, maui, lahaina, oahu, honolulu)",
+    str_detect(joined_enroute_location2, "hobart|sydney|sidney|australia|new holland|swan river")    ~ "australia (new holland, sydney, hobart, swan river, west austr.)",
+    str_detect(joined_enroute_location2, "zealand|aukland|bay of islands|bay of islnads")      ~ "new zealand (bay of islands)",
+    str_detect(joined_enroute_location2, "cape verde|brava|jago")                              ~ "cape verde islands (santiago, brava)",
+    str_detect(joined_enroute_location2, "fayal|azores")                                       ~ "azores (fayal)",
+    str_detect(joined_enroute_location2, "society|socieyt|tahiti")                             ~ "tahiti (society islands)",
+    str_detect(joined_enroute_location2, "hong kong")                                          ~ "hong kong",
+    str_detect(joined_enroute_location2, "maritius|maurituis|mauritius")                       ~ "maritius",
+    str_detect(joined_enroute_location2, "cape town|simons town|good hope")                    ~ "south africa (cape town, simons town, good hope)",
+    str_detect(joined_enroute_location2, "brazil|rio de janerio|rio de janeiro|rio")           ~ "brazil (rio, rio de janeiro, bahia, pernambuco)",
+    str_detect(joined_enroute_location2, "pernambuco|pernanbuco|macumba|bahia")                 ~ "brazil",
+    str_detect(joined_enroute_location2, "callao|paita|payta|peru")                            ~ "peru (callao, paita)",
+    str_detect(joined_enroute_location2, "valparaiso|talcahuano|talcahauno|chile")             ~ "chile (valparaiso, talcahuano)",
+    str_detect(joined_enroute_location2, "helena")                                             ~ "st helena",
+    str_detect(joined_enroute_location2, "porto rico|naguabo|naquabo")                         ~ "puerto rico (naguabo)",
+    str_detect(joined_enroute_location2, "tacomas|tacomes")                                    ~ "tacoma",
+    str_detect(joined_enroute_location2, "orurute")                                            ~ "cook islands (orurute)",
+    str_detect(joined_enroute_location2, "pemba|zanzibar")                                     ~ "tanzania (zanzibar, pemba)",
+    str_detect(joined_enroute_location2, "pita")                                               ~ "guinea (pita)",
+    str_detect(joined_enroute_location2, "newport|new bedford")                                ~ "new england (newport, new bedford)",
+    TRUE                                                                                       ~ joined_enroute_location2
+  )
+  ) |>
+  mutate(joined_enroute_location2 = fct_lump_min(joined_enroute_location2,
+                                                 min = 10,
+                                                 other_level = "other (mostly islands)")) |>
+  count(joined_enroute_location2, sort = TRUE, name = "n_crew") |>
+  gt() |>
+  tab_header(title = md("**Most common locations where crew joined en route**")) |>
+  cols_label(joined_enroute_location2 = "location") |>
+  cols_align(columns = joined_enroute_location2,
+             align = "left") |>
+  fmt_number(columns = n_crew,
+             decimals = 0)
+
+```
+
+<br><br>
