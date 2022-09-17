@@ -57,4 +57,4 @@ How big was whaling in America? How many ships were involved? Where did they go,
 
 # License
 
-<img src="https://i.creativecommons.org/l/by/4.0/88x31.png" alt="CC-BY" /> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a></p>
+<img src="https://i.creativecommons.org/l/by/4.0/88x31.png" alt="CC-BY" /> This document is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. Source files are licensed under the MIT open source license. See *Appendix @sec-reproduce-analysis Reproducing this analysis*.</p>

@@ -336,6 +336,12 @@ More information about about data tables and columns can be found here:
 
 <br>
 
+## Reproducing this analysis {#sec-reproduce-analysis}
+
+The quarto (.qmd) and R (.R) scripts used to generate this analysis along with prerequisite data and image files are available at <https://github.com/dmoul/american-whaling>
+
+<br>
+
 ## Charles W. Morgan's voyages {#sec-cwm-voyages}
 
 Below is more information about the tracks and whale sightings in @sec-cwm-voyage-tracks Voyages of the Charles W. Morgan. The first 13 voyages sailed from home port of New Bedford, MA to whaling grounds worldwide (1841-1887). Then, presumably because much of the sailing would be in the Pacific, the Morgan’s home port shifted to San Francisco, CA for the next 17 voyages (1887-1906). The remaining 7 voyages in the dataset were again from New Bedford, MA (1906-1921); these voyages were generally limited to the Atlantic. Note voyages with a voyage_rank greater than one indicate a replacement master. 
