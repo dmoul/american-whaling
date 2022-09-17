@@ -3,14 +3,14 @@
 By Daniel Moul
 
 
-* Install the prerequisites
+* Install the prerequisites. I did the initial analysis with these versions; earlier versions might work too.
     - R 4.2.1 or later
     - RStudio 2022.07.1 or later (or if you are not using RStudio, install quarto directly)
     - make sure you have installed the R packages listed in _targets.R
 
-* clone this repo: https://github.com/dmoul/american-whaling
+* Clone this repo: https://github.com/dmoul/american-whaling
 
-* from the R console, in the root directory of the project, run: targets::tar_make()) and debug if necessary
+* From the R console, in the root directory of the project, run: targets::tar_make()) and debug if necessary
   - Note: It's normal to see these warning messages:
     ```
     Warning messages:
@@ -19,7 +19,7 @@ By Daniel Moul
     3: 1 targets produced warnings. Run tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
     ```
 
-* from a terminal in the root directory of this project, run: quarto render
+* From a terminal in the root directory of this project, run: quarto render
   - Note: the first run can take 30 minutes or more on a MacBook Pro 2019
   - Note: filesystem space required for source and generated pages after first run is about 812 MB
   - Note: run it again if you get this error:
@@ -80,5 +80,5 @@ By Daniel Moul
     ℹ The warning occurred in row 93. 
     ```
 
-* open american-whaling-by-the-numbers/index.html to view the analysis
+* Open american-whaling-by-the-numbers/index.html to view the analysis
 
