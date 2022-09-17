@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: "_whaling-by-numbers"
+  output-dir: "_doc"
 
 execute:
   freeze: auto  # re-render only when source changes
