@@ -8,8 +8,9 @@ How big was whaling in America? How many ships were involved? Where did they go,
 
 ## The analysis
 
-<https://github.com/dmoul/american-whaling/_doc>
+See [American Whaling by the Numbers](https://github.com/dmoul/american-whaling/blob/main/american-whaling-by-the-numbers/index.html)
+
 
 ## To run this analysis yourself
 
-<https://github.com/dmoul/american-whaling/README-to-run-analysis.md>
+See [README-to-run-analysis.md](https://github.com/dmoul/american-whaling/blob/main/README-to-run-analysis.md)
