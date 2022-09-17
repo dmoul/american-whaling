@@ -1,0 +1,425 @@
+# The vessels {#sec-vessels}
+
+```{r}
+#| label: setup-vessels
+#| include: false
+
+knitr::opts_chunk$set(echo = FALSE, error = TRUE, warning = FALSE, message = FALSE)
+library(targets)
+lapply(tar_read(my_packages), 
+       library, character.only = TRUE)
+
+here::i_am("index.qmd")
+source(here::here("scripts", "constants.R"))
+source(here::here("scripts", "settings.R"))
+#source(here::here("scripts", "mapping-prep.R"))
+
+```
+
+```{r}
+#| label: load-data-for-vessels
+
+#df_voyage <- tar_read(voyage)
+df_voyage_distinct <- tar_read(voyage_distinct)
+df_vessel <- tar_read(vessel)
+# df_log_all <- tar_read(log_all)
+# df_log <- tar_read(log)
+# df_voyage_duration <- tar_read(voyage_duration)
+# df_voyage_duration_simulated <- tar_read(voyage_duration_simulated)
+
+# df_whale_species <- count(tar_read(log_all), species) %>%
+#   filter(!is.na(species))
+
+# df_voyages_for_plot <- tar_read(voyages_for_plot)
+# df_voyages_for_plot_strikes <- tar_read(voyages_for_plot_strikes)
+# df_voyages_for_plot_nolargegaps <- tar_read(voyages_for_plot_nolargegaps)
+
+```
+
+```{r}
+#| label: prepare-vessel-data
+#| cache: true
+
+df_tonnage_by_decade <- df_voyage_distinct %>%
+  filter(!is.na(tonnage)) %>%
+  mutate(tonnage = str_remove(tonnage, "c\\."),
+         decade = 10 * floor(year_out / 10)) %>% 
+  separate(tonnage, sep = "/", into = c("x1", "x2", "x3", "x4", "x5"), 
+           extra = "merge", fill = "right", convert = TRUE) %>%
+  mutate(across(x1:x5, ~ ifelse(is.na(.x), "0", .x))) %>%
+  mutate(across(x1:x5, ~ readr::parse_number(.x))) %>%
+  rowwise() %>%
+  mutate(tonnage_max = max(c_across(x1:x5), na.rm = TRUE)) %>%
+  select(-(x1:x5))%>%
+  filter(!is.na(decade)) %>%
+  group_by(decade) %>%
+  summarize(
+    n_voyages = n(),
+    tonnage_med = median(tonnage_max, na.rm = TRUE),
+    tonnage_avg = mean(tonnage_max, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+
+df_rig <- df_voyage_distinct %>%
+  filter(!is.na(rig)) %>%
+  mutate(rig = str_remove(rig, " ?[?]"),
+         rig = str_trim(rig),
+         rig = case_when(
+           rig %in% xfun::raw_string(c("Ship / Ship Don’T", "Ship New", "Ship / Ship", "Ship / Ship 7 Says")) ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Bark", "Bark / Sbark", "Sbark"))         ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Brig", "Bark / Brig Or Bark", "Brig / Brig Or Bark",
+                      "Brig / Sbark", "Bark / Bark Or Brig"))                           ~ "Bark / Brig",
+           rig %in% xfun::raw_string(c("Bark / Ship", "Ship / Ship Or Bark", "Bark / Bark Or Ship",
+                      "Bark / Bark Or Sh", "Ship / Ship Or Bk"))                        ~ "Ship",
+           rig %in% xfun::raw_string(c("Bark / Brig To Ship"))                          ~ "Bark / Brig / Ship",
+           rig %in% xfun::raw_string(c("Schr / Schr", "Dschr", "Dschr / Schr", "Gschr", "Gschr / Schr", "SSchr")) ~ "Schr",
+           rig %in% xfun::raw_string(c("Brig / Brig", "Bark / Sbark", "Sbark"))         ~ "Brig",
+           rig %in% xfun::raw_string(c("Sloop / Sloop"))                                ~ "Sloop",
+           rig %in% xfun::raw_string(c("Sloop / Sloop Or Schr"))                        ~ "Schr / Sloop",
+           rig %in% xfun::raw_string(c("Sloop / Sloop (Brig)"))                         ~ "Brig / Sloop",
+           rig %in% xfun::raw_string(c("Brig / Schr", "Brig/Schr", "Schr / Brig",
+                                       "Brig / Brig Or Schr", "Schr Or Brig"))          ~ "Brig / Schr",
+           rig %in% xfun::raw_string(c("Schr / Ship", "Ship Or Schr"))                  ~ "Schr / Ship",
+           rig %in% xfun::raw_string(c("Str", "Sbgtn", "Sbktn"))                        ~ "Str / Sbgtn / Sbktn",
+           rig %in% xfun::raw_string(c("Dschr / Sbktn"))                                ~ "Schr / Sbktn",
+           TRUE                                                                         ~ rig
+         ),
+         rig = fct_lump_min(rig, min = 11),
+         rig = str_remove_all(rig, " ")
+         ) %>%
+  count(rig, sort = TRUE) 
+
+vessel_age <- df_voyage_distinct %>%
+  mutate(age = year_out - built_date,
+         decade = 10 * floor(year_out / 10)) %>%
+  filter(!is.na(age),
+         age >= 0,
+        decade <= 1920)
+  
+# the following were originally defined in voyages.qmd (prepare-voyage-data)
+n_voyages_distinct <- nrow(df_voyage_distinct)
+
+n_vessels <- df_vessel %>%
+  distinct(vessel_id) %>%
+  filter(!str_detect(vessel_id,"AS0000")) %>% # drop rows where vessel is unknown
+  nrow()
+
+n_vessels_unknown <- df_voyage_distinct %>%
+  filter(vessel_id == "AS0000") %>%
+  nrow()
+
+```
+
+
+The vessels' size and the materials and technology that went into their construction evolved significantly during the years of American whaling: from wooden sailing ships to iron and steel ships powered by diesel engines.
+
+```{r}
+#| label: fig-aurora-in-nips
+#| fig-cap: "Aurora in the Nips off Cape York, Greenland (in Baffin Bay) [@DML1911b]"
+#| out-width: "70%"
+
+knitr::include_graphics(here("images", "34381-aurora-in-nips.jpg"))
+
+```
+
+<br>
+
+## Vessel rig
+
+In the dataset vessels' rigs were classified as Ship, Schooner, Bark, Brig, Sloop, or a combination of them. Descriptions of the codes at whalinghistory.org are [here](https://whalinghistory.org/av/voyages/columns/), and the Maritime Museum of the Atlantic offers [definitions](https://maritimemuseum.novascotia.ca/research/sailing-ship-rigs) for most of them. Wikipedia has larger list of [ship types](https://en.wikipedia.org/wiki/List_of_ship_types). The most common rigs are shown below. 
+
+<br>
+
+```{r}
+#| label: fig-vessel-rig-upset-plot
+#| fig-cap: "Most common vessel rig types represented in an upset intersection plot"
+
+expression_input <- df_rig %>%
+  mutate(rig = str_replace_all(rig, "/", "&")) %>%
+  pivot_wider(names_from = rig, values_from = n, values_fill = 0) %>%
+  as_vector()
+
+upset(fromExpression(expression_input),
+      mainbar.y.label = "Vessel Rig Set Size", 
+      sets.x.label = "Vessel rig count\n(each voyage counted once)",
+      order.by = "freq")
+
+```
+
+<br>
+
+## Tonnage {#sec-tonnage}
+
+Vessels size (measured in tonnage) increased at the peak of the industry, then declined.
+
+```{r}
+#| label: fig-tonnage-per-decade-med-avg
+#| fig-cap: "Vessel tonnage - by decade"
+
+df_tonnage_by_decade %>%
+  pivot_longer(cols = c(tonnage_med, tonnage_avg), names_to = "metric", values_to = "value") %>%
+  ggplot(aes(decade, value, color = metric)) +
+  geom_segment(data = df_tonnage_by_decade,
+               aes(y = tonnage_med, yend = tonnage_avg, x = decade, xend = decade), 
+               color = "grey90") +
+  geom_point(aes(size = n_voyages), alpha = 0.8) +
+  geom_smooth(se = FALSE, show.legend = FALSE, span = 0.65) +
+  scale_x_continuous(breaks = c(1740 + seq(0, 180, 20))) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_size_continuous(breaks = c(500, 1500, 2500)) +
+  guides(color = guide_legend(override.aes = list(size = 2))) +
+  dark_mode() +
+  labs(title = "Tonnage each decade",
+       x = NULL,
+       y = "Tonnage",
+       caption = my_caption)
+
+df_voyages_per_vessel <- df_voyage_distinct %>%
+  mutate(vessel_id = str_remove(vessel_id, " \\?")) %>%
+  filter(!str_detect(vessel_id, "AS0000")) %>%
+  count(vessel_id) 
+
+n_voyages_per_vessel_med <- median(df_voyages_per_vessel$n)
+n_voyages_per_vessel_avg <- mean(df_voyages_per_vessel$n)
+  
+```
+
+<br>
+
+## Voyages per vessel
+
+Half the vessels in the dataset made `r spell_out(n_voyages_per_vessel_med)` or fewer voyages. One made `r max(df_voyages_per_vessel$n)`.
+
+```{r voyages-per-vessel-histogram}
+#| fig.cap = "Voyages per vessel"
+
+my_binwidth <- 1
+
+df_voyages_per_vessel %>%
+  ggplot(aes(n)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = n_voyages_per_vessel_med + 0.5, lty = 2, color = "white") +
+  dark_mode() +
+  labs(title = "Voyages per vessel",
+       subtitle = glue("{comma(nrow(df_voyages_per_vessel))} vessels",
+                       "; dashed line is median: {round(n_voyages_per_vessel_med, 1)} voyages"),
+       x = "Number of voyages",
+       y = "Count",
+       caption = my_caption)
+
+```
+
+<br>
+
+## Age
+
+How old were the ships when they started their voyages? Median age was `r median(vessel_age$age)` years.
+
+```{r}
+#| label: fig-vessel-age-histogram
+#| fig.cap: "Age of vessels at start of voyage"
+
+my_binwidth <- 1
+
+vessel_age_med <- median(vessel_age$age)
+
+vessel_age %>%
+  ggplot(aes(age)) +
+  geom_histogram(binwidth = 1, fill = my_color_red, alpha = 0.8,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = vessel_age_med + 0.5, lty = 2, color = "white") +
+  dark_mode() +
+  labs(title = "Age of vessels at start of voyage",
+       subtitle = glue("{comma(nrow(vessel_age))} vessels in the voyages data set\nhaving built_date and year_out data",
+                       "\nbins are {my_binwidth} year wide; dashed line is median: {round(vessel_age_med, 0)} years"),
+       x = "Years",
+       y = "Count",
+       caption = my_caption)
+```
+
+<br>
+
+The vessel median age declined from 1840s to the 1860s as more ships were built to cash in on the whaling boom. Then from the 1870s the median age stayed fairly constant.
+
+```{r}
+#| label: fig-age-of-vessels-density-plot
+#| fig-cap: "Age of vessels density plot - by decade"
+
+vessel_age_decade_med <- vessel_age %>%
+  mutate(decade = factor(decade)) %>%
+  group_by(decade) %>%
+  summarize(age_med = median(age),
+            age_avg = mean(age),
+            n_vessels = n()) %>%
+  ungroup()
+  
+vessel_age %>%
+  mutate(decade = factor(decade)) %>%
+  ggplot() +
+  geom_density_ridges(aes(x = age, y = decade),
+                      rel_min_height = 0.005,
+                      fill = my_color_yellow, color = my_color_yellow, alpha = 0.8, size = 0.15) +
+  geom_point(data = vessel_age_decade_med,
+               aes(x = age_med, y = decade, size = n_vessels), shape = 18, color = my_color_red) +
+  scale_y_discrete(labels = c("1760", "", "1780", "", "1800", "", "1820", "", "1840", "", "1860",
+                              "", "1880", "", "1900", "", "1920")) +
+  scale_size_continuous(labels = c(1, 100, 1000, 2000),
+                        breaks = c(1, 100, 1000, 2000)) +
+  dark_mode() +
+  labs(title = "Age of vessels at start of voyage",
+       subtitle = glue("{comma(nrow(vessel_age))} vessels in the voyages data set\nhaving built_date and year_out data",
+                       "; diamonds indicate median"),
+       x = "Years",
+       y = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+## Demise
+
+```{r}
+#| label: define-return-data
+
+return_fate_voyages <- df_voyage_distinct %>%
+  replace_na(list(return_code = "no code")) %>%
+  rename(code = return_code) %>%
+  mutate(code = if_else(code == "M", "L", code)) %>%
+  inner_join(.,
+             code_return,
+             by = "code") %>%
+  mutate(outcome = case_when(
+           description == "Abandoned"                           ~ "unhappy",
+           description == "Burned"                              ~ "unhappy",
+           description == "Condemned"                           ~ "unhappy",
+           description == "Lost, sank, wrecked or missing"      ~ "unhappy",
+           description == "Seized"                              ~ "unhappy",
+           description == "OK"                                  ~ "happy",
+           description == "Sold, chartered, or withdrawn"       ~ "happy",
+           description == "Unknown"                             ~ "unknown",
+           TRUE                                                  ~ "Error: return description is unknown"
+         )) %>%
+  filter(vessel != "Unknown") %>%
+  select(voyage_id, year_out, year_in, vessel_id, vessel, code, outcome, description, voyage_name) 
+
+return_fate_vessels <- return_fate_voyages %>%
+  mutate(temp_sort_year = pmax(year_in, year_out)) %>%
+  arrange(vessel_id, -temp_sort_year) %>%
+  distinct(vessel_id, .keep_all = TRUE)
+
+return_fate_summary_voyages <- return_fate_voyages %>%
+  count(code, description, outcome, sort = TRUE) %>%
+  group_by(description, outcome) %>%
+  summarize(n = sum(n)) %>%
+  ungroup() %>%
+  mutate(pct_of_vessels = n / sum(n))
+
+return_fate_summary_vessels <- return_fate_vessels %>%
+  count(code, description, outcome, sort = TRUE) %>%
+  group_by(description, outcome) %>%
+  summarize(n = sum(n)) %>%
+  ungroup() %>%
+  mutate(pct_of_vessels = n / sum(n))
+
+n_bad_fate_vessels <- return_fate_summary_vessels %>%
+  filter(outcome == "unhappy") %>%
+  pull(n) %>%
+  sum()
+
+return_fate_decade_voyages <- return_fate_voyages %>%
+  mutate(decade = 10 * floor(coalesce(year_in, year_out) / 10)) %>%
+  count(decade, outcome, description, sort = TRUE) %>%
+  filter(!is.na(decade))
+
+return_fate_decade_vessels <- return_fate_vessels %>%
+  mutate(decade = 10 * floor(coalesce(year_in, year_out) / 10)) %>%
+  count(decade, outcome, description, sort = TRUE) %>%
+  filter(!is.na(decade))
+
+return_fate_decade_voyages_for_plot <- return_fate_decade_voyages %>%
+  complete(decade, description, fill = list(n = 0)) %>%
+  inner_join(.,
+            return_fate_voyages %>%
+              select(description, outcome2 = outcome) %>%
+              distinct(description, outcome2),
+            by = "description") %>%
+  mutate(outcome = coalesce(outcome, outcome2)) %>%
+  select(-outcome2)
+
+return_fate_decade_vessels_for_plot <- return_fate_decade_vessels %>%
+  complete(decade, description, fill = list(n = 0)) %>%
+  inner_join(.,
+            return_fate_vessels %>%
+              select(description, outcome2 = outcome) %>%
+              distinct(description, outcome2),
+            by = "description") %>%
+  mutate(outcome = coalesce(outcome, outcome2)) %>%
+  select(-outcome2)
+
+```
+
+Some vessels, on their last voyage,  did not return, or did not return as whalers. This includes `r comma(n_bad_fate_vessels)` of `r comma(n_vessels)` (`r percent(n_bad_fate_vessels / n_vessels)`) known vessels. Most of the unhappy results were lost, sank, wrecked, or condemned (`r percent(return_fate_summary_vessels$pct_of_vessels[return_fate_summary_vessels$description == "Lost, sank, wrecked or missing"])`), which is a reminder that whaling (and seafaring in general) was a precarious line of work. Often vessels were employed until they wore out.
+
+The vessel name is unknown for `r comma(n_vessels_unknown)` of the `r comma(n_voyages_distinct)` voyages. (`r percent(n_vessels_unknown / n_voyages_distinct)`). How many of these vessels are already included in the data set? There is no way to know, and an estimate would be an arbitrary guess.
+
+```{r}
+#| label: fig-vessel-unhappy-fate
+#| fig-cap: "Vessel's unhappy fates"
+
+return_fate_decade_voyages_for_plot %>%
+  filter(outcome == "unhappy") %>%
+  complete(decade, description, fill = list(n = 0)) %>%
+  ggplot(aes(decade, n, fill = description)) +
+  geom_area() +
+  scale_y_continuous(labels = comma_format()) +
+  scale_fill_brewer(palette = "Set1") +
+  coord_cartesian(xlim = c(1730, NA)) +
+  dark_mode() +
+  theme(plot.title.position = "plot") +
+  labs(title = glue("Vessels' unhappy fates by decade"),
+       subtitle = glue("Includes {comma(n_bad_fate_vessels)} vessels with return_code and year_in or year_out data",
+                       "\nExcludes {comma(n_vessels_unknown)} voyages of unknown vessels"),
+       x = NULL,
+       y = NULL,
+       fill = NULL,
+       caption = my_caption)
+
+```
+
+<br>
+
+The eventual unhappy outcomes need to be put in a larger context. Looking at this by voyage rather than vessel, things look a lot better:
+
+```{r}
+#| label: fig-vessel-voyage-various-fates
+#| fig-cap: "Vessels' fates each voyage by decade"
+
+#fig.height=5
+return_fate_decade_voyages_for_plot %>%
+  #filter(outcome == "happy") %>%
+  #complete(decade, description, fill = list(n = 0)) %>% view()
+  #filter(!is.na(outcome)) %>%
+  ggplot(aes(decade, n, fill = description)) +
+  geom_area() +
+  scale_y_continuous(labels = comma_format()) +
+  scale_fill_brewer(palette = "Set1") +
+  facet_wrap( ~ outcome, ncol = 3) +
+  dark_mode() +
+  coord_cartesian(xlim = c(1730, NA)) +
+  theme(plot.title.position = "plot",
+        legend.position = "top") +
+  labs(title = glue("Vessels' fates each voyage by decade"),
+       subtitle = glue("{comma(n_bad_fate_vessels)} vessels with return_code and year_in or year_out data",
+                       "\nExcludes {comma(n_vessels_unknown)} voyages of unknown vessels",
+                       "\nand a few voyages with unknown outcomes before 1730"),
+       x = NULL,
+       y = NULL,
+       fill = NULL,
+       caption = my_caption)
+
+```
+
+<br><br>
