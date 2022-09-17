@@ -338,7 +338,7 @@ More information about about data tables and columns can be found here:
 
 ## Reproducing this analysis {#sec-reproduce-analysis}
 
-The quarto (.qmd) and R (.R) scripts used to generate this analysis along with prerequisite data and image files are available at <https://github.com/dmoul/american-whaling>
+The quarto (.qmd) and R (.R) scripts used to generate this analysis along with prerequisite data and image files are available at <https://github.com/dmoul/american-whaling#readme>
 
 <br>
 
