@@ -1,4 +1,4 @@
-# american-whaling
+# American Whaling by the Numbers
 
 By Daniel Moul
 
